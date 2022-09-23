@@ -1,0 +1,104 @@
+
+shoot.png
+size: 2048, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+tile
+  rotate: false
+  xy: 304, 114
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 304, 58
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 304, 2
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 908, 114
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 170
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 304, 170
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 2
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 908, 170
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 606, 58
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 1210, 170
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 114
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 58
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 606, 170
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 606, 114
+  size: 300, 54
+  orig: 300, 54
+  offset: 0, 0
+  index: -1

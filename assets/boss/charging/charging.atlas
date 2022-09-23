@@ -1,0 +1,55 @@
+
+charging.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+tile
+  rotate: false
+  xy: 88, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 432, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 260, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 346, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 174, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 518, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
