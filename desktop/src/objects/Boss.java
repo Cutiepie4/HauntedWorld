@@ -12,13 +12,15 @@ import main.GameScreen;
 public class Boss extends Enemy {
 
 	public static Boss INSTANCE;
-	private Laser laser;
-	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+//	private Laser laser;
+	private ArrayList<Bullet> bullets;
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
 
 		INSTANCE = this;
+
+		this.bullets = new ArrayList<Bullet>();
 
 		this.FRAME_TIME = 1 / 5f;
 
@@ -34,7 +36,7 @@ public class Boss extends Enemy {
 
 		this.damage = 5;
 
-		this.getBody().setLinearDamping(1000f);
+		this.body.setLinearDamping(1000f);
 
 		this.animationHandler.setDirection("");
 
@@ -48,7 +50,9 @@ public class Boss extends Enemy {
 	}
 
 	public void reload() {
-		bullets.add(new Bullet(this.x + 10, this.y + 10));
+		bullets.add(new Bullet(this.x + 20, this.y + 20));
+		
+		
 	}
 
 	@Override
@@ -60,8 +64,6 @@ public class Boss extends Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
-
-		shoot();
 
 //		this.laser.render(batch);
 
@@ -86,8 +88,8 @@ public class Boss extends Enemy {
 	}
 
 	public void shoot() {
-		if (this.animationHandler.getAction().equals("shoot")) {
-
+		if (!this.animationHandler.getAction().equals("shoot")) {
+			this.animationHandler.setAction("shoot", false);
 		}
 
 		this.reload();

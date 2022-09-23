@@ -121,6 +121,8 @@ public class Player extends Objects {
 			animationHandler.setAction("attack", false);
 
 			this.attack();
+			
+			Boss.INSTANCE.shoot();
 		}
 
 		if (check) {

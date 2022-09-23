@@ -26,6 +26,7 @@ public class BodyHelperService {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
+
 		body.createFixture(fixtureDef).setUserData(new Object());
 		shape.dispose();
 		return body;
@@ -40,40 +41,28 @@ public class BodyHelperService {
 		PolygonShape boxPoly = new PolygonShape();
 
 		// LEFT
-		boxPoly.setAsBox(0.32f, 0.5f,
-				new Vector2((float) body.getPosition().x / Boot.PPM - (float) rectangle.getWidth() / Boot.PPM - 1.36f,
-						(float) body.getPosition().y / Boot.PPM - (float) rectangle.getHeight() / Boot.PPM - 1.36f),
-				0);
+		boxPoly.setAsBox(0.32f, 0.5f, new Vector2(-0.8f, 0), 0);
 
 		body.getFixtureList().add(body.createFixture(boxPoly, 1));
 		body.getFixtureList().peek().setSensor(true);
 		body.getFixtureList().peek().setUserData("left");
 
 		// UP
-		boxPoly.setAsBox(0.5f, 0.32f,
-				new Vector2((float) body.getPosition().x / Boot.PPM - (float) rectangle.getWidth() / Boot.PPM - 0.46f,
-						(float) body.getPosition().y / Boot.PPM - (float) rectangle.getHeight() / Boot.PPM - 0.52f),
-				0);
+		boxPoly.setAsBox(0.5f, 0.32f, new Vector2(0, 0.8f), 0);
 
 		body.getFixtureList().add(body.createFixture(boxPoly, 1));
 		body.getFixtureList().peek().setSensor(true);
 		body.getFixtureList().peek().setUserData("up");
 
 		// DOWN
-		boxPoly.setAsBox(0.5f, 0.32f,
-				new Vector2((float) body.getPosition().x / Boot.PPM + (float) rectangle.getWidth() / Boot.PPM - 2.48f,
-						(float) body.getPosition().y / Boot.PPM - (float) rectangle.getHeight() / Boot.PPM - 2.24f),
-				0);
+		boxPoly.setAsBox(0.5f, 0.32f, new Vector2(0, -0.8f), 0);
 
 		body.getFixtureList().add(body.createFixture(boxPoly, 1));
 		body.getFixtureList().peek().setSensor(true);
 		body.getFixtureList().peek().setUserData("down");
 
 		// RIGHT
-		boxPoly.setAsBox(0.32f, 0.5f,
-				new Vector2((float) body.getPosition().x / Boot.PPM - (float) rectangle.getWidth() / Boot.PPM + 0.42f,
-						(float) body.getPosition().y / Boot.PPM - (float) rectangle.getHeight() / Boot.PPM - 1.36f),
-				0);
+		boxPoly.setAsBox(0.32f, 0.5f, new Vector2(0.8f, 0), 0);
 
 		body.getFixtureList().add(body.createFixture(boxPoly, 1));
 		body.getFixtureList().peek().setSensor(true);

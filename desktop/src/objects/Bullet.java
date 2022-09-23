@@ -33,7 +33,7 @@ public class Bullet extends Objects {
 
 		this.y = y;
 
-		this.speed = 10;
+		this.speed = (float) 1 / 5 / Boot.PPM;
 
 		sprite = new Sprite(new Texture(Gdx.files.internal("hud/bullet.png")));
 
@@ -42,12 +42,13 @@ public class Bullet extends Objects {
 		bodyDef.bullet = true;
 		bodyDef.position.set(x / Boot.PPM, y / Boot.PPM);
 
+
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 
 		this.body.setBullet(true);
 
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(2 / Boot.PPM, 4 / Boot.PPM);
+		shape.setAsBox(12 / Boot.PPM,  3/ Boot.PPM);
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
@@ -59,28 +60,28 @@ public class Bullet extends Objects {
 	}
 
 	public void setTarget() {
-		this.body.setLinearVelocity(new Vector2(this.x - Player.INSTANCE.getBody().getPosition().x ,
-				this.y - Player.INSTANCE.getBody().getPosition().y).scl((float) 1 / 10 / Boot.PPM));
+		this.body.setLinearVelocity(new Vector2(this.x - Player.INSTANCE.getBody().getPosition().x,
+				this.y - Player.INSTANCE.getBody().getPosition().y).scl(speed));
 	}
 
-	public void update(float delta) {
+	public void update() {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
-		if (y > 50 * Boot.PPM || x > 50 * Boot.PPM || x < 0 || y < 0)
-			this.canRemove = true;
+//		if (y > 50 * Boot.PPM || x > 50 * Boot.PPM || x < 0 || y < 0)
+//			this.canRemove = true;
 
-		if (this.isDisposed) {
-			this.x = 1000;
-			this.y = 1000;
-		}
+//		if (this.isDisposed) {
+//			this.x = 1000;
+//			this.y = 1000;
+//		}
 		this.sprite.setPosition(x, y);
 	}
 
 	public void render(SpriteBatch batch) {
 
-		update(speed);
+		update();
 
 		sprite.draw(batch);
 	}

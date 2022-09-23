@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="53">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="55">
  <tileset firstgid="1" source="Overworld_Tileset.tsx"/>
  <layer id="1" name="Ground" width="64" height="64">
   <data encoding="csv">
@@ -150,16 +150,13 @@
   <object id="7" x="405.462" y="306.103">
    <polygon points="0,0 6.03429,7.04 15.0857,3.01714 7.04,-6.03429"/>
   </object>
-  <object id="8" x="462.788" y="300.069">
-   <polygon points="0,0 -14.08,5.02857 0,14.08 8.04571,6.03429"/>
-  </object>
   <object id="10" x="511.062" y="300.069">
    <polygon points="0,0 -13.0743,8.04571 1.00571,12.0686 12.0686,4.02286"/>
   </object>
   <object id="11" x="382.33" y="325.211">
    <polygon points="0,0 12.0686,7.04 15.0857,-3.01714"/>
   </object>
-  <object id="12" name="player" x="361.353" y="417.533" width="16.0914" height="16.0914"/>
+  <object id="12" name="player" x="770.686" y="98.8663" width="16.0914" height="16.0914"/>
   <object id="18" x="271.367" y="320.183">
    <polygon points="0,0 -1.34095,157.562 14.7505,157.562 15.4209,-2.68191"/>
   </object>
@@ -179,13 +176,16 @@
   <object id="45" x="386" y="639.5">
    <polygon points="0,0 42.5,-0.5 42.5,-31 42.5,-47.5 -0.5,-47.5"/>
   </object>
-  <object id="46" x="432.5" y="593">
-   <polygon points="0,0 0,11.5 47.5,12 47.5,-1.5"/>
+  <object id="46" x="432" y="592">
+   <polygon points="0,0 0,15.5463 47.75,16.2222 47.75,-2.02778"/>
   </object>
   <object id="47" x="484.5" y="593">
    <polygon points="0,0 -1,45.5 41,45.5 42.5,1.5"/>
   </object>
-  <object id="48" name="door" x="432" y="607" width="48" height="32"/>
   <object id="51" name="boss" x="768" y="224" width="32" height="30"/>
+  <object id="53" x="455.75" y="304.5">
+   <polygon points="0,0 0.25,8 14,7.75 13.5,-0.25"/>
+  </object>
+  <object id="54" name="door" x="432" y="608" width="48" height="32"/>
  </objectgroup>
 </map>
