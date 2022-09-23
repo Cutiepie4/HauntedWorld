@@ -13,7 +13,6 @@ public class Boss extends Enemy {
 
 	public static Boss INSTANCE;
 	private Laser laser;
-
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	public Boss(float width, float height, Body body) {
@@ -44,7 +43,7 @@ public class Boss extends Enemy {
 //		this.speed = 2f;
 
 		update();
-		
+
 //		this.laser = new Laser(this.x, this.y);
 	}
 
@@ -63,7 +62,7 @@ public class Boss extends Enemy {
 		update();
 
 		shoot();
-		
+
 //		this.laser.render(batch);
 
 		for (Bullet i : bullets) {
