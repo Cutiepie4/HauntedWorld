@@ -117,7 +117,6 @@ public class TileMapHelper {
 							rectangle.getHeight(), false, gc.getWorld());
 
 					CircleShape circle = new CircleShape();
-					System.out.println(body.getPosition().x + " " + body.getPosition().y);
 					circle.setPosition(new Vector2(0, 0));
 
 					circle.setRadius(3.2f);

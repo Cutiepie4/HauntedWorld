@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import main.Boot;
@@ -12,6 +13,7 @@ import main.GameScreen;
 public class Boss extends Enemy {
 
 	public static Boss INSTANCE;
+	public Vector2 center;
 //	private Laser laser;
 	private ArrayList<Bullet> bullets;
 
@@ -40,19 +42,29 @@ public class Boss extends Enemy {
 
 		this.animationHandler.setDirection("");
 
-		this.animationHandler.setAction("idle", true);
-
-//		this.speed = 2f;
-
-		update();
+		this.animationHandler.setAction("charging", true);
 
 //		this.laser = new Laser(this.x, this.y);
+
 	}
 
 	public void reload() {
-		bullets.add(new Bullet(this.x + 20, this.y + 20));
+
+		bullets.add(new Bullet(0, 30, 90));
+
+		bullets.add(new Bullet(0, -30, 90));
+
+		bullets.add(new Bullet(30, 0, 0));
+
+		bullets.add(new Bullet(-30, 0, 0));
+
+		bullets.add(new Bullet(30, 30, 45));
+
+		bullets.add(new Bullet(-30, 30, 135));
+
+		bullets.add(new Bullet(30, -30, 135));
 		
-		
+		bullets.add(new Bullet(-30, -30, 45));
 	}
 
 	@Override

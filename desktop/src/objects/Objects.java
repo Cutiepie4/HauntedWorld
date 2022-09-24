@@ -33,11 +33,11 @@ public abstract class Objects {
 		this.isDisposed = false;
 	}
 
-	public Objects(float width, float height) {
+	public Objects() {
 		this.x = 0;
 		this.y = 0;
-		this.width = width;
-		this.height = height;
+		this.width = 0;
+		this.height = 0;
 		this.velX = 0;
 		this.velY = 0;
 		this.speed = 0;
@@ -47,11 +47,11 @@ public abstract class Objects {
 	}
 
 	public float getY() {
-		return body.getPosition().y;
+		return this.x;
 	}
 
 	public float getX() {
-		return body.getPosition().x;
+		return this.y;
 	}
 
 	public void update() {

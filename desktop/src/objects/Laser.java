@@ -17,10 +17,8 @@ public class Laser extends Objects {
 	public boolean canRemove, isDisposed;
 
 	public Laser(float x, float y) {
-		super(x, y);
+		super();
 		this.canRemove = false;
-
-		this.isDisposed = false;
 
 		this.x = x;
 
@@ -76,7 +74,6 @@ public class Laser extends Objects {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 		
-
 		batch.draw(currentFrame, this.x - this.width, this.y - this.height, currentFrame.getRegionWidth() * 0.75f,
 				currentFrame.getRegionHeight() * 0.75f);
 	}

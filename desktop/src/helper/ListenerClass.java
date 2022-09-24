@@ -12,6 +12,7 @@ import objects.Boots;
 import objects.Chest;
 import objects.Crystal;
 import objects.Enemy;
+import objects.GoldKey;
 import objects.HealthPotion;
 import objects.Items;
 import objects.Objects;
@@ -44,10 +45,6 @@ public class ListenerClass implements ContactListener {
 
 			if (fb.getUserData() instanceof Chest) {
 				Player.INSTANCE.checkChest((Chest) fb.getUserData());
-			}
-			
-			if (fb.getUserData() instanceof Crystal) {
-				Hud.INSTANCE.printMessage("You picked up a Crystal.");
 			}
 
 			if (fb.getUserData() instanceof Boots) {

@@ -16,8 +16,7 @@ public class HealthPotion extends Items {
 
 		this.sprite = new Sprite(new Texture("props/potion.png"));
 
-		this.sprite.setBounds(this.body.getPosition().x * Boot.PPM - this.width / 2,
-				this.body.getPosition().y * Boot.PPM - this.height / 2, this.width, this.height);
+		this.sprite.setBounds(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
 	}
 
 	@Override

@@ -121,7 +121,7 @@ public class Player extends Objects {
 			animationHandler.setAction("attack", false);
 
 			this.attack();
-			
+
 			Boss.INSTANCE.shoot();
 		}
 
@@ -161,6 +161,7 @@ public class Player extends Objects {
 			this.inventory.put(item.name, 0);
 		}
 		this.inventory.put(item.name, this.inventory.get(item.name) + 1);
+		Hud.INSTANCE.printMessage(String.format("You picked up a %s.", item.name));
 	}
 
 	public HashMap<String, Integer> getInventory() {
