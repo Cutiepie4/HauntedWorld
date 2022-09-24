@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.AnimationHandler;
 import main.Boot;
 import main.Hud;
 
@@ -206,5 +207,8 @@ public class Player extends Objects {
 		chest.loot();
 		Hud.INSTANCE.printMessage("You opened the Chest");
 		return true;
+	}
+	public AnimationHandler getAnimationHandler() {
+		return animationHandler;
 	}
 }

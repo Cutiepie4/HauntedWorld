@@ -75,6 +75,9 @@ public class GameScreen extends ScreenAdapter {
 			this.dispose();
 			Gdx.app.exit();
 		}
+		if(Player.INSTANCE.getAnimationHandler().getAction().equals("dead") && Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
+			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
+		}
 	}
 
 	private void cameraUpdate() {
