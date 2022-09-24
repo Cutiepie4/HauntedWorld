@@ -13,16 +13,19 @@ import main.GameScreen;
 public class Boss extends Enemy {
 
 	public static Boss INSTANCE;
-	public Vector2 center;
-//	private Laser laser;
-	private ArrayList<Bullet> bullets;
+	private Laser laser;
+	private ArrayList<Bullet> bullets, toRemove;
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
 
 		INSTANCE = this;
 
-		this.bullets = new ArrayList<Bullet>();
+		this.bullets = new ArrayList<>();
+
+		this.toRemove = new ArrayList<>();
+
+		this.laser = new Laser(0, 70, 90);
 
 		this.FRAME_TIME = 1 / 5f;
 
@@ -44,48 +47,51 @@ public class Boss extends Enemy {
 
 		this.animationHandler.setAction("charging", true);
 
-//		this.laser = new Laser(this.x, this.y);
-
 	}
 
 	public void reload() {
 
 		bullets.add(new Bullet(0, 30, 90));
 
-		bullets.add(new Bullet(0, -30, 90));
+		bullets.add(new Bullet(0, -30, -90));
 
 		bullets.add(new Bullet(30, 0, 0));
 
-		bullets.add(new Bullet(-30, 0, 0));
+		bullets.add(new Bullet(-30, 0, 180));
 
 		bullets.add(new Bullet(30, 30, 45));
 
 		bullets.add(new Bullet(-30, 30, 135));
 
-		bullets.add(new Bullet(30, -30, 135));
-		
-		bullets.add(new Bullet(-30, -30, 45));
+		bullets.add(new Bullet(30, -30, -45));
+
+		bullets.add(new Bullet(-30, -30, -135));
 	}
 
 	@Override
 	public void update() {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
+
+		for (Bullet i : toRemove) {
+			bullets.remove(i);
+		}
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
 
-//		this.laser.render(batch);
-
 		for (Bullet i : bullets) {
-			if (i.canRemove && !i.isDisposed) {
-				GameScreen.INSTANCE.addToRemove(i);
-				i.isDisposed = true;
-
-			} else
-				i.render(batch);
+			if (i.isDisposed) {
+				this.toRemove.add(i);
+			} else {
+				if (i.canRemove) {
+					GameScreen.INSTANCE.addToRemove(i);
+					i.isDisposed = true;
+				} else
+					i.render(batch);
+			}
 		}
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();

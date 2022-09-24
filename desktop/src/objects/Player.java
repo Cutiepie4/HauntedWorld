@@ -56,7 +56,7 @@ public class Player extends Objects {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
-
+		
 		checkUserInput();
 	}
 

@@ -10,11 +10,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import main.Boot;
+import main.DesktopLauncher;
 import main.GameScreen;
 
 public class Bullet extends Objects {
 
-	private Vector2 center;
 	private float speed;
 	private Sprite sprite;
 	private float x, y;
@@ -40,23 +40,23 @@ public class Bullet extends Objects {
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(12 / Boot.PPM, 3 / Boot.PPM);
+		shape.setAsBox(12 / Boot.PPM, 5 / Boot.PPM);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
+		fixtureDef.isSensor = true;
 		body.createFixture(fixtureDef).setUserData(this);
 		shape.dispose();
 
 		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) ((float) angle * Math.PI / 180));
 
 		this.setTarget();
+
 		sprite.rotate(angle);
 		sprite.setScale(0.8f);
 	}
 
 	public void setTarget() {
-		System.out.println(this.x + " " + this.y);
-		System.out.println(Boss.INSTANCE.x + " " + Boss.INSTANCE.y);
 		this.body.setLinearVelocity(new Vector2(this.x - Boss.INSTANCE.x, this.y - Boss.INSTANCE.y).scl(speed));
 	}
 
@@ -65,17 +65,12 @@ public class Bullet extends Objects {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
-//		System.out.println(x + " " + y);
+		if (this.x < 0 || this.y < 0 || this.x > 1024 || this.y > 1024) {
+			this.canRemove = true;
+		}
 
-//		if (y > 50 * Boot.PPM || x > 50 * Boot.PPM || x < 0 || y < 0)
-//			this.canRemove = true;
-
-//		if (this.isDisposed) {
-//			this.x = 1000;
-//			this.y = 1000;
-//		}
-
-		this.sprite.setPosition(x, y);
+		else
+			this.sprite.setPosition(x, y);
 	}
 
 	public void render(SpriteBatch batch) {
