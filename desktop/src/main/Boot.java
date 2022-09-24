@@ -16,10 +16,12 @@ public class Boot extends Game {
 
 	@Override
 	public void create() {
+		Assets assets = new Assets();
+		assets.loadALL();
+		assets.getAssetManager().finishLoading();
 		this.orthographicCamera = new OrthographicCamera();
 		this.orthographicCamera.setToOrtho(false, DesktopLauncher.SCREEN_WIDTH / 2.4f,
 				DesktopLauncher.SCREEN_HEIGHT / 2.4f);
-		setScreen(new GameScreen(orthographicCamera));
+		setScreen(new MainMenuScreen(orthographicCamera,assets.getAssetManager()));
 	}
-
 }

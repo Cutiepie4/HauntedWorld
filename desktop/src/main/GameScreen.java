@@ -80,12 +80,37 @@ public class GameScreen extends ScreenAdapter {
 	private void cameraUpdate() {
 
 		Vector3 position = camera.position;
-		position.x = Math.round(Player.INSTANCE.getBody().getPosition().x * Boot.PPM * 10) / 10f;
-		position.y = Math.round(Player.INSTANCE.getBody().getPosition().y * Boot.PPM * 10) / 10f;
-
-		camera.position.set(position);
+		position.x = Math.round(Player.INSTANCE.getBody().getPosition().x * 16.0f * 10) / 10f;
+		position.y = Math.round(Player.INSTANCE.getBody().getPosition().y * 16.0f * 10) / 10f;
+		float startX = camera.viewportWidth/2;
+		float startY = camera.viewportHeight/2;
+		float width = 1024f - startX;
+		float height = 1024f - startY;
+		boundCamera(camera,startX, startY, width, height);
+		//camera.position.set(position);
 		camera.update();
 	}
+
+	private void boundCamera(OrthographicCamera camera, float startX, float startY, float endX, float endY) {
+		
+		Vector3 position = camera.position;
+		if (position.x < startX) {
+            position.x = startX;
+        }
+        if (position.y < startY) {
+            position.y = startY;
+        }
+
+        if (position.x > endX) {
+            position.x = endX;
+        }
+        if (position.y > endY) {
+            position.y = endY;
+        }
+
+        camera.position.set(position);
+        camera.update();
+    }
 
 	@Override
 	public void render(float delta) {
