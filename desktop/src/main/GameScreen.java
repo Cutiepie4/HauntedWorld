@@ -131,8 +131,6 @@ public class GameScreen extends ScreenAdapter {
 
 		this.objectsRenderer();
 
-		Boss.INSTANCE.render(batch);
-
 		batch.end();
 
 		batch.setProjectionMatrix(hud.stage.getCamera().combined);

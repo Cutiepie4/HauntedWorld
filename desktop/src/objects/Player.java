@@ -124,8 +124,7 @@ public class Player extends Objects {
 			this.attack();
 
 			Boss.INSTANCE.shoot();
-			
-			
+
 		}
 
 		if (check) {

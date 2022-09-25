@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.JointDef.JointType;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 
 import main.Boot;
@@ -14,7 +15,7 @@ import main.GameScreen;
 
 public class Laser extends Objects {
 
-	private float speed, cnt = 0;
+	private float speed;
 	private float x, y;
 	public boolean canRemove, isDisposed;
 
@@ -29,7 +30,7 @@ public class Laser extends Objects {
 
 		this.speed = 5 / Boot.PPM;
 
-		this.animationHandler.add(1 / 4f, "laser", "shoot", "");
+		this.animationHandler.add(1 / 6f, "laser", "shoot", "");
 
 		this.animationHandler.setAction("shoot", false);
 
@@ -40,60 +41,54 @@ public class Laser extends Objects {
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(60 / Boot.PPM, 8 / Boot.PPM);
+		shape.setAsBox(98 / Boot.PPM, 6 / Boot.PPM);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
 		fixtureDef.isSensor = true;
 		body.createFixture(fixtureDef).setUserData(this);
 		shape.dispose();
-
+		
 		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) ((float) angle * Math.PI / 180));
 
-		WheelJointDef wjd = new WheelJointDef();
+		WeldJointDef jointDef = new WeldJointDef();
 
-		wjd.bodyA = Boss.INSTANCE.body;
+		jointDef.bodyA = Boss.INSTANCE.body;
 
-		wjd.bodyB = this.body;
+		jointDef.bodyB = this.body;
+		
+		jointDef.collideConnected = true;
+		
+		jointDef.localAnchorA.set(0, Boss.INSTANCE.height / 2 / Boot.PPM);
 
-		wjd.collideConnected = false;
+		jointDef.localAnchorB.set(-90f / Boot.PPM, 0);
+		
 
-		wjd.localAnchorA.set(0, Boss.INSTANCE.height / 2 / Boot.PPM);
-
-		wjd.localAnchorB.set(-52f / Boot.PPM, 0);
-
-		GameScreen.INSTANCE.getWorld().createJoint(wjd);
-
+		GameScreen.INSTANCE.getWorld().createJoint(jointDef);
+		
 		this.setTarget();
 
 	}
 
 	public void setTarget() {
-//		this.body.setAngularVelocity((float) (Math.PI / 2));
+		this.body.setAngularVelocity((float) (Math.PI / 4));
 	}
 
 	public void update() {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
-		cnt += 1;
 	}
 
 	public void render(SpriteBatch batch) {
-		update();
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-//		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2, currentFrame.getRegionWidth() * 0.75f,
-//				currentFrame.getRegionHeight() * 0.75f);
+		batch.draw(currentFrame, Boss.INSTANCE.x - 22, Boss.INSTANCE.y - 8, 22, 22,
+				currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), 0.75f, 0.75f,
+				(float) Math.toDegrees(this.body.getAngle()));
 
-//		batch.draw(currentFrame, this.x, this.y, 50, 0,
-//				currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), 0.75f, 0.75f,
-//				(float) Math.toDegrees(this.body.getAngle()));
 
-		
-		batch.draw(currentFrame, this.x, this.y, 0, -22 / Boot.PPM, currentFrame.getRegionWidth(),
-				currentFrame.getRegionHeight(), 0.75f, 0.75f, cnt);
 
 	}
 

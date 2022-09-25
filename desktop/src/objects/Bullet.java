@@ -1,24 +1,22 @@
 package objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import main.Boot;
-import main.DesktopLauncher;
 import main.GameScreen;
 
 public class Bullet extends Objects {
 
 	private float speed;
-	private Sprite sprite;
 	private float x, y;
 	public boolean canRemove;
+	private float angle;
 
 	public Bullet(float x_offset, float y_offset, float angle) {
 		super();
@@ -27,11 +25,15 @@ public class Bullet extends Objects {
 
 		this.y = Boss.INSTANCE.x + y_offset;
 
+		this.angle = angle;
+
 		this.canRemove = false;
 
 		this.speed = 5 / Boot.PPM;
 
-		sprite = new Sprite(new Texture(Gdx.files.internal("hud/bullet.png")));
+		this.animationHandler.add(1 / 8f, "bullet", "shoot", "");
+
+		this.animationHandler.setAction("shoot", true);
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -41,7 +43,7 @@ public class Bullet extends Objects {
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(12 / Boot.PPM, 5 / Boot.PPM);
+		shape.setAsBox(12 / Boot.PPM, 4 / Boot.PPM);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
@@ -53,8 +55,6 @@ public class Bullet extends Objects {
 
 		this.setTarget();
 
-		sprite.rotate(angle);
-		sprite.setScale(0.8f);
 	}
 
 	public void setTarget() {
@@ -70,15 +70,17 @@ public class Bullet extends Objects {
 			this.canRemove = true;
 		}
 
-		else
-			this.sprite.setPosition(x, y);
 	}
 
 	public void render(SpriteBatch batch) {
 
 		update();
 
-		sprite.draw(batch);
+		TextureRegion currentFrame = this.animationHandler.getFrame();
+
+		batch.draw(currentFrame, this.x - 20, this.y - 9, 9f, 9f, currentFrame.getRegionWidth(),
+				currentFrame.getRegionHeight(), 0.8f, 0.8f, angle);
+
 	}
 
 }
