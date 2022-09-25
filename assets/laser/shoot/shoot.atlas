@@ -1,104 +1,104 @@
 
 shoot.png
-size: 2048, 256
+size: 2048, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 tile
   rotate: false
-  xy: 304, 114
-  size: 300, 54
-  orig: 300, 54
+  xy: 274, 2
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1
 tile
   rotate: false
-  xy: 304, 58
-  size: 300, 54
-  orig: 300, 54
+  xy: 1362, 2
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1
 tile
   rotate: false
-  xy: 304, 2
-  size: 300, 54
-  orig: 300, 54
+  xy: 818, 48
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1
 tile
   rotate: false
-  xy: 908, 114
-  size: 300, 54
-  orig: 300, 54
+  xy: 2, 48
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1
 tile
   rotate: false
-  xy: 2, 170
-  size: 300, 54
-  orig: 300, 54
+  xy: 1362, 48
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1
 tile
   rotate: false
-  xy: 304, 170
-  size: 300, 54
-  orig: 300, 54
+  xy: 546, 2
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 1634, 2
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 1090, 48
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 274, 48
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 1090, 2
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 546, 48
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 1634, 48
+  size: 270, 44
+  orig: 270, 44
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 818, 2
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1
 tile
   rotate: false
   xy: 2, 2
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 908, 170
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 606, 58
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 1210, 170
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 2, 114
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 2, 58
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 606, 170
-  size: 300, 54
-  orig: 300, 54
-  offset: 0, 0
-  index: -1
-tile
-  rotate: false
-  xy: 606, 114
-  size: 300, 54
-  orig: 300, 54
+  size: 270, 44
+  orig: 270, 44
   offset: 0, 0
   index: -1

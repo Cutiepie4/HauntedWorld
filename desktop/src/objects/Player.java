@@ -57,7 +57,7 @@ public class Player extends Objects {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
-		
+
 		checkUserInput();
 	}
 
@@ -124,6 +124,8 @@ public class Player extends Objects {
 			this.attack();
 
 			Boss.INSTANCE.shoot();
+			
+			
 		}
 
 		if (check) {
@@ -208,6 +210,7 @@ public class Player extends Objects {
 		Hud.INSTANCE.printMessage("You opened the Chest");
 		return true;
 	}
+
 	public AnimationHandler getAnimationHandler() {
 		return animationHandler;
 	}

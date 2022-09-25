@@ -23,7 +23,7 @@ public class Boot extends Game {
 		this.orthographicCamera.setToOrtho(false, DesktopLauncher.SCREEN_WIDTH / 2.4f,
 				DesktopLauncher.SCREEN_HEIGHT / 2.4f);
 
-		setScreen(new MainMenuScreen(orthographicCamera));
+		setScreen(new GameScreen(orthographicCamera));
 	}
 
 	public Assets getAssets() {

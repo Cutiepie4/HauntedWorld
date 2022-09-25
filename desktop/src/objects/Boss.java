@@ -81,6 +81,8 @@ public class Boss extends Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
+		
+		laser.render(batch);
 
 		for (Bullet i : bullets) {
 			if (i.isDisposed) {
@@ -106,9 +108,13 @@ public class Boss extends Enemy {
 	}
 
 	public void shoot() {
+		
+		laser.animationHandler.setAction("shoot", false);
+		
 		if (!this.animationHandler.getAction().equals("shoot")) {
 			this.animationHandler.setAction("shoot", false);
 		}
+		
 
 		this.reload();
 	}

@@ -36,6 +36,7 @@ public class Bullet extends Objects {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		bodyDef.bullet = true;
+		bodyDef.position.set(this.x, this.y);
 
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.setBullet(true);
