@@ -1,0 +1,20 @@
+
+up.png
+size: 16, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+tile
+  rotate: false
+  xy: 2, 24
+  size: 12, 20
+  orig: 12, 20
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 2
+  size: 12, 20
+  orig: 12, 20
+  offset: 0, 0
+  index: -1

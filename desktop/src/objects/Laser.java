@@ -18,6 +18,7 @@ public class Laser extends Objects {
 	private float speed;
 	private float x, y;
 	public boolean canRemove, isDisposed;
+	private float angle;
 
 	public Laser(float x_offset, float y_offset, float angle) {
 		super();
@@ -25,6 +26,8 @@ public class Laser extends Objects {
 		this.x = Boss.INSTANCE.x + x_offset;
 
 		this.y = Boss.INSTANCE.x + y_offset;
+		
+		this.angle = angle;
 
 		this.canRemove = false;
 
@@ -34,6 +37,16 @@ public class Laser extends Objects {
 
 		this.animationHandler.setAction("shoot", false);
 
+		this.createLaserHitBox();
+
+		this.createJoint();
+		
+		this.setTarget();
+
+	}
+
+	public void createLaserHitBox() {
+		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		bodyDef.bullet = true;
@@ -48,26 +61,26 @@ public class Laser extends Objects {
 		fixtureDef.isSensor = true;
 		body.createFixture(fixtureDef).setUserData(this);
 		shape.dispose();
-		
+
 		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) ((float) angle * Math.PI / 180));
+	}
+
+	public void createJoint() {
 
 		WeldJointDef jointDef = new WeldJointDef();
 
 		jointDef.bodyA = Boss.INSTANCE.body;
 
 		jointDef.bodyB = this.body;
-		
+
 		jointDef.collideConnected = true;
-		
+
 		jointDef.localAnchorA.set(0, Boss.INSTANCE.height / 2 / Boot.PPM);
 
 		jointDef.localAnchorB.set(-90f / Boot.PPM, 0);
-		
 
 		GameScreen.INSTANCE.getWorld().createJoint(jointDef);
 		
-		this.setTarget();
-
 	}
 
 	public void setTarget() {
@@ -84,11 +97,8 @@ public class Laser extends Objects {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-		batch.draw(currentFrame, Boss.INSTANCE.x - 22, Boss.INSTANCE.y - 8, 22, 22,
-				currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), 0.75f, 0.75f,
-				(float) Math.toDegrees(this.body.getAngle()));
-
-
+		batch.draw(currentFrame, Boss.INSTANCE.x - 22, Boss.INSTANCE.y - 8, 22, 22, currentFrame.getRegionWidth(),
+				currentFrame.getRegionHeight(), 0.75f, 0.75f, (float) Math.toDegrees(this.body.getAngle()));
 
 	}
 

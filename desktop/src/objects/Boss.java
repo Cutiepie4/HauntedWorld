@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import main.Boot;
@@ -15,6 +14,7 @@ public class Boss extends Enemy {
 	public static Boss INSTANCE;
 	private Laser laser;
 	private ArrayList<Bullet> bullets, toRemove;
+	private ArrayList<Trap> traps;
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
@@ -25,9 +25,11 @@ public class Boss extends Enemy {
 
 		this.toRemove = new ArrayList<>();
 
+		this.traps = new ArrayList<>();
+
 		this.laser = new Laser(0, 70, 90);
 
-		this.FRAME_TIME = 1 / 5f;
+		this.FRAME_TIME = 1 / 8f;
 
 		this.name = "Boss";
 
@@ -68,21 +70,23 @@ public class Boss extends Enemy {
 		bullets.add(new Bullet(-30, -30, -135));
 	}
 
-	@Override
 	public void update() {
+
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
 		for (Bullet i : toRemove) {
 			bullets.remove(i);
 		}
+
+		if (this.animationHandler.getStateTime() >= 3) {
+			this.animationHandler.setAction("idle", true);
+		}
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
-		
-		
 
 		for (Bullet i : bullets) {
 			if (i.isDisposed) {
@@ -100,7 +104,7 @@ public class Boss extends Enemy {
 
 		batch.draw(currentFrame, this.x - this.width, this.y - this.height, currentFrame.getRegionWidth() * 0.75f,
 				currentFrame.getRegionHeight() * 0.75f);
-		
+
 		laser.render(batch);
 	}
 
@@ -110,13 +114,15 @@ public class Boss extends Enemy {
 	}
 
 	public void shoot() {
-		
+
+		Trap.enableTrap();
+
 		laser.animationHandler.setAction("shoot", false);
 
 		if (!this.animationHandler.getAction().equals("shoot")) {
 			this.animationHandler.setAction("shoot", false);
 		}
-		
+
 		this.reload();
 	}
 

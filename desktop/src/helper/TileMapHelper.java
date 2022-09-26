@@ -28,6 +28,7 @@ import objects.HealthPotion;
 import objects.Player;
 import objects.SilverKey;
 import objects.Spinner;
+import objects.Trap;
 
 public class TileMapHelper {
 
@@ -190,6 +191,19 @@ public class TileMapHelper {
 
 					Door door = new Door(rectangle.getWidth(), rectangle.getHeight(), body);
 					gc.addObjects(door);
+				}
+
+				if (rectangleName.equals("trap")) {
+
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					Trap trap = new Trap(rectangle.getWidth(), rectangle.getHeight(), body);
+
+					trap.getBody().getFixtureList().first().setUserData(trap);
+					trap.getBody().getFixtureList().first().setSensor(true);
+					gc.addObjects(trap);
 				}
 
 			}

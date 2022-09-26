@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationHandler {
-	
+
 	private float stateTime;
 	private String direction;
 	private boolean loop;
@@ -35,13 +35,15 @@ public class AnimationHandler {
 		this.action = action;
 		this.direction = direction;
 		this.loop = loop;
-		if(!loop) this.stateTime = 0f;
+		if (!loop)
+			this.stateTime = 0f;
 	}
 
 	public void setAction(String action, boolean loop) {
 		this.action = action;
 		this.loop = loop;
-		if(!loop) this.stateTime = 0f;
+		if (!loop)
+			this.stateTime = 0f;
 	}
 
 	public String getActionDirection() {
@@ -51,7 +53,7 @@ public class AnimationHandler {
 	public String getAction() {
 		return this.action;
 	}
-	
+
 	public boolean isAnimationFinished() {
 		return animations.get(this.getActionDirection()).isAnimationFinished(stateTime);
 	}
@@ -73,6 +75,8 @@ public class AnimationHandler {
 		this.stateTime = stateTime;
 	}
 
-	
-	
+	public float getStateTime() {
+		return this.stateTime;
+	}
+
 }

@@ -1,6 +1,5 @@
 package objects;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -73,13 +72,54 @@ public class Bullet extends Objects {
 	}
 
 	public void render(SpriteBatch batch) {
+		// size 40 x 18
 
 		update();
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-		batch.draw(currentFrame, this.x - 20, this.y - 9, 9f, 9f, currentFrame.getRegionWidth(),
-				currentFrame.getRegionHeight(), 0.8f, 0.8f, angle);
+		float posX = this.x, posY = this.y;
+
+		if (angle == 0) {
+			posX -= 18;
+			posY -= 9;
+		}
+
+		if (angle == 180) {
+			posY -= 9;
+		}
+
+		if (angle == 90) {
+			posX -= 9;
+			posY -= 18;
+		}
+
+		if (angle == -90) {
+			posX -= 9;
+		}
+
+		if (angle == 45) {
+			posX -= 16;
+			posY -= 16;
+		}
+
+		if (angle == -45) {
+			posX -= 16;
+			posY -= 2;
+		}
+
+		if (angle == 135) {
+			posX -= 2;
+			posY -= 16;
+		}
+
+		if (angle == -135) {
+			posX -= 2;
+			posY -= 2;
+		}
+
+		batch.draw(currentFrame, posX, posY, 9f, 9f, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),
+				0.8f, 0.8f, angle);
 
 	}
 
