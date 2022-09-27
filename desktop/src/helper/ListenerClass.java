@@ -7,16 +7,17 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import main.GameScreen;
-import main.Hud;
 import objects.Boots;
+import objects.Bullet;
 import objects.Chest;
-import objects.Crystal;
 import objects.Enemy;
-import objects.GoldKey;
 import objects.HealthPotion;
 import objects.Items;
+import objects.Laser;
 import objects.Objects;
 import objects.Player;
+import objects.Spinner;
+import objects.Trap;
 
 public class ListenerClass implements ContactListener {
 
@@ -57,16 +58,19 @@ public class ListenerClass implements ContactListener {
 				gc.addToRemove((Objects) fb.getUserData());
 			}
 
-			if (fb.getUserData() instanceof Enemy) {
+			if (fb.getUserData() instanceof Spinner) {
 				Enemy enemy = (Enemy) fb.getUserData();
 				if (fb.isSensor()) {
 					enemy.setTarget(Player.INSTANCE);
 				} else {
 					Player.INSTANCE.isHit(enemy);
 				}
-
 			}
 
+			if (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet
+					|| (fb.getUserData() instanceof Trap && !fb.isSensor())) {
+				Player.INSTANCE.isHit(((Objects) fb.getUserData()).getDamage());
+			}
 		}
 
 	}

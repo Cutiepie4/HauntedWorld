@@ -18,6 +18,7 @@ public abstract class Objects {
 	protected AnimationHandler animationHandler;
 	protected float FRAME_TIME;
 	protected boolean isDisposed;
+	protected float damage;
 
 	public Objects(float width, float height, Body body) {
 		this.body = body;
@@ -31,6 +32,7 @@ public abstract class Objects {
 		this.animationHandler = new AnimationHandler();
 		this.FRAME_TIME = 0f;
 		this.isDisposed = false;
+		this.damage = 0f;
 	}
 
 	public Objects() {
@@ -64,6 +66,10 @@ public abstract class Objects {
 
 	public Body getBody() {
 		return body;
+	}
+
+	public float getDamage() {
+		return damage;
 	}
 
 }

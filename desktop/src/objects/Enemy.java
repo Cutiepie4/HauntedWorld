@@ -9,17 +9,16 @@ public abstract class Enemy extends Objects {
 
 	protected Player target;
 	protected int health;
-	protected int damage;
 	protected float speed;
 	protected String name;
 
 	public Enemy(float width, float height, Body body) {
 		super(width, height, body);
 
-		this.name = "no name";
+		this.name = "null";
 		this.target = null;
 		this.health = 0;
-		this.damage = 0;
+		this.damage = 0f;
 		this.speed = 0;
 	}
 
@@ -41,10 +40,6 @@ public abstract class Enemy extends Objects {
 		else if (!this.animationHandler.getAction().equals("dead")) {
 			this.animationHandler.setAction("dead", false);
 		}
-	}
-
-	public int getDamage() {
-		return damage;
 	}
 
 	public void setTarget(Player target) {

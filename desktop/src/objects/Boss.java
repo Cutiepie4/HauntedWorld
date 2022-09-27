@@ -12,9 +12,11 @@ import main.GameScreen;
 public class Boss extends Enemy {
 
 	public static Boss INSTANCE;
+	public static boolean switchTrap = false;
+	
 	private Laser laser;
 	private ArrayList<Bullet> bullets, toRemove;
-	private ArrayList<Trap> traps;
+	private boolean isReloaded = false;
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
@@ -25,15 +27,11 @@ public class Boss extends Enemy {
 
 		this.toRemove = new ArrayList<>();
 
-		this.traps = new ArrayList<>();
-
-		this.laser = new Laser(0, 70, 90);
-
 		this.FRAME_TIME = 1 / 8f;
 
 		this.name = "Boss";
 
-		String[] state = { "idle", "dead", "shoot", "charging" };
+		String[] state = { "idle", "dead", "castlaser", "casttrap", "castbullet" };
 
 		for (int i = 0; i < state.length; i++) {
 			this.animationHandler.add(FRAME_TIME, "boss", state[i], "");
@@ -45,29 +43,30 @@ public class Boss extends Enemy {
 
 		this.body.setLinearDamping(1000f);
 
-		this.animationHandler.setDirection("");
+		this.animationHandler.setActionDirection("idle", "", false);
 
-		this.animationHandler.setAction("charging", true);
+		this.laser = null;
+
 
 	}
 
 	public void reload() {
 
-		bullets.add(new Bullet(0, 30, 90));
+		bullets.add(new Bullet(0, 20, 90));
 
-		bullets.add(new Bullet(0, -30, -90));
+		bullets.add(new Bullet(0, -20, -90));
 
-		bullets.add(new Bullet(30, 0, 0));
+		bullets.add(new Bullet(20, 0, 0));
 
-		bullets.add(new Bullet(-30, 0, 180));
+		bullets.add(new Bullet(-20, 0, 180));
 
-		bullets.add(new Bullet(30, 30, 45));
+		bullets.add(new Bullet(20, 20, 45));
 
-		bullets.add(new Bullet(-30, 30, 135));
+		bullets.add(new Bullet(-20, 20, 135));
 
-		bullets.add(new Bullet(30, -30, -45));
+		bullets.add(new Bullet(20, -20, -45));
 
-		bullets.add(new Bullet(-30, -30, -135));
+		bullets.add(new Bullet(-20, -20, -135));
 	}
 
 	public void update() {
@@ -75,18 +74,39 @@ public class Boss extends Enemy {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
-		for (Bullet i : toRemove) {
-			bullets.remove(i);
-		}
-
 		if (this.animationHandler.getStateTime() >= 3) {
 			this.animationHandler.setAction("idle", true);
+			return;
 		}
+
+		if (this.animationHandler.getAction().equals("castlaser") && this.animationHandler.isAnimationFinished()) {
+			this.laserActive();
+		}
+
+		this.disposeBullet();
+
+		if (Boss.switchTrap && this.animationHandler.getAction().equals("casttrap")
+				&& this.animationHandler.isAnimationFinished()) {
+			Trap.enableTrap();
+			Boss.switchTrap = false;
+		}
+
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
+
+		TextureRegion currentFrame = this.animationHandler.getFrame();
+
+		batch.draw(currentFrame, this.x - this.width, this.y - this.height, currentFrame.getRegionWidth() * 0.75f,
+				currentFrame.getRegionHeight() * 0.75f);
+
+		if (this.isReloaded && this.animationHandler.getAction().equals("castbullet")
+				&& this.animationHandler.isAnimationFinished()) {
+			this.reload();
+			this.isReloaded = false;
+		}
 
 		for (Bullet i : bullets) {
 			if (i.isDisposed) {
@@ -100,12 +120,8 @@ public class Boss extends Enemy {
 			}
 		}
 
-		TextureRegion currentFrame = this.animationHandler.getFrame();
-
-		batch.draw(currentFrame, this.x - this.width, this.y - this.height, currentFrame.getRegionWidth() * 0.75f,
-				currentFrame.getRegionHeight() * 0.75f);
-
-		laser.render(batch);
+		if (this.laser != null)
+			this.laser.render(batch);
 	}
 
 	@Override
@@ -113,17 +129,35 @@ public class Boss extends Enemy {
 		this.target = target;
 	}
 
-	public void shoot() {
+	// BULLET
+	public void bulletActive() {
+		this.animationHandler.setAction("castbullet", false);
+		this.isReloaded = true;
+	}
 
-		Trap.enableTrap();
-
-		laser.animationHandler.setAction("shoot", false);
-
-		if (!this.animationHandler.getAction().equals("shoot")) {
-			this.animationHandler.setAction("shoot", false);
+	public void disposeBullet() {
+		for (Bullet i : toRemove) {
+			bullets.remove(i);
 		}
+		toRemove.clear();
+	}
 
-		this.reload();
+	// TRAP
+	public void trapActive() {
+		Boss.switchTrap = true;
+		this.animationHandler.setAction("casttrap", false);
+	}
+
+	// LASER
+	public void laserActive() {
+		if (this.laser == null)
+			this.laser = new Laser(0, 70, -90);
+
+	}
+
+	public void disposeLaser() {
+		GameScreen.INSTANCE.getWorld().destroyBody(this.laser.body);
+		this.laser = null;
 	}
 
 }

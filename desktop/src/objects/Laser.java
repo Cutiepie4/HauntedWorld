@@ -5,48 +5,41 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.JointDef.JointType;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 
 import main.Boot;
 import main.GameScreen;
 
 public class Laser extends Objects {
 
-	private float speed;
-	private float x, y;
-	public boolean canRemove, isDisposed;
-	private float angle;
+	public static Laser INSTANCE;
 
 	public Laser(float x_offset, float y_offset, float angle) {
 		super();
 
+		INSTANCE = this;
+
 		this.x = Boss.INSTANCE.x + x_offset;
 
 		this.y = Boss.INSTANCE.x + y_offset;
-		
-		this.angle = angle;
 
-		this.canRemove = false;
+		this.damage = 5;
 
-		this.speed = 5 / Boot.PPM;
+		this.speed = (float) (Math.PI / 2f);
 
-		this.animationHandler.add(1 / 6f, "laser", "shoot", "");
+		this.animationHandler.add(1 / 10f, "laser", "shoot", "");
 
 		this.animationHandler.setAction("shoot", false);
 
-		this.createLaserHitBox();
+		this.createLaserHitBox(angle);
 
 		this.createJoint();
-		
-		this.setTarget();
 
 	}
 
-	public void createLaserHitBox() {
-		
+	public void createLaserHitBox(float angle) {
+
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		bodyDef.bullet = true;
@@ -54,6 +47,8 @@ public class Laser extends Objects {
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
+
+		// size 98 x 6
 		shape.setAsBox(98 / Boot.PPM, 6 / Boot.PPM);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
@@ -62,7 +57,7 @@ public class Laser extends Objects {
 		body.createFixture(fixtureDef).setUserData(this);
 		shape.dispose();
 
-		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) ((float) angle * Math.PI / 180));
+		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) (angle * Math.PI / 180f));
 	}
 
 	public void createJoint() {
@@ -80,20 +75,34 @@ public class Laser extends Objects {
 		jointDef.localAnchorB.set(-90f / Boot.PPM, 0);
 
 		GameScreen.INSTANCE.getWorld().createJoint(jointDef);
-		
+
 	}
 
-	public void setTarget() {
-		this.body.setAngularVelocity((float) (Math.PI / 4));
+	public void rotate() {
+		this.body.setAngularVelocity(speed);
 	}
 
 	public void update() {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
+		if (this.animationHandler.isAnimationFinished()) {
+			this.rotate();
+		}
+
+		if (this.animationHandler.getStateTime() >= 5.4f && !this.isDisposed) {
+			Boss.INSTANCE.disposeLaser();
+			this.isDisposed = true;
+		}
+
 	}
 
 	public void render(SpriteBatch batch) {
+
+		update();
+
+		if (this.isDisposed)
+			return;
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 

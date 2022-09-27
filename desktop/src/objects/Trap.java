@@ -25,6 +25,8 @@ public class Trap extends Objects {
 		this.animationHandler.setActionDirection("hide", "", false);
 
 		INSTANCE.add(this);
+
+		this.damage = 3;
 	}
 
 	public static void enableTrap() {
@@ -36,6 +38,7 @@ public class Trap extends Objects {
 	public void active() {
 		if (this.animationHandler.getAction().equals("hide")) {
 			this.animationHandler.setAction("up", false);
+			this.body.getFixtureList().first().setSensor(false);
 		}
 	}
 
@@ -43,10 +46,9 @@ public class Trap extends Objects {
 
 		if (this.animationHandler.getAction().equals("up") && this.animationHandler.isAnimationFinished()) {
 			this.animationHandler.setAction("show", true);
-			this.body.getFixtureList().first().setSensor(false);
 		}
 
-		if (this.animationHandler.getStateTime() >= 5) {
+		if (this.animationHandler.getStateTime() >= 5 && this.animationHandler.getAction().equals("show")) {
 			this.animationHandler.setAction("down", false);
 		}
 
@@ -54,7 +56,6 @@ public class Trap extends Objects {
 			this.animationHandler.setAction("hide", false);
 			this.body.getFixtureList().first().setSensor(true);
 		}
-
 	}
 
 	public void render(SpriteBatch batch) {
@@ -67,4 +68,5 @@ public class Trap extends Objects {
 				currentFrame.getRegionHeight() * 0.75f);
 
 	}
+
 }

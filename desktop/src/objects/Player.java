@@ -123,8 +123,9 @@ public class Player extends Objects {
 
 			this.attack();
 
-			Boss.INSTANCE.shoot();
-
+//			Boss.INSTANCE.laserActive();
+//			Boss.INSTANCE.trapActive();
+//			Boss.INSTANCE.bulletActive();
 		}
 
 		if (check) {
@@ -158,6 +159,23 @@ public class Player extends Objects {
 		}
 	}
 
+	public void isHit(float damage) {
+
+		if (this.animationHandler.getAction().equals("dead"))
+			return;
+
+		this.health -= damage;
+
+		if (this.health > 0) {
+			this.animationHandler.setAction("hit", false);
+		}
+
+		else {
+			this.animationHandler.setAction("dead", false);
+			this.animationHandler.setDirection("");
+		}
+	}
+
 	public void addInventory(Items item) {
 		if (!this.inventory.containsKey(item.name)) {
 			this.inventory.put(item.name, 0);
@@ -172,10 +190,6 @@ public class Player extends Objects {
 
 	public HashSet<Enemy> getListEnemies(String direction) {
 		return this.listEnemies.get(direction);
-	}
-
-	public int getDamage() {
-		return damage;
 	}
 
 	public void setDamage(int damage) {

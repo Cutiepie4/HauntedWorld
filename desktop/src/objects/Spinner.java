@@ -26,7 +26,7 @@ public class Spinner extends Enemy {
 
 		this.health = 5;
 
-		this.damage = 5;
+		this.damage = 2;
 
 		this.body.setLinearDamping(8f);
 
@@ -34,7 +34,7 @@ public class Spinner extends Enemy {
 
 		this.animationHandler.setAction("idle", true);
 
-		this.speed = 2f;
+		this.speed = 3f;
 
 	}
 

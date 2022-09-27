@@ -12,9 +12,7 @@ import main.GameScreen;
 
 public class Bullet extends Objects {
 
-	private float speed;
-	private float x, y;
-	public boolean canRemove;
+	public boolean canRemove = false;
 	private float angle;
 
 	public Bullet(float x_offset, float y_offset, float angle) {
@@ -25,14 +23,20 @@ public class Bullet extends Objects {
 		this.y = Boss.INSTANCE.x + y_offset;
 
 		this.angle = angle;
+		
+		this.damage = 2; 
 
-		this.canRemove = false;
-
-		this.speed = 5 / Boot.PPM;
+		this.speed = 2f / Boot.PPM;
 
 		this.animationHandler.add(1 / 8f, "bullet", "shoot", "");
 
 		this.animationHandler.setAction("shoot", true);
+
+		this.createBulletHitBox(angle);
+
+	}
+
+	public void createBulletHitBox(float angle) {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -51,12 +55,9 @@ public class Bullet extends Objects {
 		shape.dispose();
 
 		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) ((float) angle * Math.PI / 180));
-
-		this.setTarget();
-
 	}
 
-	public void setTarget() {
+	public void fire() {
 		this.body.setLinearVelocity(new Vector2(this.x - Boss.INSTANCE.x, this.y - Boss.INSTANCE.y).scl(speed));
 	}
 
@@ -73,6 +74,8 @@ public class Bullet extends Objects {
 
 	public void render(SpriteBatch batch) {
 		// size 40 x 18
+
+		this.fire();
 
 		update();
 

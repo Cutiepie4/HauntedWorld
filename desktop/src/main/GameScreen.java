@@ -137,7 +137,7 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.stage.draw();
 
-		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug size of object
+		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	public World getWorld() {
