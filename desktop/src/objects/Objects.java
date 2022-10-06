@@ -49,11 +49,11 @@ public abstract class Objects {
 	}
 
 	public float getY() {
-		return this.x;
+		return this.y;
 	}
 
 	public float getX() {
-		return this.y;
+		return this.x;
 	}
 
 	public void update() {

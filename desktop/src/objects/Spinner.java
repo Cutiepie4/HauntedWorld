@@ -2,11 +2,14 @@ package objects;
 
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import main.Boot;
 import screen.GameScreen;
 
 public class Spinner extends Enemy {
@@ -25,6 +28,8 @@ public class Spinner extends Enemy {
 		}
 
 		this.health = 5;
+		
+		this.MAX_HEALTH = 5;
 
 		this.damage = 2;
 
@@ -34,10 +39,16 @@ public class Spinner extends Enemy {
 
 		this.speed = 3f;
 
+		this.MAX_HEALTH = 5;
+
+		this.healthBar = new Sprite(new Texture("hud/healthbar_enemy.png"));
+
 	}
 
 	@Override
 	public void update() {
+		
+		this.healthBar.setBounds(this.x - 10f, this.y + this.height, 20, 3);
 
 		if (this.animationHandler.getAction().equals("dead")) {
 			if (this.animationHandler.isAnimationFinished() && !this.isDisposed) {
@@ -47,7 +58,7 @@ public class Spinner extends Enemy {
 			return;
 		}
 
-		if (this.target == null) {
+		if (!this.detected) {
 			if (this.animationHandler.isAnimationFinished()) {
 				Random random = new Random();
 				this.body.setLinearVelocity(random.nextInt(-1, 2) * speed, random.nextInt(-1, 2) * speed);
@@ -57,17 +68,19 @@ public class Spinner extends Enemy {
 		}
 
 		else if (this.animationHandler.isAnimationFinished()) {
-			this.follow(target);
+			this.follow(Player.INSTANCE);
 		}
 
-		this.x = this.body.getPosition().x * 16.0f;
-		this.y = this.body.getPosition().y * 16.0f;
+		this.x = this.body.getPosition().x * Boot.PPM;
+		this.y = this.body.getPosition().y * Boot.PPM;
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
 
+		this.showHealth(batch, 20, 3);
+		
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
 		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,

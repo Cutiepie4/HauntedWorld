@@ -1,7 +1,5 @@
 package helper;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -65,7 +63,7 @@ public class ListenerClass implements ContactListener {
 			if (fb.getUserData() instanceof Spinner) {
 				Enemy enemy = (Enemy) fb.getUserData();
 				if (fb.isSensor()) {
-					enemy.setTarget(Player.INSTANCE);
+					enemy.detectPlayer();;
 				} else {
 					Player.INSTANCE.isHit(enemy);
 				}
@@ -78,7 +76,7 @@ public class ListenerClass implements ContactListener {
 			}
 
 			if (fb.getUserData().equals("bossvision")) {
-				Boss.INSTANCE.setTarget(Player.INSTANCE);
+				Boss.INSTANCE.detectPlayer();
 			}
 		}
 
@@ -101,11 +99,11 @@ public class ListenerClass implements ContactListener {
 		if (fa.getUserData().equals("playerbody")) {
 			if (fb.isSensor() && fb.getUserData() instanceof Enemy) {
 				Enemy enemy = (Enemy) fb.getUserData();
-				enemy.setTarget(null);
+				enemy.lostPlayer();
 			}
 
 			if (fb.getUserData().equals("bossvision")) {
-				Boss.INSTANCE.setTarget(null);
+				Boss.INSTANCE.lostPlayer();
 			}
 		}
 

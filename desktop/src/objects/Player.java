@@ -56,12 +56,13 @@ public class Player extends Objects {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
-
+		
 		checkUserInput();
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
+		update();
 
 		if (this.animationHandler.getAction().equals("dead") && this.animationHandler.isAnimationFinished())
 			return;
@@ -123,7 +124,7 @@ public class Player extends Objects {
 			this.attack();
 
 //			Boss.INSTANCE.laserActive();
-//			Boss.INSTANCE.trapActive();
+			Boss.INSTANCE.trapActive();
 //			Boss.INSTANCE.bulletActive();
 		}
 

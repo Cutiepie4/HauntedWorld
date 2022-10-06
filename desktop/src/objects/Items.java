@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import main.Boot;
 import screen.GameScreen;
 
 public abstract class Items extends Objects {
@@ -30,8 +31,8 @@ public abstract class Items extends Objects {
 			this.isDisposed = true;
 		}
 
-		this.x = this.body.getPosition().x * 16.0f;
-		this.y = this.body.getPosition().y * 16.0f;
+		this.x = this.body.getPosition().x * Boot.PPM;
+		this.y = this.body.getPosition().y * Boot.PPM;
 
 	}
 

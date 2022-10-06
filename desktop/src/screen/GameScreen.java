@@ -67,8 +67,6 @@ public class GameScreen extends ScreenAdapter {
 
 		batch.setProjectionMatrix(camera.combined);
 
-		Player.INSTANCE.update();
-
 		this.objectUpdate();
 
 		orthogonalTiledMapRenderer.setView(camera);
@@ -139,7 +137,7 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.stage.draw();
 
-		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	public World getWorld() {
