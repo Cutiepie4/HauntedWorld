@@ -1,4 +1,4 @@
-package helper;
+package ui;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;

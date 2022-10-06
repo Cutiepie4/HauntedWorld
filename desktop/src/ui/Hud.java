@@ -27,7 +27,7 @@ public class Hud {
 
 	private Integer worldTimer;
 
-	private Label countdownLabel, timeLabel, linkLabel, levelLabel, message;
+	private Label lblcountDown, timeLabel, linkLabel, levelLabel, message;
 	private HashMap<String, HudObjectsHelper> listObjects = new HashMap<>();
 
 	private Image healthBar, health, levelBox;
@@ -49,7 +49,7 @@ public class Hud {
 		// define labels using the String, and a Label style consisting of a font and
 		// color
 
-		countdownLabel = new Label(String.format("%03d", worldTimer),
+		lblcountDown = new Label(String.format("%03d", worldTimer),
 				new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		timeLabel = new Label("LEFTOVER TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		linkLabel = new Label("POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
