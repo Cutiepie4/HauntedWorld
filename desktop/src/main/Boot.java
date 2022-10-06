@@ -3,6 +3,9 @@ package main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import helper.Assets;
+import screen.GameScreen;
+
 public class Boot extends Game {
 
 	public static Boot INSTANCE;

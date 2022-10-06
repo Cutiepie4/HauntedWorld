@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import helper.AnimationHandler;
 import main.Boot;
-import main.GameScreen;
+import screen.GameScreen;
 
 public abstract class Objects {
 

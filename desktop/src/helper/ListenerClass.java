@@ -1,13 +1,15 @@
 package helper;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-import main.GameScreen;
 import objects.Boots;
+import objects.Boss;
 import objects.Bullet;
 import objects.Chest;
 import objects.Enemy;
@@ -18,6 +20,7 @@ import objects.Objects;
 import objects.Player;
 import objects.Spinner;
 import objects.Trap;
+import screen.GameScreen;
 
 public class ListenerClass implements ContactListener {
 
@@ -32,9 +35,10 @@ public class ListenerClass implements ContactListener {
 		if (fa == null || fb == null || fa.getUserData() == null || fb.getUserData() == null)
 			return;
 
-		if (fa.getUserData() instanceof String && !fa.getUserData().equals("playerbody")
-				&& fb.getUserData() instanceof Enemy && !fb.isSensor()) {
+		if ((fa.getUserData().equals("up") || fa.getUserData().equals("down") || fa.getUserData().equals("left")
+				|| fa.getUserData().equals("right")) && fb.getUserData() instanceof Enemy && !fb.isSensor()) {
 			Player.INSTANCE.getListEnemies((String) fa.getUserData()).add((Enemy) fb.getUserData());
+			return;
 		}
 
 		if (fa.getUserData().equals("playerbody")) {
@@ -70,6 +74,11 @@ public class ListenerClass implements ContactListener {
 			if (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet
 					|| (fb.getUserData() instanceof Trap && !fb.isSensor())) {
 				Player.INSTANCE.isHit(((Objects) fb.getUserData()).getDamage());
+				return;
+			}
+
+			if (fb.getUserData().equals("bossvision")) {
+				Boss.INSTANCE.setTarget(Player.INSTANCE);
 			}
 		}
 
@@ -93,6 +102,10 @@ public class ListenerClass implements ContactListener {
 			if (fb.isSensor() && fb.getUserData() instanceof Enemy) {
 				Enemy enemy = (Enemy) fb.getUserData();
 				enemy.setTarget(null);
+			}
+
+			if (fb.getUserData().equals("bossvision")) {
+				Boss.INSTANCE.setTarget(null);
 			}
 		}
 

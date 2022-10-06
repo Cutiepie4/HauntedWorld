@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import main.GameScreen;
+import screen.GameScreen;
 
 public abstract class Items extends Objects {
 

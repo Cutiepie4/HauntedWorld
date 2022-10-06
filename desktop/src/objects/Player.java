@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.AnimationHandler;
 import main.Boot;
-import main.Hud;
+import ui.Hud;
 
 public class Player extends Objects {
 
@@ -20,7 +20,6 @@ public class Player extends Objects {
 	private HashMap<String, HashSet<Enemy>> listEnemies;
 	private HashMap<String, Integer> inventory;
 	private int health;
-	private int damage;
 
 	public Player(float width, float height, Body body) {
 		super(width, height, body);
@@ -30,8 +29,8 @@ public class Player extends Objects {
 		this.listEnemies = new HashMap<>();
 		this.inventory = new HashMap<>();
 		this.health = 9;
-		this.damage = 1;
 		this.FRAME_TIME = 1 / 8f;
+		this.damage = 1f;
 
 		String[] directions = { "up", "down", "left", "right" };
 		for (int i = 0; i < 4; i++) {

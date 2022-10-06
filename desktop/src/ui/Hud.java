@@ -1,4 +1,4 @@
-package main;
+package ui;
 
 import java.util.HashMap;
 
@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import helper.HudObjectsHelper;
+import main.DesktopLauncher;
 import objects.Player;
 
 public class Hud {

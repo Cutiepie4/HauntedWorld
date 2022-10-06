@@ -7,16 +7,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import main.Boot;
-import main.GameScreen;
+import screen.GameScreen;
 
 public class Boss extends Enemy {
 
 	public static Boss INSTANCE;
 	public static boolean switchTrap = false;
-	
+
 	private Laser laser;
 	private ArrayList<Bullet> bullets, toRemove;
 	private boolean isReloaded = false;
+	private boolean currentFlip = false, flip = false; // true is left, false is right
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
@@ -46,8 +47,7 @@ public class Boss extends Enemy {
 		this.animationHandler.setActionDirection("idle", "", false);
 
 		this.laser = null;
-
-
+		
 	}
 
 	public void reload() {
@@ -91,6 +91,7 @@ public class Boss extends Enemy {
 			Boss.switchTrap = false;
 		}
 
+		this.focus();
 	}
 
 	@Override
@@ -99,8 +100,16 @@ public class Boss extends Enemy {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
+		if (flip) {
+			currentFrame.flip(true, false);
+		}
+
 		batch.draw(currentFrame, this.x - this.width, this.y - this.height, currentFrame.getRegionWidth() * 0.75f,
 				currentFrame.getRegionHeight() * 0.75f);
+
+		if (flip) {
+			currentFrame.flip(true, false);
+		}
 
 		if (this.isReloaded && this.animationHandler.getAction().equals("castbullet")
 				&& this.animationHandler.isAnimationFinished()) {
@@ -124,9 +133,16 @@ public class Boss extends Enemy {
 			this.laser.render(batch);
 	}
 
-	@Override
-	public void setTarget(Player target) {
-		this.target = target;
+	public void focus() {
+		if (this.target == null) {
+			flip = false;
+			return;
+		}
+		
+		if (this.x > this.target.getX()) {
+			flip = true;
+		} else
+			flip = false;
 	}
 
 	// BULLET

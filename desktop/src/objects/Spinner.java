@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import main.GameScreen;
+import screen.GameScreen;
 
 public class Spinner extends Enemy {
 
@@ -30,9 +30,7 @@ public class Spinner extends Enemy {
 
 		this.body.setLinearDamping(8f);
 
-		this.animationHandler.setDirection("");
-
-		this.animationHandler.setAction("idle", true);
+		this.animationHandler.setActionDirection("idle", "", true);
 
 		this.speed = 3f;
 

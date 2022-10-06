@@ -1,4 +1,4 @@
-package main;
+package screen;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,9 +18,11 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import helper.ListenerClass;
 import helper.TileMapHelper;
+import main.Boot;
 import objects.Boss;
 import objects.Objects;
 import objects.Player;
+import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
 

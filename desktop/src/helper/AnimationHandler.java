@@ -28,7 +28,6 @@ public class AnimationHandler {
 				Gdx.files.internal(object + "/" + action + "/" + action + direction + ".atlas"));
 
 		animations.put(action + direction, new Animation<TextureRegion>(FRAME_TIME, textureAtlas.findRegions("tile")));
-
 	}
 
 	public void setActionDirection(String action, String direction, boolean loop) {

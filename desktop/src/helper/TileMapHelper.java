@@ -16,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import main.Boot;
-import main.GameScreen;
 import objects.Bonfire;
 import objects.Boots;
 import objects.Boss;
@@ -29,6 +28,7 @@ import objects.Player;
 import objects.SilverKey;
 import objects.Spinner;
 import objects.Trap;
+import screen.GameScreen;
 
 public class TileMapHelper {
 

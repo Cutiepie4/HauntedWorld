@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 import main.Boot;
-import main.GameScreen;
+import screen.GameScreen;
 
 public class Laser extends Objects {
 
