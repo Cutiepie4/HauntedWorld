@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -38,7 +40,7 @@ public class Laser extends Objects {
 
 	}
 
-	public void createLaserHitBox(float angle) {
+	private void createLaserHitBox(float angle) {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -60,7 +62,7 @@ public class Laser extends Objects {
 		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) (angle * Math.PI / 180f));
 	}
 
-	public void createJoint() {
+	private void createJoint() {
 
 		WeldJointDef jointDef = new WeldJointDef();
 
@@ -78,8 +80,12 @@ public class Laser extends Objects {
 
 	}
 
-	public void rotate() {
-		this.body.setAngularVelocity(speed);
+	private void rotate() {
+		if (this.body.getAngularVelocity() == 0) {
+			int[] clockwise = new int[] {-1, 1};
+			int rnd = new Random().nextInt(2);
+			this.body.setAngularVelocity(clockwise[rnd] * speed);
+		}
 	}
 
 	public void update() {

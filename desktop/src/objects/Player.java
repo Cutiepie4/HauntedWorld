@@ -123,8 +123,8 @@ public class Player extends Objects {
 
 			this.attack();
 
-//			Boss.INSTANCE.laserActive();
-			Boss.INSTANCE.trapActive();
+			Boss.INSTANCE.laserActive();
+//			Boss.INSTANCE.trapActive();
 //			Boss.INSTANCE.bulletActive();
 		}
 

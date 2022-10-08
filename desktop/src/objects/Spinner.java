@@ -27,7 +27,7 @@ public class Spinner extends Enemy {
 			this.animationHandler.add(FRAME_TIME, "spinner", state[i], "");
 		}
 
-		this.health = 5;
+		this.health = 4;
 		
 		this.MAX_HEALTH = 5;
 
@@ -39,16 +39,13 @@ public class Spinner extends Enemy {
 
 		this.speed = 3f;
 
-		this.MAX_HEALTH = 5;
-
-		this.healthBar = new Sprite(new Texture("hud/healthbar_enemy.png"));
-
 	}
 
 	@Override
 	public void update() {
-		
-		this.healthBar.setBounds(this.x - 10f, this.y + this.height, 20, 3);
+
+		this.healthBar.setPosition(this.x - 10f, this.y + this.height);
+		this.healthLevel.setPosition(this.x - 10f, this.y + this.height);
 
 		if (this.animationHandler.getAction().equals("dead")) {
 			if (this.animationHandler.isAnimationFinished() && !this.isDisposed) {
@@ -79,7 +76,7 @@ public class Spinner extends Enemy {
 	public void render(SpriteBatch batch) {
 		update();
 
-		this.showHealth(batch, 20, 3);
+		this.showHealth(batch, 20, 2f);
 		
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 

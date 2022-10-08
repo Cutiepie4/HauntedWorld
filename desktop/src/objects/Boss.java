@@ -19,7 +19,8 @@ public class Boss extends Enemy {
 	private ArrayList<Bullet> bullets, toRemove;
 	private boolean isReloaded = false; // switch reload bullets
 	private boolean flip; // true is left, false is right
-
+	
+	
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
 
@@ -39,7 +40,7 @@ public class Boss extends Enemy {
 			this.animationHandler.add(FRAME_TIME, "boss", state[i], "");
 		}
 
-		this.health = 100;
+		this.health = 50;
 		
 		this.MAX_HEALTH = 100;
 
@@ -49,14 +50,7 @@ public class Boss extends Enemy {
 
 		this.animationHandler.setActionDirection("idle", "", false);
 
-		this.laser = null;
-
 		this.flip = false;
-
-		this.MAX_HEALTH = 100;
-
-		this.healthBar = new Sprite(new Texture("hud/healthbar_enemy.png"));
-		
 	}
 
 	public void reload() {
@@ -82,10 +76,11 @@ public class Boss extends Enemy {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
-		
+
 		// update health bar position
-		this.healthBar.setBounds(this.x - 40, this.y + 30, 80, 6);
-		
+		this.healthBar.setPosition(this.x - 42, this.y + 30);
+		this.healthLevel.setPosition(this.x - 42, this.y + 30);
+
 		// set directions against player
 		this.facingPlayer();
 

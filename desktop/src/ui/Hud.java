@@ -55,11 +55,11 @@ public class Hud {
 		linkLabel = new Label("POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
 		listObjects.put("Silver Key",
-				new HudObjectsHelper(new Image(new Texture(Gdx.files.internal("hud/silverkey.png"))),
+				new HudObjectsHelper(new Image(new Texture("hud/silverkey.png")),
 						new Label(String.format("%d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE))));
-		listObjects.put("Gold Key", new HudObjectsHelper(new Image(new Texture(Gdx.files.internal("hud/goldkey.png"))),
+		listObjects.put("Gold Key", new HudObjectsHelper(new Image(new Texture("hud/goldkey.png")),
 				new Label(String.format("%d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE))));
-		listObjects.put("Crystal", new HudObjectsHelper(new Image(new Texture(Gdx.files.internal("hud/crystal.png"))),
+		listObjects.put("Crystal", new HudObjectsHelper(new Image(new Texture("hud/crystal.png")),
 				new Label(String.format("%d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE))));
 
 		// add labels to table, padding the top, and giving them all equal width with
@@ -95,10 +95,10 @@ public class Hud {
 
 	private void createHudHealthBar() {
 
-		healthBar = new Image(new Texture(Gdx.files.internal("hud/healthbar.png")));
+		healthBar = new Image(new Texture("hud/health_bar_player.png"));
 		healthBar.scaleBy(1.32f);
 
-		health = new Image(new Texture(Gdx.files.internal("hud/health_hud.png")));
+		health = new Image(new Texture("hud/health_level_player.png"));
 		health.scaleBy(1.32f);
 
 		Table table = new Table();

@@ -75,6 +75,7 @@ public class GameScreen extends ScreenAdapter {
 			this.dispose();
 			Gdx.app.exit();
 		}
+		
 		if(Player.INSTANCE.getAnimationHandler().getAction().equals("dead") && Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 		}
@@ -153,11 +154,14 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectsRenderer() {
+		ArrayList<Objects> temp = new ArrayList<>();
 		for (Objects i : listObjects) {
 			if (i != null) {
 				i.render(batch);
+				temp.add(i);
 			}
 		}
+		listObjects = new ArrayList<>(temp);
 	}
 
 	public void objectUpdate() {
