@@ -1,8 +1,8 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import helper.HudObjectsHelper;
+import character.Player;
+import helper.HudActor;
 import main.DesktopLauncher;
-import objects.Player;
 
 public class Hud {
 
@@ -25,72 +25,42 @@ public class Hud {
 	public Stage stage;
 	private Viewport viewport;
 
-	private Integer worldTimer;
+	private Table tblMessage;
+	private Label lblMessage;
 
-	private Label lblcountDown, timeLabel, linkLabel, levelLabel, message;
-	private HashMap<String, HudObjectsHelper> listObjects = new HashMap<>();
-
-	private Image healthBar, health, levelBox;
-	private Table messageTable;
+	private Image healthBar, healthLevel, healthBackground;
 	private float timer;
+	public ArrayList<String> message = new ArrayList<String>();
 
 	public Hud(SpriteBatch sb) {
 		INSTANCE = this;
 
-		// define tracking variables
-		worldTimer = 10;
+		this.timer = 0f;
 
-		// setup the HUD viewport using a new camera separate from game camera
-		// define stage using that viewport and games sprite batch
 		viewport = new FitViewport(DesktopLauncher.SCREEN_WIDTH, DesktopLauncher.SCREEN_HEIGHT,
 				new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 
-		// define labels using the String, and a Label style consisting of a font and
-		// color
+		stage.addActor(new Table());
+		stage.addActor(new Table());
+		stage.addActor(new Table());
 
-		lblcountDown = new Label(String.format("%03d", worldTimer),
-				new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-		timeLabel = new Label("LEFTOVER TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-		linkLabel = new Label("POINTS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-		listObjects.put("Silver Key",
-				new HudObjectsHelper(new Image(new Texture("hud/silverkey.png")),
-						new Label(String.format("%d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE))));
-		listObjects.put("Gold Key", new HudObjectsHelper(new Image(new Texture("hud/goldkey.png")),
-				new Label(String.format("%d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE))));
-		listObjects.put("Crystal", new HudObjectsHelper(new Image(new Texture("hud/crystal.png")),
-				new Label(String.format("%d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE))));
-
-		// add labels to table, padding the top, and giving them all equal width with
-		// expandX
-
-//		table.add(linkLabel).expandX().padTop(30);
-//		table.add(timeLabel).expandX().padTop(30);
-//		table.row();
-//		table.add(scoreLabel).expandX();
-//		table.add(countdownLabel).expandX();
-
-		this.timer = 0f;
-		// add table to the stage
 		this.createMessage();
 		this.createHudHealthBar();
-		this.createHudObjects();
 	}
 
 	private void createMessage() {
 
-		messageTable = new Table();
+		tblMessage = (Table) stage.getActors().first();
 
-		messageTable.bottom();
-		messageTable.right();
-		messageTable.setFillParent(true);
+		tblMessage.bottom();
+		tblMessage.right();
+		tblMessage.setFillParent(true);
 
-		message = new Label("Welcome to the World of Haunt.", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		lblMessage = new Label("Welcome to the World of Haunt.", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-		messageTable.add(message).padBottom(50).padRight(50);
+		tblMessage.add(lblMessage).padBottom(50).padRight(50);
 
-		stage.addActor(messageTable);
 	}
 
 	private void createHudHealthBar() {
@@ -98,25 +68,27 @@ public class Hud {
 		healthBar = new Image(new Texture("hud/health_bar_player.png"));
 		healthBar.scaleBy(1.32f);
 
-		health = new Image(new Texture("hud/health_level_player.png"));
-		health.scaleBy(1.32f);
+		healthLevel = new Image(new Texture("hud/health_level_player.png"));
+		healthLevel.scaleBy(1.32f);
 
-		Table table = new Table();
+		healthBackground = new Image(new Texture("hud/health_level_background_player.png"));
+		healthBackground.scaleBy(1.32f);
+
+		Table table = (Table) stage.getActors().get(1);
 
 		table.top();
 		table.left();
 		table.setFillParent(true);
 
-		table.add(health).padTop(50).padLeft(50);
+		table.add(healthBackground).padTop(50).padLeft(50);
+
+		table.add(healthLevel).padTop(50).padLeft(-56);
 
 		table.add(healthBar).padTop(50).padLeft(-56);
 
-		stage.addActor(table);
 	}
 
-	private void createHudObjects() {
-
-		String[] objects = { "Silver Key", "Gold Key", "Crystal" };
+	private void updateHudActor() {
 
 		Table table = new Table();
 
@@ -126,48 +98,39 @@ public class Hud {
 
 		table.setFillParent(true);
 
-		for (int i = 0; i < objects.length; i++) {
-			table.add(listObjects.get(objects[i]).getImage()).padLeft(40);
-		}
+		if (Player.INSTANCE != null)
+			for (String i : Player.INSTANCE.getInventory().keySet()) {
+				int count = Player.INSTANCE.getInventory().get(i);
+				if (count > 0) {
+					HudActor actor = new HudActor(i, Player.INSTANCE.getInventory().get(i));
+					table.add(actor.getImage()).padBottom(35).padLeft(50);
+					table.add(actor.getLabel()).padBottom(50).padLeft(25);
+					table.row();
+				}
+			}
 
-		table.row();
-
-		for (int i = 0; i < objects.length; i++) {
-			table.add(listObjects.get(objects[i]).getLabel()).padBottom(50).padLeft(50);
-		}
-
+		stage.getActors().pop();
+		
 		stage.addActor(table);
 	}
 
 	public void update(float delta) {
 
+		this.updateHudActor();
+
 		this.timer += delta;
 
-		if (this.timer > 3) {
-			message.setText("");
+		if (this.timer > 2f && !message.isEmpty()) {
+			lblMessage.setText(message.get(0));
+			message.remove(0);
+			this.timer = 0f;
 		}
 
-		for (String i : Player.INSTANCE.getInventory().keySet()) {
-			if (listObjects.containsKey(i))
-				listObjects.get(i).setCount(Player.INSTANCE.getInventory().get(i));
-		}
+		healthLevel.setWidth(16 + 4 * Player.INSTANCE.getHealth());
 
-		health.setWidth(16 + 4 * Player.INSTANCE.getHealth());
-
-//		if (timer >= 1) {
-//			if (worldTimer > 0) {
-//				countdownLabel.setText(String.format("%d", worldTimer));
-//				worldTimer--;
-//			} else {
-//				countdownLabel.setText("TIME UP");
-//			}
-//
-//			timer = 0;
-//		}
 	}
 
 	public void printMessage(String text) {
-		message.setText(text);
-		this.timer = 0f;
+		message.add(text);
 	}
 }

@@ -1,5 +1,6 @@
 package helper;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -14,21 +15,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import character.Boss;
+import character.Player;
+import character.Spider;
+import character.Spinner;
+import character.Trap;
 import main.Boot;
-import objects.Bonfire;
-import objects.Boots;
-import objects.Boss;
-import objects.Chest;
-import objects.Crystal;
-import objects.Door;
-import objects.GoldKey;
-import objects.HealthPotion;
-import objects.Player;
-import objects.SilverKey;
-import objects.Spinner;
-import objects.Trap;
 import screen.GameScreen;
+import things.Decor;
+import things.Items;
 
 public class TileMapHelper {
 
@@ -57,8 +54,19 @@ public class TileMapHelper {
 				Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 				String rectangleName = mapObject.getName();
 
+				for (String i : Constants.DECOR) {
+					if (i.equals(rectangleName)) {
+						Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+								rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+								rectangle.getHeight(), true, gc.getWorld());
+
+						Decor decor = new Decor(rectangle.getWidth(), rectangle.getHeight(), body, rectangleName);
+						gc.addObjects(decor);
+						break;
+					}
+				}
+
 				if (rectangleName.equals("player")) {
-					// main body
 					Body body = BodyHelperService.createPlayerBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, (float) rectangle.getWidth() - 8,
 							(float) rectangle.getHeight() / 2.5f, false, gc.getWorld(), rectangle);
@@ -67,52 +75,7 @@ public class TileMapHelper {
 					gc.addObjects(player);
 				}
 
-				if (rectangleName.equals("silverkey")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					SilverKey key = new SilverKey(rectangle.getWidth(), rectangle.getHeight(), body);
-
-					key.getBody().getFixtureList().first().setUserData(key);
-					key.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(key);
-				}
-
-				if (rectangleName.equals("goldkey")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					GoldKey key = new GoldKey(rectangle.getWidth(), rectangle.getHeight(), body);
-
-					key.getBody().getFixtureList().first().setUserData(key);
-					key.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(key);
-				}
-
-				if (rectangleName.equals("chest")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					Chest chest = new Chest(rectangle.getWidth(), rectangle.getHeight(), body);
-					chest.getBody().getFixtureList().first().setUserData(chest);
-					gc.addObjects(chest);
-				}
-
-				if (rectangleName.equals("boots")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					Boots boots = new Boots(rectangle.getWidth(), rectangle.getHeight(), body);
-					boots.getBody().getFixtureList().first().setUserData(boots);
-					boots.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(boots);
-				}
-
-				if (rectangleName.equals("spinner")) {
+				else if (rectangleName.equals("spinner")) {
 					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
 							rectangle.getHeight(), false, gc.getWorld());
@@ -131,8 +94,28 @@ public class TileMapHelper {
 					spinner.getBody().getFixtureList().peek().setUserData(spinner);
 					gc.addObjects(spinner);
 				}
+				
+				else if (rectangleName.equals("spider")) {
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), false, gc.getWorld());
 
-				if (rectangleName.equals("boss")) {
+					CircleShape circle = new CircleShape();
+					circle.setPosition(new Vector2(0, 0));
+
+					circle.setRadius(3.2f);
+
+					body.getFixtureList().add(body.createFixture(circle, 1));
+					body.getFixtureList().peek().setSensor(true);
+
+					Spider spinner = new Spider(rectangle.getWidth(), rectangle.getHeight(), body);
+
+					spinner.getBody().getFixtureList().first().setUserData(spinner);
+					spinner.getBody().getFixtureList().peek().setUserData(spinner);
+					gc.addObjects(spinner);
+				}
+
+				else if (rectangleName.equals("boss")) {
 					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
 							rectangle.getHeight(), true, gc.getWorld());
@@ -152,48 +135,7 @@ public class TileMapHelper {
 					gc.addObjects(boss);
 				}
 
-				if (rectangleName.equals("potion")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					HealthPotion potion = new HealthPotion(rectangle.getWidth(), rectangle.getHeight(), body);
-					potion.getBody().getFixtureList().first().setUserData(potion);
-					potion.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(potion);
-				}
-
-				if (rectangleName.equals("crystal")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					Crystal crystal = new Crystal(rectangle.getWidth(), rectangle.getHeight(), body);
-
-					crystal.getBody().getFixtureList().first().setUserData(crystal);
-					crystal.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(crystal);
-				}
-
-				if (rectangleName.equals("bonfire")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					Bonfire bonfire = new Bonfire(rectangle.getWidth(), rectangle.getHeight(), body);
-					gc.addObjects(bonfire);
-				}
-
-				if (rectangleName.equals("door")) {
-					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
-							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
-							rectangle.getHeight(), true, gc.getWorld());
-
-					Door door = new Door(rectangle.getWidth(), rectangle.getHeight(), body);
-					gc.addObjects(door);
-				}
-
-				if (rectangleName.equals("trap")) {
+				else if (rectangleName.equals("trap")) {
 
 					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
@@ -204,6 +146,55 @@ public class TileMapHelper {
 					trap.getBody().getFixtureList().first().setUserData(trap);
 					trap.getBody().getFixtureList().first().setSensor(true);
 					gc.addObjects(trap);
+				}
+
+				else {
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					switch (rectangleName) {
+					case "silverkey":
+						Items item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Silver Key");
+						item.getBody().getFixtureList().first().setSensor(true);
+						item.getBody().getFixtureList().first().setUserData(item);
+						gc.addObjects(item);
+						break;
+
+					case "goldkey":
+						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Gold Key");
+						item.getBody().getFixtureList().first().setSensor(true);
+						item.getBody().getFixtureList().first().setUserData(item);
+						gc.addObjects(item);
+						break;
+
+					case "chest":
+						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Chest");
+						item.getBody().getFixtureList().first().setUserData(item);
+						gc.addObjects(item);
+						break;
+
+					case "crystal":
+						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Crystal");
+						item.getBody().getFixtureList().first().setSensor(true);
+						item.getBody().getFixtureList().first().setUserData(item);
+						gc.addObjects(item);
+						break;
+
+					case "boot":
+						Items boots = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Boot");
+						boots.getBody().getFixtureList().first().setUserData(boots);
+						boots.getBody().getFixtureList().first().setSensor(true);
+						gc.addObjects(boots);
+						break;
+
+					case "healthpotion":
+						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Health Potion");
+						item.getBody().getFixtureList().first().setUserData(item);
+						item.getBody().getFixtureList().first().setSensor(true);
+						gc.addObjects(item);
+
+					}
 				}
 
 			}

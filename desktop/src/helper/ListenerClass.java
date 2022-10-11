@@ -6,19 +6,18 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-import objects.Boots;
-import objects.Boss;
-import objects.Bullet;
-import objects.Chest;
-import objects.Enemy;
-import objects.HealthPotion;
-import objects.Items;
-import objects.Laser;
-import objects.Objects;
-import objects.Player;
-import objects.Spinner;
-import objects.Trap;
+import character.Boss;
+import character.Bullet;
+import character.Enemy;
+import character.Laser;
+import character.Player;
+import character.Spider;
+import character.Spinner;
+import character.Trap;
 import screen.GameScreen;
+import things.Items;
+import things.Objects;
+import ui.Hud;
 
 public class ListenerClass implements ContactListener {
 
@@ -40,30 +39,57 @@ public class ListenerClass implements ContactListener {
 		}
 
 		if (fa.getUserData().equals("playerbody")) {
-			if (fb.isSensor() && fb.getUserData() instanceof Items) {
+			if (fb.getUserData() instanceof Items) {
 				Items item = (Items) fb.getUserData();
-				item.loot();
-				Player.INSTANCE.addInventory(item);
+				boolean check = true;
+
+				switch (item.getName()) {
+				case "Chest":
+					if (!Player.INSTANCE.checkChest()) {
+						Hud.INSTANCE.printMessage("You don't have a Silver Key");
+						check = false;
+					} else {
+						Hud.INSTANCE.printMessage("You opened the Chest");
+					}
+					break;
+
+				case "Health Potion":
+					Player.INSTANCE.heal(3);
+					Hud.INSTANCE.printMessage("Your healed 3 HP.");
+					break;
+
+				case "Crystal":
+					Player.INSTANCE.addInventory(item);
+					Hud.INSTANCE.printMessage("You picked up a Crystal.");
+					break;
+
+				case "Boot":
+					Player.INSTANCE.addSpeed(2);
+					Hud.INSTANCE.printMessage("You picked up an old boot, you move faster now.");
+					break;
+
+				case "Gold Key":
+					Player.INSTANCE.addInventory(item);
+					Hud.INSTANCE.printMessage("You got a Gold Key.");
+					break;
+
+				case "Silver Key":
+					Player.INSTANCE.addInventory(item);
+					Hud.INSTANCE.printMessage("You got a Silver Key.");
+					break;
+				}
+
+				if (check) {
+					item.loot();
+				}
+
 			}
 
-			if (fb.getUserData() instanceof Chest) {
-				Player.INSTANCE.checkChest((Chest) fb.getUserData());
-			}
-
-			if (fb.getUserData() instanceof Boots) {
-				Player.INSTANCE.setSpeed(2);
-				gc.addToRemove((Objects) fb.getUserData());
-			}
-
-			if (fb.getUserData() instanceof HealthPotion) {
-				Player.INSTANCE.heal(3);
-				gc.addToRemove((Objects) fb.getUserData());
-			}
-
-			if (fb.getUserData() instanceof Spinner) {
+			if (fb.getUserData() instanceof Spinner || fb.getUserData() instanceof Spider) {
 				Enemy enemy = (Enemy) fb.getUserData();
 				if (fb.isSensor()) {
-					enemy.detectPlayer();;
+					enemy.detectPlayer();
+
 				} else {
 					Player.INSTANCE.isHit(enemy);
 				}
@@ -75,9 +101,17 @@ public class ListenerClass implements ContactListener {
 				return;
 			}
 
-			if (fb.getUserData().equals("bossvision")) {
-				Boss.INSTANCE.detectPlayer();
+			if (fb.getUserData() instanceof String) {
+				switch ((String) fb.getUserData()) {
+				case "bossvision":
+					Boss.INSTANCE.detectPlayer();
+					break;
+				case "bossbody":
+					Player.INSTANCE.isHit(5);
+					break;
+				}
 			}
+
 		}
 
 	}

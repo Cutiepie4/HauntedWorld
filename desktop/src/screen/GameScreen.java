@@ -16,12 +16,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import character.Boss;
+import character.Player;
+import helper.Constants;
 import helper.ListenerClass;
 import helper.TileMapHelper;
 import main.Boot;
-import objects.Boss;
-import objects.Objects;
-import objects.Player;
+import things.Objects;
 import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
@@ -40,6 +41,8 @@ public class GameScreen extends ScreenAdapter {
 
 	private ArrayList<Objects> toRemove = new ArrayList<>();
 
+	private ArrayList<Objects> toAdd = new ArrayList<>();
+
 	public GameScreen(OrthographicCamera camera) {
 		INSTANCE = this;
 
@@ -55,6 +58,7 @@ public class GameScreen extends ScreenAdapter {
 
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
+		Constants.init();
 	}
 
 	private void update() {
@@ -75,8 +79,9 @@ public class GameScreen extends ScreenAdapter {
 			this.dispose();
 			Gdx.app.exit();
 		}
-		
-		if(Player.INSTANCE.getAnimationHandler().getAction().equals("dead") && Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
+
+		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
+				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 		}
 	}
@@ -130,7 +135,7 @@ public class GameScreen extends ScreenAdapter {
 
 		batch.begin();
 
-		this.objectsRenderer();
+		this.objectsRender();
 
 		batch.end();
 
@@ -138,7 +143,7 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.stage.draw();
 
-//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	public World getWorld() {
@@ -150,10 +155,10 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	public void addObjects(Objects object) {
-		this.listObjects.add(object);
+		this.toAdd.add(object);
 	}
 
-	private void objectsRenderer() {
+	private void objectsRender() {
 		ArrayList<Objects> temp = new ArrayList<>();
 		for (Objects i : listObjects) {
 			if (i != null) {
@@ -165,6 +170,13 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	public void objectUpdate() {
+		for (Objects i : toAdd) {
+			if (!this.listObjects.contains(i)) {
+				this.listObjects.add(i);
+			}
+		}
+		toAdd.clear();
+
 		for (Objects i : toRemove) {
 			if (this.listObjects.contains(i))
 				this.listObjects.remove(i);
