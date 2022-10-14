@@ -2,15 +2,15 @@ package character;
 
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.Constants;
 import main.Boot;
 import screen.GameScreen;
+import things.Items;
 
 public class Spinner extends Enemy {
 
@@ -22,13 +22,12 @@ public class Spinner extends Enemy {
 
 		this.name = "Spinner";
 
-		String[] state = { "idle", "dead", "hit", "attack" };
-		for (int i = 0; i < state.length; i++) {
-			this.animationHandler.add(FRAME_TIME, "spinner", state[i], "");
+		for (String i : Constants.ACTION) {
+			this.animationHandler.add(FRAME_TIME, "spinner", i, "");
 		}
 
 		this.health = 4;
-		
+
 		this.MAX_HEALTH = 5;
 
 		this.damage = 2;
@@ -48,10 +47,11 @@ public class Spinner extends Enemy {
 		this.healthLevel.setPosition(this.x - 10f, this.y + this.height);
 
 		if (this.animationHandler.getAction().equals("dead")) {
-			if (this.animationHandler.isAnimationFinished() && !this.isDisposed()) {
+			if (!this.isDisposed()) {
 				GameScreen.INSTANCE.addToRemove(this);
 				this.setDisposed(true);
 			}
+
 			return;
 		}
 
@@ -77,7 +77,7 @@ public class Spinner extends Enemy {
 		update();
 
 		this.showHealth(batch, 20, 2f);
-		
+
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
 		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,
@@ -90,6 +90,15 @@ public class Spinner extends Enemy {
 					-(this.body.getPosition().y - player.getBody().getPosition().y)));
 
 			this.animationHandler.setAction("attack", true);
+		}
+	}
+
+	@Override
+	public void dropItem() {
+		Random rnd = new Random();
+		if (rnd.nextInt(100) < 100) { // rate drop items
+			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
+			GameScreen.INSTANCE.addObjects(new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]));
 		}
 	}
 

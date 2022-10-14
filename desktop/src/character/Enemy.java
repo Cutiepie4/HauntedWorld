@@ -7,9 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.AnimationHandler;
+import helper.Dropable;
 import things.Objects;
 
-public abstract class Enemy extends Objects {
+public abstract class Enemy extends Objects implements Dropable {
 
 	protected float MAX_HEALTH;
 	protected boolean detected;
@@ -41,8 +42,9 @@ public abstract class Enemy extends Objects {
 			this.animationHandler.setAction("hit", false);
 
 			// push back
-			this.body.setLinearVelocity(new Vector2((this.body.getPosition().x - player.getBody().getPosition().x) * speed,
-					(this.body.getPosition().y - player.getBody().getPosition().y) * speed));
+			this.body.setLinearVelocity(
+					new Vector2((this.body.getPosition().x - player.getBody().getPosition().x) * speed,
+							(this.body.getPosition().y - player.getBody().getPosition().y) * speed));
 		}
 
 		else if (!this.animationHandler.getAction().equals("dead")) {
@@ -58,15 +60,23 @@ public abstract class Enemy extends Objects {
 		this.detected = false;
 	}
 
-	public AnimationHandler getAnimationHandler() {
-		return this.animationHandler;
-	}
-
 	protected void showHealth(SpriteBatch batch, float MAX_WIDTH_IMAGE, float MAX_HEIGHT_IMAGE) {
 		this.healthBar.setSize(MAX_WIDTH_IMAGE, MAX_HEIGHT_IMAGE);
 		this.healthBar.draw(batch);
 		this.healthLevel.setSize(this.health / this.MAX_HEALTH * MAX_WIDTH_IMAGE, MAX_HEIGHT_IMAGE);
 		this.healthLevel.draw(batch);
 	}
+	
+	public void follow(Player player) {
+		if (player != null) {
+			this.body.setLinearVelocity(new Vector2(-(this.body.getPosition().x - player.getBody().getPosition().x),
+					-(this.body.getPosition().y - player.getBody().getPosition().y)));
+
+			this.animationHandler.setAction("attack", true);
+		}
+	}
+
+	@Override
+	public abstract void dropItem();
 
 }

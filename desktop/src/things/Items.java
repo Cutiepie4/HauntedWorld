@@ -1,7 +1,5 @@
 package things;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import helper.BodyHelperService;
 import helper.Constants;
+import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
 
@@ -20,8 +19,6 @@ public class Items extends Objects {
 
 	public Items(float width, float height, Body body, String name) {
 		super(width, height, body, name);
-
-		this.FRAME_TIME = 1 / 8f;
 
 		String name_ani = String.join("", name.split("\\s+")).toLowerCase();
 
@@ -45,10 +42,8 @@ public class Items extends Objects {
 				name);
 
 		this.body.getFixtureList().first().setSensor(true);
-		
+
 		this.body.getFixtureList().first().setUserData(this);
-		
-		this.FRAME_TIME = Constants.getFRAME_TIME(name);
 
 		String name_ani = String.join("", name.split("\\s+"));
 
@@ -70,15 +65,16 @@ public class Items extends Objects {
 
 	@Override
 	public void update() {
-		if (this.isLooted && !isDisposed() && this.animationHandler.isAnimationFinished()) {
-			GameScreen.INSTANCE.addToRemove(this);
-			this.setDisposed(true);
-			this.dropItem();
+		if (this.isLooted) {
+			if (!isDisposed()) {
+				GameScreen.INSTANCE.addToRemove(this);
+				this.setDisposed(true);
+			}
+			return;
 		}
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
-
 	}
 
 	@Override
@@ -87,8 +83,9 @@ public class Items extends Objects {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,
-				currentFrame.getRegionWidth() * 0.75f, currentFrame.getRegionHeight() * 0.75f);
+		batch.draw(currentFrame, this.x - currentFrame.getRegionWidth() / 2,
+				this.y - currentFrame.getRegionHeight() / 2, currentFrame.getRegionWidth(),
+				currentFrame.getRegionHeight());
 	}
 
 	public void loot() {
@@ -99,19 +96,9 @@ public class Items extends Objects {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public boolean isLooted() {
 		return isLooted;
-	}
-
-	public void dropItem() {
-		if (this.name.equals("Chest")) {
-			Random rnd = new Random();
-			if (rnd.nextInt(100) < 100) {
-				int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
-				GameScreen.INSTANCE.addObjects(new Items(this.x, this.y, 12, 12, Constants.ITEMS_DROP[idx]));
-			}
-		}
 	}
 
 }

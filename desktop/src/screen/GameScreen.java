@@ -16,9 +16,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
-import character.Boss;
 import character.Player;
-import helper.Constants;
+import helper.Dropable;
 import helper.ListenerClass;
 import helper.TileMapHelper;
 import main.Boot;
@@ -39,7 +38,9 @@ public class GameScreen extends ScreenAdapter {
 
 	private ArrayList<Objects> listObjects = new ArrayList<>();
 
-	private ArrayList<Objects> toRemove = new ArrayList<>();
+	private ArrayList<Objects> toRemoveTexture = new ArrayList<>();
+
+	private ArrayList<Objects> toRemoveBody = new ArrayList<>();
 
 	private ArrayList<Objects> toAdd = new ArrayList<>();
 
@@ -57,8 +58,6 @@ public class GameScreen extends ScreenAdapter {
 		this.tileMapHelper = new TileMapHelper(this);
 
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
-
-		Constants.init();
 	}
 
 	private void update() {
@@ -139,11 +138,45 @@ public class GameScreen extends ScreenAdapter {
 
 		batch.end();
 
-		batch.setProjectionMatrix(hud.stage.getCamera().combined);
-
-		hud.stage.draw();
+		hud.draw(batch);
 
 		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+	}
+
+	private void objectsRender() {
+		for (Objects i : listObjects) {
+			if (i != null) {
+				i.render(batch);
+			}
+		}
+	}
+
+	private void objectUpdate() {
+		for (Objects i : toAdd) {
+			if (!this.listObjects.contains(i)) {
+				this.listObjects.add(i);
+			}
+		}
+		toAdd.clear();
+
+		for (Objects i : toRemoveTexture) {
+			if (i.getAnimationHandler().isAnimationFinished()) {
+				if (this.listObjects.remove(i) && i instanceof Dropable) {
+					((Dropable) i).dropItem();
+				}
+			}
+
+		}
+
+		for (Objects i : toRemoveBody) {
+			this.world.destroyBody(i.getBody());
+		}
+		toRemoveBody.clear();
+	}
+
+	public void addToRemove(Objects object) {
+		this.toRemoveBody.add(object);
+		this.toRemoveTexture.add(object);
 	}
 
 	public World getWorld() {
@@ -156,37 +189,6 @@ public class GameScreen extends ScreenAdapter {
 
 	public void addObjects(Objects object) {
 		this.toAdd.add(object);
-	}
-
-	private void objectsRender() {
-		ArrayList<Objects> temp = new ArrayList<>();
-		for (Objects i : listObjects) {
-			if (i != null) {
-				i.render(batch);
-				temp.add(i);
-			}
-		}
-		listObjects = new ArrayList<>(temp);
-	}
-
-	public void objectUpdate() {
-		for (Objects i : toAdd) {
-			if (!this.listObjects.contains(i)) {
-				this.listObjects.add(i);
-			}
-		}
-		toAdd.clear();
-
-		for (Objects i : toRemove) {
-			if (this.listObjects.contains(i))
-				this.listObjects.remove(i);
-			this.world.destroyBody(i.getBody());
-		}
-		toRemove.clear();
-	}
-
-	public void addToRemove(Objects object) {
-		this.toRemove.add(object);
 	}
 
 }

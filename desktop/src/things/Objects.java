@@ -7,10 +7,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 import helper.AnimationHandler;
+import helper.Constants;
 import main.Boot;
 import screen.GameScreen;
 
-public abstract class Objects {
+public class Objects {
 
 	protected Sprite sprite;
 	protected float x, y, velX, velY, speed;
@@ -48,7 +49,7 @@ public abstract class Objects {
 		this.velY = 0;
 		this.speed = 0;
 		this.animationHandler = new AnimationHandler();
-		this.FRAME_TIME = 0f;
+		this.FRAME_TIME = Constants.getFRAME_TIME(name);
 		this.setDisposed(false);
 		this.damage = 0f;
 		this.name = name;
@@ -66,10 +67,6 @@ public abstract class Objects {
 		this.FRAME_TIME = 0f;
 		this.setDisposed(false);
 		this.name = "";
-	}
-	
-	public Objects(float x, float y) {
-		
 	}
 
 	public float getWidth() {
@@ -91,18 +88,16 @@ public abstract class Objects {
 	public void update() {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
-	};
+	}
 
 	public void render(SpriteBatch batch) {
 		update();
 
-		TextureRegion currentFrame;
-
-		currentFrame = this.animationHandler.getFrame();
+		TextureRegion currentFrame = this.animationHandler.getFrame();
 
 		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2, currentFrame.getRegionWidth(),
 				currentFrame.getRegionHeight());
-	};
+	}
 
 	public Body getBody() {
 		return body;
@@ -120,4 +115,7 @@ public abstract class Objects {
 		this.isDisposed = isDisposed;
 	}
 
+	public AnimationHandler getAnimationHandler() {
+		return animationHandler;
+	}
 }

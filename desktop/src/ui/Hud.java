@@ -1,7 +1,6 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,51 +16,57 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import character.Player;
-import helper.HudActor;
+import helper.HudActorItems;
 import main.DesktopLauncher;
 
 public class Hud {
 
 	public static Hud INSTANCE;
-	public Stage stage;
+	private Stage stageUI;
 	private Viewport viewport;
-
-	private Table tblMessage;
-	private Label lblMessage;
 
 	private Image healthBar, healthLevel, healthBackground;
 	private float timer;
-	public ArrayList<String> message = new ArrayList<String>();
+	public LinkedHashMap<Label, Float> message = new LinkedHashMap<>();
 
-	public Hud(SpriteBatch sb) {
+	public Hud(SpriteBatch batch) {
 		INSTANCE = this;
 
 		this.timer = 0f;
 
 		viewport = new FitViewport(DesktopLauncher.SCREEN_WIDTH, DesktopLauncher.SCREEN_HEIGHT,
 				new OrthographicCamera());
-		stage = new Stage(viewport, sb);
+		stageUI = new Stage(viewport, batch);
 
-		stage.addActor(new Table());
-		stage.addActor(new Table());
-		stage.addActor(new Table());
+		stageUI.addActor(new Table());
+		stageUI.addActor(new Table());
+		stageUI.addActor(new Table());
 
-		this.createMessage();
+		this.addMessage("Welcome to the World of Haunt.");
+
 		this.createHudHealthBar();
+
 	}
 
-	private void createMessage() {
+	private void updateMessage(float delta) {
 
-		tblMessage = (Table) stage.getActors().first();
+		
+		Table tblMessage = (Table) stageUI.getActors().get(2);
+		
+		tblMessage.clear();;
 
 		tblMessage.bottom();
 		tblMessage.right();
 		tblMessage.setFillParent(true);
+		tblMessage.padBottom(50).padRight(50);
 
-		lblMessage = new Label("Welcome to the World of Haunt.", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-		tblMessage.add(lblMessage).padBottom(50).padRight(50);
-
+		for (Label i : message.keySet()) {
+			if (message.get(i) > 4f) {
+				i.act(delta);
+			}
+			tblMessage.add(i);
+			tblMessage.row();
+		}
 	}
 
 	private void createHudHealthBar() {
@@ -74,8 +80,10 @@ public class Hud {
 		healthBackground = new Image(new Texture("hud/health_level_background_player.png"));
 		healthBackground.scaleBy(1.32f);
 
-		Table table = (Table) stage.getActors().get(1);
-
+		Table table = (Table) stageUI.getActors().get(0);
+		
+		table.clear();
+		
 		table.top();
 		table.left();
 		table.setFillParent(true);
@@ -88,49 +96,61 @@ public class Hud {
 
 	}
 
-	private void updateHudActor() {
+	private void updateHudItems() {
 
-		Table table = new Table();
+		Table table = (Table) stageUI.getActors().get(1);
+		table.clear();
 
 		table.bottom();
-
 		table.left();
-
 		table.setFillParent(true);
 
 		if (Player.INSTANCE != null)
 			for (String i : Player.INSTANCE.getInventory().keySet()) {
 				int count = Player.INSTANCE.getInventory().get(i);
 				if (count > 0) {
-					HudActor actor = new HudActor(i, Player.INSTANCE.getInventory().get(i));
+					HudActorItems actor = new HudActorItems(i, Player.INSTANCE.getInventory().get(i));
 					table.add(actor.getImage()).padBottom(35).padLeft(50);
 					table.add(actor.getLabel()).padBottom(50).padLeft(25);
 					table.row();
 				}
 			}
 
-		stage.getActors().pop();
-		
-		stage.addActor(table);
 	}
 
 	public void update(float delta) {
 
-		this.updateHudActor();
+		this.updateHudItems();
+
+		this.updateMessageTimer(delta);
+
+		this.updateMessage(delta);
 
 		this.timer += delta;
-
-		if (this.timer > 2f && !message.isEmpty()) {
-			lblMessage.setText(message.get(0));
-			message.remove(0);
-			this.timer = 0f;
-		}
 
 		healthLevel.setWidth(16 + 4 * Player.INSTANCE.getHealth());
 
 	}
 
-	public void printMessage(String text) {
-		message.add(text);
+	private void updateMessageTimer(float delta) {
+		LinkedHashMap<Label, Float> newMessage = new LinkedHashMap<>();
+		for (Label i : message.keySet()) {
+			if (message.get(i) + delta < 5f) {
+				newMessage.put(i, message.get(i) + delta);
+			}
+		}
+		message = new LinkedHashMap<>(newMessage);
 	}
+
+	public void addMessage(String text) {
+		Label lbl = new Label(text, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		lbl.addAction(Actions.sequence(Actions.fadeOut(0.5f)));
+		message.put(lbl, 0f);
+	}
+
+	public void draw(SpriteBatch batch) {
+		batch.setProjectionMatrix(this.stageUI.getCamera().combined);
+		this.stageUI.draw();
+	}
+
 }

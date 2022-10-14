@@ -137,7 +137,7 @@ public class Player extends Objects {
 		this.body.setLinearVelocity(velX * speed, velY * speed);
 	}
 
-	public void attack() {
+	private void attack() {
 
 		for (Enemy i : listEnemies.get(this.animationHandler.getDirection())) {
 			i.isHit(this);

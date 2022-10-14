@@ -3,7 +3,7 @@ package main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import screen.GameScreen;
+import screen.MainMenuScreen;
 import ui.Assets;
 
 public class Boot extends Game {
@@ -26,7 +26,7 @@ public class Boot extends Game {
 		this.orthographicCamera.setToOrtho(false, DesktopLauncher.SCREEN_WIDTH / 2.4f,
 				DesktopLauncher.SCREEN_HEIGHT / 2.4f);
 
-		setScreen(new GameScreen(orthographicCamera));
+		setScreen(new MainMenuScreen(orthographicCamera));
 	}
 
 	public Assets getAssets() {

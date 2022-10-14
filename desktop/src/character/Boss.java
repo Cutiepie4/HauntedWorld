@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
 
-public class Boss extends Enemy {
+public class Boss extends Enemy implements Dropable {
 
 	public static Boss INSTANCE;
 	public static boolean trapButton = false;
@@ -53,7 +54,7 @@ public class Boss extends Enemy {
 		this.flip = false;
 	}
 
-	public void reload() {
+	public void reloadBullets() {
 
 		bullets.add(new Bullet(0, 20, 90));
 
@@ -127,7 +128,7 @@ public class Boss extends Enemy {
 
 		if (this.isReloaded && this.animationHandler.getAction().equals("castbullet")
 				&& this.animationHandler.isAnimationFinished()) {
-			this.reload();
+			this.reloadBullets();
 			this.isReloaded = false;
 		}
 
@@ -188,6 +189,12 @@ public class Boss extends Enemy {
 	public void disposeLaser() {
 		GameScreen.INSTANCE.getWorld().destroyBody(this.laser.getBody());
 		this.laser = null;
+	}
+
+	@Override
+	public void dropItem() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

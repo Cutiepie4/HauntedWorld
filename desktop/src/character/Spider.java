@@ -7,25 +7,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.Constants;
 import main.Boot;
 import screen.GameScreen;
+import things.Items;
 
 public class Spider extends Enemy {
 	public Spider(float width, float height, Body body) {
 
 		super(width, height, body);
 
-		this.FRAME_TIME = 1 / 4f;
+		this.FRAME_TIME = 1 / 8f;
 
 		this.name = "Spider";
 
-		String[] state = { "idle", "dead", "hit", "attack" };
-		for (int i = 0; i < state.length; i++) {
-			this.animationHandler.add(FRAME_TIME, "spider", state[i], "");
+		for (String i : Constants.ACTION) {
+			this.animationHandler.add(FRAME_TIME, "spider", i, "");
 		}
 
 		this.health = 3;
-		
+
 		this.MAX_HEALTH = 8;
 
 		this.damage = 3;
@@ -34,7 +35,7 @@ public class Spider extends Enemy {
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
-		this.speed = 3f;
+		this.speed = 4f;
 
 	}
 
@@ -45,7 +46,7 @@ public class Spider extends Enemy {
 		this.healthLevel.setPosition(this.x - 10f, this.y + this.height);
 
 		if (this.animationHandler.getAction().equals("dead")) {
-			if (this.animationHandler.isAnimationFinished() && !this.isDisposed()) {
+			if (!this.isDisposed()) {
 				GameScreen.INSTANCE.addToRemove(this);
 				this.setDisposed(true);
 			}
@@ -74,19 +75,19 @@ public class Spider extends Enemy {
 		update();
 
 		this.showHealth(batch, 20, 2f);
-		
+
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
 		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,
 				currentFrame.getRegionWidth() * 0.75f, currentFrame.getRegionHeight() * 0.75f);
 	}
 
-	public void follow(Player player) {
-		if (player != null) {
-			this.body.setLinearVelocity(new Vector2(-(this.body.getPosition().x - player.getBody().getPosition().x),
-					-(this.body.getPosition().y - player.getBody().getPosition().y)));
-
-			this.animationHandler.setAction("attack", true);
+	@Override
+	public void dropItem() {
+		Random rnd = new Random();
+		if (rnd.nextInt(100) < 100) { // rate drop items
+			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
+			GameScreen.INSTANCE.addObjects(new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]));
 		}
 	}
 }

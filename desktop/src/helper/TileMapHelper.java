@@ -1,6 +1,5 @@
 package helper;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import character.Boss;
 import character.Player;
@@ -24,6 +22,7 @@ import character.Spinner;
 import character.Trap;
 import main.Boot;
 import screen.GameScreen;
+import things.Chest;
 import things.Decor;
 import things.Items;
 
@@ -94,7 +93,7 @@ public class TileMapHelper {
 					spinner.getBody().getFixtureList().peek().setUserData(spinner);
 					gc.addObjects(spinner);
 				}
-				
+
 				else if (rectangleName.equals("spider")) {
 					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
@@ -148,6 +147,19 @@ public class TileMapHelper {
 					gc.addObjects(trap);
 				}
 
+				else if (rectangleName.equals("chest")) {
+
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					Chest chest = new Chest(rectangle.getWidth(), rectangle.getHeight(), body);
+
+					chest.getBody().getFixtureList().first().setUserData(chest);
+					chest.getBody().getFixtureList().first().setSensor(false);
+					gc.addObjects(chest);
+				}
+
 				else {
 					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
@@ -168,12 +180,6 @@ public class TileMapHelper {
 						gc.addObjects(item);
 						break;
 
-					case "chest":
-						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Chest");
-						item.getBody().getFixtureList().first().setUserData(item);
-						gc.addObjects(item);
-						break;
-
 					case "crystal":
 						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Crystal");
 						item.getBody().getFixtureList().first().setSensor(true);
@@ -182,10 +188,10 @@ public class TileMapHelper {
 						break;
 
 					case "boot":
-						Items boots = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Boot");
-						boots.getBody().getFixtureList().first().setUserData(boots);
-						boots.getBody().getFixtureList().first().setSensor(true);
-						gc.addObjects(boots);
+						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Boot");
+						item.getBody().getFixtureList().first().setUserData(item);
+						item.getBody().getFixtureList().first().setSensor(true);
+						gc.addObjects(item);
 						break;
 
 					case "healthpotion":
@@ -193,10 +199,9 @@ public class TileMapHelper {
 						item.getBody().getFixtureList().first().setUserData(item);
 						item.getBody().getFixtureList().first().setSensor(true);
 						gc.addObjects(item);
-
+						break;
 					}
 				}
-
 			}
 		}
 	}

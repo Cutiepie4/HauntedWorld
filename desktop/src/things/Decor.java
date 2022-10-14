@@ -1,16 +1,31 @@
 package things;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class Decor extends Objects {
-	public Decor(float width, float height, Body body, String name) {
-		super(width, height, body);
+import helper.Constants;
 
-		this.FRAME_TIME = 1 / 6f;
+public class Decor extends Objects {
+
+	public Decor(float width, float height, Body body, String name) {
+		super(width, height, body, name);
 
 		this.animationHandler.add(FRAME_TIME, name, "idle", "");
 
 		this.animationHandler.setActionDirection("idle", "", true);
+	}
 
+	@Override
+	public void render(SpriteBatch batch) {
+		update();
+
+		TextureRegion currentFrame = this.animationHandler.getFrame();
+
+		float x_offset = Constants.getOFFSET(this.name)[0], y_offset = Constants.getOFFSET(this.name)[1];
+		
+		batch.draw(currentFrame, this.x - currentFrame.getRegionWidth() / 2 + x_offset,
+				this.y - currentFrame.getRegionHeight() / 2 + y_offset, currentFrame.getRegionWidth(),
+				currentFrame.getRegionHeight());
 	}
 }
