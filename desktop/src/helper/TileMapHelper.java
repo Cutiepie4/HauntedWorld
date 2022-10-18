@@ -154,10 +154,7 @@ public class TileMapHelper {
 							rectangle.getHeight(), true, gc.getWorld());
 
 					Chest chest = new Chest(rectangle.getWidth(), rectangle.getHeight(), body);
-
 					chest.getBody().getFixtureList().first().setUserData(chest);
-					chest.getBody().getFixtureList().first().setSensor(false);
-					gc.addObjects(chest);
 				}
 
 				else {
@@ -170,35 +167,30 @@ public class TileMapHelper {
 						Items item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Silver Key");
 						item.getBody().getFixtureList().first().setSensor(true);
 						item.getBody().getFixtureList().first().setUserData(item);
-						gc.addObjects(item);
 						break;
 
 					case "goldkey":
 						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Gold Key");
 						item.getBody().getFixtureList().first().setSensor(true);
 						item.getBody().getFixtureList().first().setUserData(item);
-						gc.addObjects(item);
 						break;
 
 					case "crystal":
 						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Crystal");
 						item.getBody().getFixtureList().first().setSensor(true);
 						item.getBody().getFixtureList().first().setUserData(item);
-						gc.addObjects(item);
 						break;
 
 					case "boot":
 						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Boot");
 						item.getBody().getFixtureList().first().setUserData(item);
 						item.getBody().getFixtureList().first().setSensor(true);
-						gc.addObjects(item);
 						break;
 
 					case "healthpotion":
 						item = new Items(rectangle.getWidth(), rectangle.getHeight(), body, "Health Potion");
 						item.getBody().getFixtureList().first().setUserData(item);
 						item.getBody().getFixtureList().first().setSensor(true);
-						gc.addObjects(item);
 						break;
 					}
 				}

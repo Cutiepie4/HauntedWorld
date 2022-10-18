@@ -23,6 +23,22 @@ public class Objects {
 	protected float damage;
 	protected String name;
 
+	public Objects(float x, float y, float width, float height, Body body) {
+		this.body = body;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.velX = 0;
+		this.velY = 0;
+		this.speed = 0;
+		this.animationHandler = new AnimationHandler();
+		this.FRAME_TIME = 0f;
+		this.setDisposed(false);
+		this.damage = 0f;
+		this.name = "null";
+	}
+
 	public Objects(float width, float height, Body body) {
 		this.body = body;
 		this.x = this.body.getPosition().x * Boot.PPM;
@@ -36,7 +52,7 @@ public class Objects {
 		this.FRAME_TIME = 0f;
 		this.setDisposed(false);
 		this.damage = 0f;
-		this.name = "";
+		this.name = "null";
 	}
 
 	public Objects(float width, float height, Body body, String name) {
@@ -60,13 +76,14 @@ public class Objects {
 		this.y = 0;
 		this.width = 0;
 		this.height = 0;
+		this.body = null;
 		this.velX = 0;
 		this.velY = 0;
 		this.speed = 0;
 		this.animationHandler = new AnimationHandler();
 		this.FRAME_TIME = 0f;
 		this.setDisposed(false);
-		this.name = "";
+		this.name = "null";
 	}
 
 	public float getWidth() {
@@ -117,5 +134,9 @@ public class Objects {
 
 	public AnimationHandler getAnimationHandler() {
 		return animationHandler;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }

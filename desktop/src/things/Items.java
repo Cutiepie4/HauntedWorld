@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import helper.BodyHelperService;
 import helper.Constants;
-import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
 
@@ -35,6 +34,8 @@ public class Items extends Objects {
 		this.isLooted = false;
 
 		this.animationHandler.setActionDirection("idle", "", true);
+		
+		GameScreen.INSTANCE.addObjects(this);
 	}
 
 	public Items(float x, float y, float width, float height, String name) {
@@ -61,6 +62,7 @@ public class Items extends Objects {
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
+		GameScreen.INSTANCE.addObjects(this);
 	}
 
 	@Override
@@ -91,10 +93,6 @@ public class Items extends Objects {
 	public void loot() {
 		this.animationHandler.setAction("loot", false);
 		this.isLooted = true;
-	}
-
-	public String getName() {
-		return this.name;
 	}
 
 	public boolean isLooted() {

@@ -20,7 +20,7 @@ import things.Items;
 import things.Objects;
 import ui.Hud;
 
-public class ListenerClass implements ContactListener {
+public class GameEventListener implements ContactListener {
 
 	private GameScreen gc = GameScreen.INSTANCE;
 
@@ -33,13 +33,26 @@ public class ListenerClass implements ContactListener {
 		if (fa == null || fb == null || fa.getUserData() == null || fb.getUserData() == null)
 			return;
 
-		if (fa.getUserData() instanceof String && fb.getUserData() instanceof Enemy && !fb.isSensor()) {
-			for (String i : Constants.DIRECTIONS) {
-				if (i.equals((String) fa.getUserData())) {
-					Player.INSTANCE.getListEnemies((String) fa.getUserData()).add((Enemy) fb.getUserData());
-					break;
+		if (fa.getUserData() instanceof String && !fa.getUserData().equals("bossbody")
+				&& !fa.getUserData().equals("bossvision")) {
+			if (fb.getUserData() instanceof Enemy && !fb.isSensor()) {
+				for (String i : Constants.DIRECTIONS) {
+					if (i.equals((String) fa.getUserData())) {
+						Player.INSTANCE.getListEnemies((String) fa.getUserData()).add((Enemy) fb.getUserData());
+						break;
+					}
 				}
 			}
+
+			else if (fb.getUserData().equals("bossbody")) {
+				for (String i : Constants.DIRECTIONS) {
+					if (i.equals((String) fa.getUserData())) {
+						Player.INSTANCE.getListEnemies((String) fa.getUserData()).add((Enemy) Boss.INSTANCE);
+						break;
+					}
+				}
+			}
+
 		}
 
 		if (fa.getUserData().equals("playerbody")) {
@@ -85,7 +98,7 @@ public class ListenerClass implements ContactListener {
 						Hud.INSTANCE.addMessage("You got a Silver Key.");
 						break;
 					}
-					
+
 					if (check)
 						item.loot();
 				}
@@ -103,6 +116,7 @@ public class ListenerClass implements ContactListener {
 			if (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet
 					|| (fb.getUserData() instanceof Trap && !fb.isSensor())) {
 				Player.INSTANCE.isHit(((Objects) fb.getUserData()).getDamage());
+				System.out.println(((Objects) fb.getUserData()).getName());
 				return;
 			}
 
@@ -116,7 +130,6 @@ public class ListenerClass implements ContactListener {
 					break;
 				}
 			}
-
 		}
 
 	}
@@ -130,13 +143,23 @@ public class ListenerClass implements ContactListener {
 		if (fa == null || fb == null || fa.getUserData() == null || fb.getUserData() == null)
 			return;
 
-		if (fa.getUserData() instanceof String && fb.getUserData() instanceof Enemy && !fb.isSensor()) {
-			for (String i : Constants.DIRECTIONS) {
-				if (i.equals((String) fa.getUserData())) {
-					Player.INSTANCE.getListEnemies((String) fa.getUserData()).remove((Enemy) fb.getUserData());
-					break;
+		if (fa.getUserData() instanceof String) {
+			if (fb.getUserData() instanceof Enemy && !fb.isSensor()) {
+				for (String i : Constants.DIRECTIONS) {
+					if (i.equals((String) fa.getUserData())) {
+						Player.INSTANCE.getListEnemies((String) fa.getUserData()).remove((Enemy) fb.getUserData());
+						break;
+					}
+				}
+			} else if (fb.getUserData().equals("bossbody")) {
+				for (String i : Constants.DIRECTIONS) {
+					if (i.equals((String) fa.getUserData())) {
+						Player.INSTANCE.getListEnemies((String) fa.getUserData()).remove((Enemy) Boss.INSTANCE);
+						break;
+					}
 				}
 			}
+
 		}
 
 		if (fa.getUserData().equals("playerbody")) {

@@ -11,11 +11,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.AnimationHandler;
+import helper.Dropable;
 import main.Boot;
 import things.Items;
 import things.Objects;
 
-public class Player extends Objects {
+public class Player extends Objects  implements Dropable{
 
 	public static Player INSTANCE;
 	public static final int MAX_HEALTH = 10;
@@ -125,6 +126,7 @@ public class Player extends Objects {
 
 			this.attack();
 
+			this.dropItem();
 //			Boss.INSTANCE.laserActive();
 //			Boss.INSTANCE.trapActive();
 //			Boss.INSTANCE.bulletActive();
@@ -226,4 +228,10 @@ public class Player extends Objects {
 	public AnimationHandler getAnimationHandler() {
 		return animationHandler;
 	}
+
+	@Override
+	public void dropItem() {
+		new Items(this.x + 30, this.y + 30, 10, 10, "Crystal");
+	}
+
 }

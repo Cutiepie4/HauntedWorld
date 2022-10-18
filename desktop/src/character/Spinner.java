@@ -84,21 +84,12 @@ public class Spinner extends Enemy {
 				currentFrame.getRegionWidth() * 0.75f, currentFrame.getRegionHeight() * 0.75f);
 	}
 
-	public void follow(Player player) {
-		if (player != null) {
-			this.body.setLinearVelocity(new Vector2(-(this.body.getPosition().x - player.getBody().getPosition().x),
-					-(this.body.getPosition().y - player.getBody().getPosition().y)));
-
-			this.animationHandler.setAction("attack", true);
-		}
-	}
-
 	@Override
 	public void dropItem() {
 		Random rnd = new Random();
 		if (rnd.nextInt(100) < 100) { // rate drop items
 			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
-			GameScreen.INSTANCE.addObjects(new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]));
+			new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]);
 		}
 	}
 

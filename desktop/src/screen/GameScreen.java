@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import character.Player;
 import helper.Dropable;
-import helper.ListenerClass;
+import helper.GameEventListener;
 import helper.TileMapHelper;
 import main.Boot;
 import things.Objects;
@@ -53,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
 		this.box2dDebugRenderer = new Box2DDebugRenderer();
 		this.hud = new Hud(batch);
 
-		world.setContactListener(new ListenerClass()); // contact Collision
+		world.setContactListener(new GameEventListener()); // contact Collision
 
 		this.tileMapHelper = new TileMapHelper(this);
 
@@ -70,8 +70,6 @@ public class GameScreen extends ScreenAdapter {
 
 		batch.setProjectionMatrix(camera.combined);
 
-		this.objectUpdate();
-
 		orthogonalTiledMapRenderer.setView(camera);
 
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -83,6 +81,8 @@ public class GameScreen extends ScreenAdapter {
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 		}
+
+		this.objectUpdate();
 	}
 
 	private void cameraUpdate() {
@@ -152,26 +152,32 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectUpdate() {
-		for (Objects i : toAdd) {
-			if (!this.listObjects.contains(i)) {
-				this.listObjects.add(i);
-			}
-		}
-		toAdd.clear();
-
-		for (Objects i : toRemoveTexture) {
-			if (i.getAnimationHandler().isAnimationFinished()) {
-				if (this.listObjects.remove(i) && i instanceof Dropable) {
-					((Dropable) i).dropItem();
-				}
-			}
-
-		}
+//		ArrayList<Objects> temp = new ArrayList<>(toRemoveTexture);
+//		for (Objects i : toRemoveTexture) {
+//			if (i.getAnimationHandler().isAnimationFinished()) {
+//				if (i instanceof Dropable) {
+//					((Dropable) i).dropItem();
+//				}
+//				this.listObjects.remove(i);
+//				temp.remove(i);
+//			}
+//		}
+//		toRemoveTexture = new ArrayList<>(temp);
 
 		for (Objects i : toRemoveBody) {
+			this.listObjects.remove(i);
 			this.world.destroyBody(i.getBody());
+			if (i instanceof Dropable) {
+				((Dropable) i).dropItem();
+			}
+			i = null;
 		}
 		toRemoveBody.clear();
+
+		for (Objects i : toAdd) {
+			this.listObjects.add(i);
+		}
+		toAdd.clear();
 	}
 
 	public void addToRemove(Objects object) {

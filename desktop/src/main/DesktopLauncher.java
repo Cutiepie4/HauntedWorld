@@ -12,6 +12,9 @@ public class DesktopLauncher {
 
 	public static void main(String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+		config.setResizable(false);
+		config.useVsync(true);
+		config.setWindowIcon("icon.jpg");
 		config.setForegroundFPS(60);
 		config.setTitle("Escape The Haunt");
 		config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);

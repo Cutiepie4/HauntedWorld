@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.Constants;
@@ -87,7 +86,7 @@ public class Spider extends Enemy {
 		Random rnd = new Random();
 		if (rnd.nextInt(100) < 100) { // rate drop items
 			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
-			GameScreen.INSTANCE.addObjects(new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]));
+			new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]);
 		}
 	}
 }

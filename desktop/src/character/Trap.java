@@ -50,13 +50,14 @@ public class Trap extends Objects {
 			this.animationHandler.setAction("show", true);
 		}
 
-		if (this.animationHandler.getStateTime() >= 5 && this.animationHandler.getAction().equals("show")) {
+		if (this.animationHandler.getStateTime() >= 4f && this.animationHandler.getAction().equals("show")) {
 			this.animationHandler.setAction("down", false);
 		}
 
 		if (this.animationHandler.getAction().equals("down") && this.animationHandler.isAnimationFinished()) {
 			this.animationHandler.setAction("hide", false);
 			this.body.getFixtureList().first().setSensor(true);
+			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);
 		}
 	}
 
