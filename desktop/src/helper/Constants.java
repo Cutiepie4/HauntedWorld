@@ -25,6 +25,7 @@ public class Constants {
 	public static void init() {
 		initOffSet();
 		FRAME_TIME.put("Chest", 1 / 6f);
+		FRAME_TIME.put("Vase", 1 / 6f);
 		FRAME_TIME.put("Silver Key", 1 / 8f);
 		FRAME_TIME.put("Gold Key", 1 / 8f);
 		FRAME_TIME.put("Crystal", 1 / 8f);
@@ -55,7 +56,7 @@ public class Constants {
 		if (FRAME_TIME.containsKey(key)) {
 			return FRAME_TIME.get(key);
 		}
-		return 1000f;
+		return 1 / 4f;
 	}
 
 	public static Float[] getOFFSET(String name) {

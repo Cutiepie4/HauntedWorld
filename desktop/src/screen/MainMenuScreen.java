@@ -61,7 +61,10 @@ public class MainMenuScreen extends ScreenAdapter {
 
 					@Override
 					public void run() {
-						Boot.INSTANCE.setScreen(new GameScreen(camera));
+						Gdx.app.postRunnable(() -> {
+							Boot.INSTANCE.setScreen(new GameScreen(camera));
+					    });
+						
 					}
 
 				})));

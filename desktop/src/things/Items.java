@@ -11,8 +11,7 @@ import helper.Constants;
 import main.Boot;
 import screen.GameScreen;
 
-public class Items extends Objects {
-
+public class Items extends Entity {
 	protected boolean isLooted;
 	protected Image icon;
 
@@ -34,7 +33,7 @@ public class Items extends Objects {
 		this.isLooted = false;
 
 		this.animationHandler.setActionDirection("idle", "", true);
-		
+
 		GameScreen.INSTANCE.addObjects(this);
 	}
 
@@ -67,6 +66,7 @@ public class Items extends Objects {
 
 	@Override
 	public void update() {
+
 		if (this.isLooted) {
 			if (!isDisposed()) {
 				GameScreen.INSTANCE.addToRemove(this);
@@ -75,8 +75,7 @@ public class Items extends Objects {
 			return;
 		}
 
-		this.x = this.body.getPosition().x * Boot.PPM;
-		this.y = this.body.getPosition().y * Boot.PPM;
+		super.update();
 	}
 
 	@Override

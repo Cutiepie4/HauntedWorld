@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
@@ -25,6 +26,7 @@ import screen.GameScreen;
 import things.Chest;
 import things.Decor;
 import things.Items;
+import things.Vase;
 
 public class TileMapHelper {
 
@@ -91,6 +93,7 @@ public class TileMapHelper {
 
 					spinner.getBody().getFixtureList().first().setUserData(spinner);
 					spinner.getBody().getFixtureList().peek().setUserData(spinner);
+					
 					gc.addObjects(spinner);
 				}
 
@@ -157,6 +160,16 @@ public class TileMapHelper {
 					chest.getBody().getFixtureList().first().setUserData(chest);
 				}
 
+				else if (rectangleName.equals("vase")) {
+
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					Vase vase = new Vase(rectangle.getWidth(), rectangle.getHeight(), body);
+					vase.getBody().getFixtureList().first().setUserData(vase);
+				}
+
 				else {
 					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
@@ -203,8 +216,11 @@ public class TileMapHelper {
 		bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
 		Body body = gc.getWorld().createBody(bodyDef);
 		Shape shape = createPolygonShape(polygonMapObject);
-		body.createFixture(shape, 1000);
-		body.setUserData(this);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 1000;
+		body.createFixture(fixtureDef);
+		body.setUserData("scenery");
 		shape.dispose();
 	}
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.Constants;
 
-public class Decor extends Objects {
+public class Decor extends Entity {
 
 	public Decor(float width, float height, Body body, String name) {
 		super(width, height, body, name);

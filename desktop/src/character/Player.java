@@ -10,17 +10,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import helper.AnimationHandler;
-import helper.Dropable;
-import main.Boot;
 import things.Items;
-import things.Objects;
+import things.Entity;
+import things.Vase;
 
-public class Player extends Objects  implements Dropable{
+public class Player extends Entity {
 
 	public static Player INSTANCE;
 	public static final int MAX_HEALTH = 10;
 	private LinkedHashMap<String, HashSet<Enemy>> listEnemies;
+	private LinkedHashMap<String, HashSet<Vase>> listInteractiveObjects;
 	private LinkedHashMap<String, Integer> inventory;
 	private int health;
 
@@ -30,18 +29,20 @@ public class Player extends Objects  implements Dropable{
 		INSTANCE = this;
 		this.speed = 4f;
 		this.listEnemies = new LinkedHashMap<>();
+		this.listInteractiveObjects = new LinkedHashMap<>();
 		this.inventory = new LinkedHashMap<>();
 		this.health = 9;
 		this.FRAME_TIME = 1 / 8f;
 		this.damage = 1f;
 
 		String[] directions = { "up", "down", "left", "right" };
-		for (int i = 0; i < 4; i++) {
-			this.listEnemies.put(directions[i], new HashSet<>());
-			this.animationHandler.add(1 / 20f, "players", "attack", directions[i]);
-			this.animationHandler.add(FRAME_TIME, "players", "run", directions[i]);
-			this.animationHandler.add(1 / 5f, "players", "idle", directions[i]);
-			this.animationHandler.add(1 / 12f, "players", "hit", directions[i]);
+		for (String i : directions) {
+			this.listEnemies.put(i, new HashSet<>());
+			this.listInteractiveObjects.put(i, new HashSet<>());
+			this.animationHandler.add(1 / 20f, "players", "attack", i);
+			this.animationHandler.add(FRAME_TIME, "players", "run", i);
+			this.animationHandler.add(1 / 5f, "players", "idle", i);
+			this.animationHandler.add(1 / 12f, "players", "hit", i);
 		}
 
 		this.animationHandler.add(FRAME_TIME, "players", "dead", "");
@@ -57,8 +58,7 @@ public class Player extends Objects  implements Dropable{
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
 
-		this.x = this.body.getPosition().x * Boot.PPM;
-		this.y = this.body.getPosition().y * Boot.PPM;
+		super.update();
 
 		checkUserInput();
 	}
@@ -125,21 +125,21 @@ public class Player extends Objects  implements Dropable{
 			animationHandler.setAction("attack", false);
 
 			this.attack();
-
-			this.dropItem();
-//			Boss.INSTANCE.laserActive();
-//			Boss.INSTANCE.trapActive();
-//			Boss.INSTANCE.bulletActive();
 		}
+
+		this.body.setLinearVelocity(velX * speed, velY * speed);
 
 		if (check) {
 			this.animationHandler.setAction("idle", true);
 		}
-
-		this.body.setLinearVelocity(velX * speed, velY * speed);
 	}
 
 	private void attack() {
+
+		for (Vase i : listInteractiveObjects.get(this.animationHandler.getDirection())) {
+			i.loot();
+		}
+		listInteractiveObjects.get(this.animationHandler.getDirection()).clear();
 
 		for (Enemy i : listEnemies.get(this.animationHandler.getDirection())) {
 			i.isHit(this);
@@ -197,6 +197,10 @@ public class Player extends Objects  implements Dropable{
 		return this.listEnemies.get(direction);
 	}
 
+	public HashSet<Vase> getListInteractiveObjects(String direction) {
+		return this.listInteractiveObjects.get(direction);
+	}
+
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
@@ -223,15 +227,6 @@ public class Player extends Objects  implements Dropable{
 
 		this.inventory.put("Silver Key", this.inventory.get("Silver Key") - 1);
 		return true;
-	}
-
-	public AnimationHandler getAnimationHandler() {
-		return animationHandler;
-	}
-
-	@Override
-	public void dropItem() {
-		new Items(this.x + 30, this.y + 30, 10, 10, "Crystal");
 	}
 
 }

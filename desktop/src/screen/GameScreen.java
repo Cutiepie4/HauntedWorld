@@ -3,6 +3,7 @@ package screen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,12 +17,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import character.Enemy;
 import character.Player;
-import helper.Dropable;
 import helper.GameEventListener;
 import helper.TileMapHelper;
 import main.Boot;
-import things.Objects;
+import things.Entity;
 import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
@@ -36,13 +37,11 @@ public class GameScreen extends ScreenAdapter {
 	private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 	private TileMapHelper tileMapHelper;
 
-	private ArrayList<Objects> listObjects = new ArrayList<>();
+	private ArrayList<Entity> listObjects = new ArrayList<>();
 
-	private ArrayList<Objects> toRemoveTexture = new ArrayList<>();
+	private LinkedHashSet<Entity> toRemove = new LinkedHashSet<>();
 
-	private ArrayList<Objects> toRemoveBody = new ArrayList<>();
-
-	private ArrayList<Objects> toAdd = new ArrayList<>();
+	private LinkedHashSet<Entity> toAdd = new LinkedHashSet<>();
 
 	public GameScreen(OrthographicCamera camera) {
 		INSTANCE = this;
@@ -58,6 +57,39 @@ public class GameScreen extends ScreenAdapter {
 		this.tileMapHelper = new TileMapHelper(this);
 
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+	}
+
+	private void cameraUpdate() {
+		Vector3 position = camera.position;
+		position.x = Math.round(Player.INSTANCE.getBody().getPosition().x * Boot.PPM * 10) / 10f;
+		position.y = Math.round(Player.INSTANCE.getBody().getPosition().y * Boot.PPM * 10) / 10f;
+		float startX = camera.viewportWidth / 2;
+		float startY = camera.viewportHeight / 2;
+		float width = 1024f - startX;
+		float height = 1024f - startY;
+		boundCamera(camera, startX, startY, width, height);
+		// camera.position.set(position);
+		camera.update();
+	}
+
+	private void boundCamera(OrthographicCamera camera, float startX, float startY, float endX, float endY) {
+		Vector3 position = camera.position;
+		if (position.x < startX) {
+			position.x = startX;
+		}
+		if (position.y < startY) {
+			position.y = startY;
+		}
+
+		if (position.x > endX) {
+			position.x = endX;
+		}
+		if (position.y > endY) {
+			position.y = endY;
+		}
+
+		camera.position.set(position);
+		camera.update();
 	}
 
 	private void update() {
@@ -79,45 +111,12 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
-			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
+			Gdx.app.postRunnable(() -> {
+				Boot.INSTANCE.setScreen(new ReloadScreen(camera));
+			});
 		}
 
 		this.objectUpdate();
-	}
-
-	private void cameraUpdate() {
-
-		Vector3 position = camera.position;
-		position.x = Math.round(Player.INSTANCE.getBody().getPosition().x * Boot.PPM * 10) / 10f;
-		position.y = Math.round(Player.INSTANCE.getBody().getPosition().y * Boot.PPM * 10) / 10f;
-		float startX = camera.viewportWidth / 2;
-		float startY = camera.viewportHeight / 2;
-		float width = 1024f - startX;
-		float height = 1024f - startY;
-		boundCamera(camera, startX, startY, width, height);
-		// camera.position.set(position);
-		camera.update();
-	}
-
-	private void boundCamera(OrthographicCamera camera, float startX, float startY, float endX, float endY) {
-
-		Vector3 position = camera.position;
-		if (position.x < startX) {
-			position.x = startX;
-		}
-		if (position.y < startY) {
-			position.y = startY;
-		}
-
-		if (position.x > endX) {
-			position.x = endX;
-		}
-		if (position.y > endY) {
-			position.y = endY;
-		}
-
-		camera.position.set(position);
-		camera.update();
 	}
 
 	@Override
@@ -128,7 +127,7 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		Collections.sort(listObjects, Comparator.comparing(Objects::getY).reversed());
+		Collections.sort(listObjects, Comparator.comparing(Entity::getY).reversed());
 
 		orthogonalTiledMapRenderer.render();
 
@@ -144,7 +143,8 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectsRender() {
-		for (Objects i : listObjects) {
+		for (Entity i : listObjects) {
+			if(i.getName().equals("Bullet")) System.out.println("dcm");
 			if (i != null) {
 				i.render(batch);
 			}
@@ -152,37 +152,24 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectUpdate() {
-//		ArrayList<Objects> temp = new ArrayList<>(toRemoveTexture);
-//		for (Objects i : toRemoveTexture) {
-//			if (i.getAnimationHandler().isAnimationFinished()) {
-//				if (i instanceof Dropable) {
-//					((Dropable) i).dropItem();
-//				}
-//				this.listObjects.remove(i);
-//				temp.remove(i);
-//			}
-//		}
-//		toRemoveTexture = new ArrayList<>(temp);
-
-		for (Objects i : toRemoveBody) {
-			this.listObjects.remove(i);
-			this.world.destroyBody(i.getBody());
-			if (i instanceof Dropable) {
-				((Dropable) i).dropItem();
+		for (Entity i : toRemove) {
+			if (i != null && i.getBody() != null && i.getAnimationHandler().isAnimationFinished()) {
+				this.listObjects.remove(i);
+				this.world.destroyBody(i.getBody());
+				i.setBody(null);
+				i = null;
 			}
-			i = null;
 		}
-		toRemoveBody.clear();
 
-		for (Objects i : toAdd) {
-			this.listObjects.add(i);
+		for (Entity i : toAdd) {
+			if (i != null && !this.listObjects.contains(i))
+				this.listObjects.add(i);
 		}
 		toAdd.clear();
 	}
 
-	public void addToRemove(Objects object) {
-		this.toRemoveBody.add(object);
-		this.toRemoveTexture.add(object);
+	public void addToRemove(Entity object) {
+		this.toRemove.add(object);
 	}
 
 	public World getWorld() {
@@ -193,7 +180,7 @@ public class GameScreen extends ScreenAdapter {
 		return batch;
 	}
 
-	public void addObjects(Objects object) {
+	public void addObjects(Entity object) {
 		this.toAdd.add(object);
 	}
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="171">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="177">
  <tileset firstgid="1" source="Overworld_Tileset.tsx"/>
  <tileset firstgid="235" source="Dungeon_Tileset.tsx"/>
  <layer id="1" name="Ground" width="64" height="64">
@@ -163,11 +163,11 @@
   <object id="26" name="chest" x="493.318" y="393.321" width="12" height="8"/>
   <object id="28" name="spinner" x="419.953" y="542.723" width="12.0686" height="12.0686"/>
   <object id="30" name="healthpotion" x="466.497" y="390.139" width="10" height="10"/>
-  <object id="33" name="boot" x="591.333" y="312.167" width="12" height="12"/>
+  <object id="33" name="boot" x="663.333" y="201.167" width="12" height="12"/>
   <object id="38" name="crystal" x="640" y="432" width="12" height="12" rotation="0.711766"/>
   <object id="39" name="crystal" x="608" y="432" width="12" height="12"/>
   <object id="40" name="crystal" x="576" y="432" width="12" height="12"/>
-  <object id="41" name="bonfire" x="560.166" y="311.5" width="14" height="10"/>
+  <object id="41" name="bonfire" x="560" y="304" width="14" height="10"/>
   <object id="42" name="spinner" x="368.466" y="541.966" width="12.0686" height="12.0686"/>
   <object id="43" name="spinner" x="393.466" y="541.966" width="12.0686" height="12.0686"/>
   <object id="44" name="spinner" x="597.466" y="381.466" width="12.0686" height="12.0686"/>
@@ -248,22 +248,27 @@
   <object id="147" name="edge" x="736" y="624" width="16" height="16"/>
   <object id="148" name="edge" x="752" y="624" width="16" height="16"/>
   <object id="149" name="edge" x="768" y="624" width="16" height="16"/>
-  <object id="150" name="torch" x="559.833" y="287.833" width="8" height="10"/>
+  <object id="150" name="torch" x="592" y="304" width="8" height="10"/>
   <object id="151" name="waterplant" x="752" y="672" width="16" height="16"/>
   <object id="152" name="greentree" x="768.667" y="573.667" width="12" height="12"/>
   <object id="154" name="orangetree" x="730.667" y="575.667" width="12" height="12"/>
   <object id="158" name="highstonepillar" x="820.5" y="596.833" width="14" height="12"/>
-  <object id="161" name="spider" x="662.216" y="126.966" width="12.0686" height="12.0686"/>
+  <object id="161" name="spider" x="538.716" y="136.966" width="12.0686" height="12.0686"/>
   <object id="163" x="385.75" y="324.25">
    <polygon points="0,0 10.5,0 10.5,6 0.25,5.75"/>
   </object>
   <object id="164" x="479" y="609.75">
    <polygon points="0,0 0,29.5 1.75,29.5 2,0"/>
   </object>
-  <object id="165" name="doublestonepillar" x="862.5" y="597" width="30" height="12"/>
+  <object id="165" name="doublestonepillar" x="770" y="159" width="30" height="12"/>
   <object id="166" name="leftwoodpillar" x="920.833" y="594.667" width="8" height="8"/>
   <object id="168" name="rightwoodpillar" x="952.167" y="595" width="8" height="8"/>
   <object id="169" name="shortstonepillar" x="816.833" y="545.667" width="14" height="12"/>
   <object id="170" name="spider" x="472.966" y="47.9657" width="12.0686" height="12.0686"/>
+  <object id="171" name="vase" x="497" y="120" width="12" height="12"/>
+  <object id="172" name="vase" x="469" y="120" width="12" height="12"/>
+  <object id="173" name="vase" x="437.5" y="118.5" width="12" height="12"/>
+  <object id="175" name="spider" x="494.966" y="158.966" width="12.0686" height="12.0686"/>
+  <object id="176" name="spider" x="462.466" y="190.966" width="12.0686" height="12.0686"/>
  </objectgroup>
 </map>

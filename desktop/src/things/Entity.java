@@ -11,7 +11,7 @@ import helper.Constants;
 import main.Boot;
 import screen.GameScreen;
 
-public class Objects {
+public class Entity {
 
 	protected Sprite sprite;
 	protected float x, y, velX, velY, speed;
@@ -19,11 +19,12 @@ public class Objects {
 	protected Body body;
 	protected AnimationHandler animationHandler;
 	protected float FRAME_TIME;
-	private boolean isDisposed;
+	private boolean isDisposed = false;
 	protected float damage;
 	protected String name;
+	protected boolean isDropped = false;
 
-	public Objects(float x, float y, float width, float height, Body body) {
+	public Entity(float x, float y, float width, float height, Body body) {
 		this.body = body;
 		this.x = x;
 		this.y = y;
@@ -39,7 +40,7 @@ public class Objects {
 		this.name = "null";
 	}
 
-	public Objects(float width, float height, Body body) {
+	public Entity(float width, float height, Body body) {
 		this.body = body;
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
@@ -55,7 +56,7 @@ public class Objects {
 		this.name = "null";
 	}
 
-	public Objects(float width, float height, Body body, String name) {
+	public Entity(float width, float height, Body body, String name) {
 		this.body = body;
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
@@ -71,7 +72,7 @@ public class Objects {
 		this.name = name;
 	}
 
-	public Objects() {
+	public Entity() {
 		this.x = 0;
 		this.y = 0;
 		this.width = 0;
@@ -108,6 +109,9 @@ public class Objects {
 	}
 
 	public void render(SpriteBatch batch) {
+		if (this.isDisposed)
+			return;
+
 		update();
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
@@ -139,4 +143,15 @@ public class Objects {
 	public String getName() {
 		return this.name;
 	}
+
+	public void setBody(Body body) {
+		this.body = body;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
 }

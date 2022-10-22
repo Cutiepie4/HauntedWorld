@@ -34,7 +34,7 @@ public class ReloadScreen extends ScreenAdapter {
 	private AssetManager assetManager;
 
 	public ReloadScreen(OrthographicCamera camera) {
-		
+
 		this.batch = new SpriteBatch();
 		this.camera = camera;
 		this.assetManager = Boot.INSTANCE.getAssets().getAssetManager();
@@ -44,25 +44,25 @@ public class ReloadScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
-		
+
 		viewport = new ExtendViewport(900, 600);
 		stage = new Stage(viewport);
 		table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
-		
-		
+
 		addButton("PLAY AGAIN").addListener(new ClickListener() {
-			
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Boot.INSTANCE.setScreen(new GameScreen(camera));
+				Gdx.app.postRunnable(() -> {
+					Boot.INSTANCE.setScreen(new GameScreen(camera));
+				});
 			}
 		});
-		
-		
+
 		addButton("EXIT").addListener(new ClickListener() {
-			
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Gdx.app.exit();
@@ -73,7 +73,7 @@ public class ReloadScreen extends ScreenAdapter {
 	}
 
 	private TextButton addButton(String name) {
-		
+
 		TextButton button = new TextButton(name, skin);
 		table.add(button).width(200).height(50).padTop(60);
 		table.row();

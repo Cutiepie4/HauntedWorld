@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import things.Objects;
+import things.Entity;
 
-public class Trap extends Objects {
+public class Trap extends Entity {
 
 	public static ArrayList<Trap> INSTANCE = new ArrayList<>();
 

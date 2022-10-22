@@ -15,9 +15,9 @@ import character.Spider;
 import character.Spinner;
 import character.Trap;
 import screen.GameScreen;
-import things.Chest;
 import things.Items;
-import things.Objects;
+import things.Entity;
+import things.Vase;
 import ui.Hud;
 
 public class GameEventListener implements ContactListener {
@@ -33,32 +33,29 @@ public class GameEventListener implements ContactListener {
 		if (fa == null || fb == null || fa.getUserData() == null || fb.getUserData() == null)
 			return;
 
-		if (fa.getUserData() instanceof String && !fa.getUserData().equals("bossbody")
-				&& !fa.getUserData().equals("bossvision")) {
-			if (fb.getUserData() instanceof Enemy && !fb.isSensor()) {
-				for (String i : Constants.DIRECTIONS) {
-					if (i.equals((String) fa.getUserData())) {
-						Player.INSTANCE.getListEnemies((String) fa.getUserData()).add((Enemy) fb.getUserData());
-						break;
+		if (fa.getUserData() instanceof String) {
+			for (String direction : Constants.DIRECTIONS) {
+				if (direction.equals((String) fa.getUserData())) {
+					if (fb.getUserData() instanceof Enemy && !fb.isSensor()) {
+						Player.INSTANCE.getListEnemies(direction).add((Enemy) fb.getUserData());
+					}
+
+					else if (fb.getUserData().equals("bossbody")) {
+						Player.INSTANCE.getListEnemies(direction).add((Enemy) Boss.INSTANCE);
+					}
+
+					else if (fb.getUserData() instanceof Vase) {
+						Player.INSTANCE.getListInteractiveObjects(direction).add((Vase) fb.getUserData());
 					}
 				}
 			}
-
-			else if (fb.getUserData().equals("bossbody")) {
-				for (String i : Constants.DIRECTIONS) {
-					if (i.equals((String) fa.getUserData())) {
-						Player.INSTANCE.getListEnemies((String) fa.getUserData()).add((Enemy) Boss.INSTANCE);
-						break;
-					}
-				}
-			}
-
 		}
 
 		if (fa.getUserData().equals("playerbody")) {
+			System.out.println(fb.getUserData().getClass());
 			if (fb.getUserData() instanceof Items) {
+				System.out.println("item");
 				Items item = (Items) fb.getUserData();
-
 				if (!item.isLooted()) {
 					boolean check = true;
 
@@ -99,12 +96,12 @@ public class GameEventListener implements ContactListener {
 						break;
 					}
 
-					if (check)
+					if (check && !item.getName().equals("Vase"))
 						item.loot();
 				}
 			}
 
-			if (fb.getUserData() instanceof Spinner || fb.getUserData() instanceof Spider) {
+			else if (fb.getUserData() instanceof Spinner || fb.getUserData() instanceof Spider) {
 				Enemy enemy = (Enemy) fb.getUserData();
 				if (fb.isSensor()) {
 					enemy.detectPlayer();
@@ -113,14 +110,13 @@ public class GameEventListener implements ContactListener {
 				}
 			}
 
-			if (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet
+			else if (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet
 					|| (fb.getUserData() instanceof Trap && !fb.isSensor())) {
-				Player.INSTANCE.isHit(((Objects) fb.getUserData()).getDamage());
-				System.out.println(((Objects) fb.getUserData()).getName());
+				Player.INSTANCE.isHit(((Entity) fb.getUserData()).getDamage());
 				return;
 			}
 
-			if (fb.getUserData() instanceof String) {
+			else if (fb.getUserData() instanceof String) {
 				switch ((String) fb.getUserData()) {
 				case "bossvision":
 					Boss.INSTANCE.detectPlayer();
@@ -144,33 +140,33 @@ public class GameEventListener implements ContactListener {
 			return;
 
 		if (fa.getUserData() instanceof String) {
-			if (fb.getUserData() instanceof Enemy && !fb.isSensor()) {
-				for (String i : Constants.DIRECTIONS) {
-					if (i.equals((String) fa.getUserData())) {
-						Player.INSTANCE.getListEnemies((String) fa.getUserData()).remove((Enemy) fb.getUserData());
-						break;
+			for (String direction : Constants.DIRECTIONS) {
+				if (direction.equals((String) fa.getUserData())) {
+					if (fb.getUserData() instanceof Enemy && !fb.isSensor()) {
+						Player.INSTANCE.getListEnemies(direction).remove((Enemy) fb.getUserData());
+					}
+
+					else if (fb.getUserData().equals("bossbody")) {
+						Player.INSTANCE.getListEnemies(direction).remove((Enemy) Boss.INSTANCE);
+					}
+
+					else if (fb.getUserData() instanceof Vase) {
+						Player.INSTANCE.getListInteractiveObjects(direction).remove((Vase) fb.getUserData());
 					}
 				}
-			} else if (fb.getUserData().equals("bossbody")) {
-				for (String i : Constants.DIRECTIONS) {
-					if (i.equals((String) fa.getUserData())) {
-						Player.INSTANCE.getListEnemies((String) fa.getUserData()).remove((Enemy) Boss.INSTANCE);
-						break;
-					}
+			}
+
+			if (fa.getUserData().equals("playerbody")) {
+				if (fb.isSensor() && fb.getUserData() instanceof Enemy) {
+					Enemy enemy = (Enemy) fb.getUserData();
+					enemy.lostPlayer();
+				}
+
+				if (fb.getUserData().equals("bossvision")) {
+					Boss.INSTANCE.lostPlayer();
 				}
 			}
 
-		}
-
-		if (fa.getUserData().equals("playerbody")) {
-			if (fb.isSensor() && fb.getUserData() instanceof Enemy) {
-				Enemy enemy = (Enemy) fb.getUserData();
-				enemy.lostPlayer();
-			}
-
-			if (fb.getUserData().equals("bossvision")) {
-				Boss.INSTANCE.lostPlayer();
-			}
 		}
 
 	}

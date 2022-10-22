@@ -9,9 +9,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import main.Boot;
 import screen.GameScreen;
-import things.Objects;
+import things.Entity;
 
-public class Bullet extends Objects {
+public class Bullet extends Entity {
 
 	public boolean canRemove = false;
 	private float angle;
@@ -19,13 +19,15 @@ public class Bullet extends Objects {
 	public Bullet(float x_offset, float y_offset, float angle) {
 		super();
 
+		this.name = "Bullet";
+
 		this.x = Boss.INSTANCE.getX() + x_offset;
 
 		this.y = Boss.INSTANCE.getY() + y_offset;
 
 		this.angle = angle;
-		
-		this.damage = 2; 
+
+		this.damage = 2;
 
 		this.speed = 2f / Boot.PPM;
 
@@ -37,46 +39,43 @@ public class Bullet extends Objects {
 
 	}
 
-	public void createBulletHitBox(float angle) {
+	private void createBulletHitBox(float angle) {
 
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		bodyDef.type = BodyDef.BodyType.KinematicBody;
 		bodyDef.bullet = true;
 		bodyDef.position.set(this.x, this.y);
 
-		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
-		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
+		// size 12 x 4
 		shape.setAsBox(12 / Boot.PPM, 4 / Boot.PPM);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
-		fixtureDef.shape = shape;
 		fixtureDef.isSensor = true;
-		body.createFixture(fixtureDef).setUserData(this);
+		fixtureDef.density = 1000;
+		fixtureDef.shape = shape;
+		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
+		this.body.createFixture(fixtureDef);
+		this.body.setUserData(this);
+		this.body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM),
+				(float) ((float) angle * Math.PI / 180));
 		shape.dispose();
-
-		body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) ((float) angle * Math.PI / 180));
+		
 	}
 
-	public void fire() {
-		this.body.setLinearVelocity(new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
-	}
-
+	@Override
 	public void update() {
 
-		this.x = this.body.getPosition().x * Boot.PPM;
-		this.y = this.body.getPosition().y * Boot.PPM;
+		super.update();
 
-		if (this.x < 0 || this.y < 0 || this.x > 1024 || this.y > 1024) {
-			this.canRemove = true;
-		}
-
+		this.body.setLinearVelocity(
+				new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
 	}
 
+	@Override
 	public void render(SpriteBatch batch) {
-		// size 40 x 18
-
-		this.fire();
+		if (this.canRemove)
+			return;
 
 		update();
 

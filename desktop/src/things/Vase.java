@@ -9,10 +9,9 @@ import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
 
-public class Chest extends Items implements Dropable {
-
-	public Chest(float width, float height, Body body) {
-		super(width, height, body, "Chest");
+public class Vase extends Items implements Dropable {
+	public Vase(float width, float height, Body body) {
+		super(width, height, body, "Vase");
 
 	}
 	

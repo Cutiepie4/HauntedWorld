@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import main.Boot;
+import things.Entity;
 
 public class BodyHelperService {
 
@@ -27,7 +28,7 @@ public class BodyHelperService {
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
 
-		body.createFixture(fixtureDef).setUserData(new Object());
+		body.createFixture(fixtureDef).setUserData(new Entity());
 		shape.dispose();
 		return body;
 	}
@@ -37,6 +38,9 @@ public class BodyHelperService {
 		Body body = createBody(x, y, width, height, isStatic, world);
 
 		body.getFixtureList().first().setUserData("playerbody");
+		
+		body.getFixtureList().first().getFilterData().categoryBits = 0x0001;
+		body.getFixtureList().first().getFilterData().maskBits = -1;
 
 		PolygonShape boxPoly = new PolygonShape();
 
@@ -71,4 +75,6 @@ public class BodyHelperService {
 		boxPoly.dispose();
 		return body;
 	}
+	
+	
 }

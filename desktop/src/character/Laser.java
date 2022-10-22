@@ -11,45 +11,56 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
+import helper.BodyHelperService;
 import main.Boot;
 import screen.GameScreen;
-import things.Objects;
+import things.Entity;
 
-public class Laser extends Objects {
+public class Laser extends Entity {
 
+	private float angle;
+	
 	public Laser(float x_offset, float y_offset, float angle) {
-		super(Boss.INSTANCE.getX() + x_offset, Boss.INSTANCE.getX() + y_offset, 72, 6, createLaserHitBox(angle));
+		super();
+		
+		this.x = Boss.INSTANCE.getX() + x_offset;
+		
+		this.y = Boss.INSTANCE.getY() + y_offset;
+		
 		this.damage = 5;
+		
+		this.angle = angle;
+		
 		this.speed = (float) (Math.PI / 2f);
+		
 		this.animationHandler.add(1 / 10f, "laser", "shoot", "");
+		
 		this.animationHandler.setAction("shoot", false);
+		
+		this.createLaserHitBox();
+		
 		this.createJoint();
-		this.body.getFixtureList().first().setUserData(this);
-		this.body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) (angle * Math.PI / 180f));
-
-		GameScreen.INSTANCE.addObjects(this);
 	}
 
-	private static Body createLaserHitBox(float angle) {
+	private void createLaserHitBox() {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-
-		Body body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
+		bodyDef.bullet = true;
+		bodyDef.position.set(this.x, this.y);
+		
+		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
+		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
-
 		// size 72 x 6
 		shape.setAsBox(72 / Boot.PPM, 6 / Boot.PPM);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
 		fixtureDef.isSensor = true;
-
-		body.createFixture(fixtureDef);
-
+		this.body.createFixture(fixtureDef).setUserData(this);
+		this.body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM), (float) (angle * Math.PI / 180f));
 		shape.dispose();
-
-		return body;
 	}
 
 	private void createJoint() {
@@ -93,6 +104,7 @@ public class Laser extends Objects {
 			GameScreen.INSTANCE.addToRemove(this);
 			this.setDisposed(true);
 			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);
+			Boss.lasering = false;
 		}
 
 	}
