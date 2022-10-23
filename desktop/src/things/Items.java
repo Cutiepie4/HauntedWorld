@@ -4,14 +4,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import helper.BodyHelperService;
 import helper.Constants;
-import main.Boot;
 import screen.GameScreen;
 
 public class Items extends Entity {
+	
 	protected boolean isLooted;
 	protected Image icon;
 
@@ -74,7 +75,7 @@ public class Items extends Entity {
 			}
 			return;
 		}
-
+		
 		super.update();
 	}
 
@@ -97,5 +98,4 @@ public class Items extends Entity {
 	public boolean isLooted() {
 		return isLooted;
 	}
-
 }

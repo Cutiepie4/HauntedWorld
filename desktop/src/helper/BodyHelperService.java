@@ -27,8 +27,11 @@ public class BodyHelperService {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.shape = shape;
+		fixtureDef.density = 1000;
+		fixtureDef.isSensor = false;
 
-		body.createFixture(fixtureDef).setUserData(new Entity());
+		body.getFixtureList().add(body.createFixture(fixtureDef));
+		body.getFixtureList().first().setUserData("no name");
 		shape.dispose();
 		return body;
 	}

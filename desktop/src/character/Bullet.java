@@ -1,5 +1,6 @@
 package character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -13,8 +14,9 @@ import things.Entity;
 
 public class Bullet extends Entity {
 
-	public boolean canRemove = false;
+	private float timer = 0f;
 	private float angle;
+	private float originX, originY;
 
 	public Bullet(float x_offset, float y_offset, float angle) {
 		super();
@@ -22,8 +24,10 @@ public class Bullet extends Entity {
 		this.name = "Bullet";
 
 		this.x = Boss.INSTANCE.getX() + x_offset;
-
 		this.y = Boss.INSTANCE.getY() + y_offset;
+
+		this.originX = this.x;
+		this.originY = this.y;
 
 		this.angle = angle;
 
@@ -52,21 +56,36 @@ public class Bullet extends Entity {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.friction = 0;
 		fixtureDef.isSensor = true;
-		fixtureDef.density = 1000;
 		fixtureDef.shape = shape;
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.createFixture(fixtureDef);
-		this.body.setUserData(this);
+		this.body.getFixtureList().first().setUserData(this);
+		this.reset(10000);
+		shape.dispose();
+	}
+
+	public void reset(float offset) {
+		this.timer = 0f;
+		this.body.setAwake(true);
+		this.x = this.originX + offset;
+		this.y = this.originY + offset;
+		this.body.setLinearVelocity(new Vector2(0, 0));
 		this.body.setTransform(new Vector2(this.x / Boot.PPM, this.y / Boot.PPM),
 				(float) ((float) angle * Math.PI / 180));
-		shape.dispose();
-		
 	}
 
 	@Override
 	public void update() {
 
+		this.timer += Gdx.graphics.getDeltaTime();
+
 		super.update();
+
+		if (this.timer > 3f) {
+			this.body.setAwake(false);
+			this.body.setLinearVelocity(new Vector2(0, 0));
+			return;
+		}
 
 		this.body.setLinearVelocity(
 				new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
@@ -74,8 +93,6 @@ public class Bullet extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		if (this.canRemove)
-			return;
 
 		update();
 

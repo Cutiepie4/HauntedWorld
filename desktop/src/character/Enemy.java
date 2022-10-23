@@ -27,7 +27,7 @@ public abstract class Enemy extends Entity implements Dropable {
 	public Enemy(float width, float height, Body body) {
 		super(width, height, body);
 
-		this.name = "null";
+		this.name = "enemy";
 		this.detected = false;
 		this.health = 0;
 		this.damage = 0f;

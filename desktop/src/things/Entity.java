@@ -147,11 +147,4 @@ public class Entity {
 	public void setBody(Body body) {
 		this.body = body;
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-
 }

@@ -1,9 +1,7 @@
 package screen;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,10 +12,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
-import character.Enemy;
+import character.Bullet;
 import character.Player;
 import helper.GameEventListener;
 import helper.TileMapHelper;
@@ -37,11 +37,11 @@ public class GameScreen extends ScreenAdapter {
 	private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 	private TileMapHelper tileMapHelper;
 
-	private ArrayList<Entity> listObjects = new ArrayList<>();
+	private Array<Entity> listObjects = new Array<>();
 
-	private LinkedHashSet<Entity> toRemove = new LinkedHashSet<>();
+	private Array<Entity> toRemove = new Array<>();
 
-	private LinkedHashSet<Entity> toAdd = new LinkedHashSet<>();
+	private Array<Entity> toAdd = new Array<>();
 
 	public GameScreen(OrthographicCamera camera) {
 		INSTANCE = this;
@@ -92,9 +92,11 @@ public class GameScreen extends ScreenAdapter {
 		camera.update();
 	}
 
-	private void update() {
+	public void update() {
 
 		world.step(1 / 60f, 6, 2);
+
+		this.objectUpdate();
 
 		cameraUpdate();
 
@@ -116,7 +118,6 @@ public class GameScreen extends ScreenAdapter {
 			});
 		}
 
-		this.objectUpdate();
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		Collections.sort(listObjects, Comparator.comparing(Entity::getY).reversed());
+		listObjects.sort(Comparator.comparing(Entity::getY).reversed());
 
 		orthogonalTiledMapRenderer.render();
 
@@ -144,7 +145,6 @@ public class GameScreen extends ScreenAdapter {
 
 	private void objectsRender() {
 		for (Entity i : listObjects) {
-			if(i.getName().equals("Bullet")) System.out.println("dcm");
 			if (i != null) {
 				i.render(batch);
 			}
@@ -154,7 +154,8 @@ public class GameScreen extends ScreenAdapter {
 	private void objectUpdate() {
 		for (Entity i : toRemove) {
 			if (i != null && i.getBody() != null && i.getAnimationHandler().isAnimationFinished()) {
-				this.listObjects.remove(i);
+				this.listObjects.removeValue(i, true);
+//				i.getBody().setActive(false);
 				this.world.destroyBody(i.getBody());
 				i.setBody(null);
 				i = null;
@@ -162,7 +163,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		for (Entity i : toAdd) {
-			if (i != null && !this.listObjects.contains(i))
+			if (i != null && !this.listObjects.contains(i, true))
 				this.listObjects.add(i);
 		}
 		toAdd.clear();

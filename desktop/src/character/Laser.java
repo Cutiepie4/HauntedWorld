@@ -27,7 +27,7 @@ public class Laser extends Entity {
 		
 		this.y = Boss.INSTANCE.getY() + y_offset;
 		
-		this.damage = 5;
+		this.damage = 5f;
 		
 		this.angle = angle;
 		
@@ -78,7 +78,6 @@ public class Laser extends Entity {
 		jointDef.localAnchorB.set(-64f / Boot.PPM, 0);
 
 		GameScreen.INSTANCE.getWorld().createJoint(jointDef);
-
 	}
 
 	private void rotate() {
@@ -104,7 +103,7 @@ public class Laser extends Entity {
 			GameScreen.INSTANCE.addToRemove(this);
 			this.setDisposed(true);
 			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);
-			Boss.lasering = false;
+			Boss.INSTANCE.isLasering = false;
 		}
 
 	}

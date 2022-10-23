@@ -128,7 +128,7 @@ public class Hud {
 
 		this.timer += delta;
 
-		healthLevel.setWidth(16 + 4 * Player.INSTANCE.getHealth());
+		healthLevel.setWidth(16 + (float) 40 / Player.MAX_HEALTH * Player.INSTANCE.getHealth());
 
 	}
 

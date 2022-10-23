@@ -9,19 +9,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
-import things.Items;
 import things.Entity;
+import things.Items;
 import things.Vase;
+import ui.Hud;
 
 public class Player extends Entity {
 
 	public static Player INSTANCE;
-	public static final int MAX_HEALTH = 10;
+	public static final float MAX_HEALTH = 20f;
 	private LinkedHashMap<String, HashSet<Enemy>> listEnemies;
 	private LinkedHashMap<String, HashSet<Vase>> listInteractiveObjects;
 	private LinkedHashMap<String, Integer> inventory;
-	private int health;
+	private float health;
 
 	public Player(float width, float height, Body body) {
 		super(width, height, body);
@@ -31,7 +33,7 @@ public class Player extends Entity {
 		this.listEnemies = new LinkedHashMap<>();
 		this.listInteractiveObjects = new LinkedHashMap<>();
 		this.inventory = new LinkedHashMap<>();
-		this.health = 9;
+		this.health = 19;
 		this.FRAME_TIME = 1 / 8f;
 		this.damage = 1f;
 
@@ -40,7 +42,7 @@ public class Player extends Entity {
 			this.listEnemies.put(i, new HashSet<>());
 			this.listInteractiveObjects.put(i, new HashSet<>());
 			this.animationHandler.add(1 / 20f, "players", "attack", i);
-			this.animationHandler.add(FRAME_TIME, "players", "run", i);
+			this.animationHandler.add(1 / 8f, "players", "run", i);
 			this.animationHandler.add(1 / 5f, "players", "idle", i);
 			this.animationHandler.add(1 / 12f, "players", "hit", i);
 		}
@@ -127,6 +129,10 @@ public class Player extends Entity {
 			this.attack();
 		}
 
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+			Boss.INSTANCE.attack();
+		}
+
 		this.body.setLinearVelocity(velX * speed, velY * speed);
 
 		if (check) {
@@ -135,40 +141,28 @@ public class Player extends Entity {
 	}
 
 	private void attack() {
-
+		HashSet<Vase> temp = new HashSet<>();
 		for (Vase i : listInteractiveObjects.get(this.animationHandler.getDirection())) {
-			i.loot();
+			if (!i.getAnimationHandler().getAction().equals("loot"))
+				i.loot();
+			else
+				temp.add(i);
 		}
-		listInteractiveObjects.get(this.animationHandler.getDirection()).clear();
+		listInteractiveObjects.put(this.animationHandler.getDirection(), temp);
 
 		for (Enemy i : listEnemies.get(this.animationHandler.getDirection())) {
 			i.isHit(this);
 		}
 	}
 
-	public void isHit(Enemy enemy) {
+	public void isHit(Entity entity) {
 
-		if (this.animationHandler.getAction().equals("dead") || enemy.getAnimationHandler().getAction().equals("dead"))
+		if (this.animationHandler.getAction().equals("dead") || entity.getAnimationHandler().getAction().equals("dead"))
 			return;
 
-		this.health -= enemy.getDamage();
+		this.health -= entity.getDamage();
 
-		if (this.health > 0) {
-			this.animationHandler.setAction("hit", false);
-		}
-
-		else {
-			this.animationHandler.setAction("dead", false);
-			this.animationHandler.setDirection("");
-		}
-	}
-
-	public void isHit(float damage) {
-
-		if (this.animationHandler.getAction().equals("dead"))
-			return;
-
-		this.health -= damage;
+		Hud.INSTANCE.addMessage(String.format("You were hit %.0f damage", entity.getDamage()));
 
 		if (this.health > 0) {
 			this.animationHandler.setAction("hit", false);
@@ -209,12 +203,12 @@ public class Player extends Entity {
 		this.speed += add;
 	}
 
-	public void heal(int hp) {
+	public void heal(float hp) {
 		this.health += hp;
 		this.health = this.getHealth();
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		if (this.health > MAX_HEALTH)
 			return MAX_HEALTH;
 		return health;

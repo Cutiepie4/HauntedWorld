@@ -58,6 +58,7 @@ public class Trap extends Entity {
 			this.animationHandler.setAction("hide", false);
 			this.body.getFixtureList().first().setSensor(true);
 			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);
+			Boss.INSTANCE.isTrapping = false;
 		}
 	}
 

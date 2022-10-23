@@ -1,25 +1,26 @@
 package character;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
 import helper.Dropable;
 import main.Boot;
-import screen.GameScreen;
 
 public class Boss extends Enemy implements Dropable {
 
-	public static Laser LASER = null;
-	public static boolean lasering = false;
 	public static Boss INSTANCE;
-	public static boolean trapButton = false;
-	public static ArrayList<Bullet> listBullets = new ArrayList<>();
+	public Array<Bullet> listBullets = new Array<>();
+	public Laser laser = null;
+	public boolean isLasering = false;
+	public boolean isTrapping = false;
+	public boolean isFiring = false;
 	private boolean flip = false; // true is left, false is right
-	private float timer;
+	private float timer = 0f;
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
@@ -36,78 +37,79 @@ public class Boss extends Enemy implements Dropable {
 			this.animationHandler.add(FRAME_TIME, "boss", state[i], "");
 		}
 
-		this.health = 60;
+		this.health = 85;
 
 		this.MAX_HEALTH = 100;
 
-		this.damage = 5;
+		this.damage = 5f;
 
 		this.animationHandler.setActionDirection("idle", "", true);
+
+		this.initBullets();
 	}
 
-	private void reloadBullets() {
+	private void initBullets() {
 
-		Boss.listBullets.add(new Bullet(0, 20, 90));
+		this.listBullets.add(new Bullet(0, 10, 90));
 
-		Boss.listBullets.add(new Bullet(0, -20, -90));
+		this.listBullets.add(new Bullet(0, -10, -90));
 
-		Boss.listBullets.add(new Bullet(20, 0, 0));
+		this.listBullets.add(new Bullet(10, 0, 0));
 
-		Boss.listBullets.add(new Bullet(-20, 0, 180));
+		this.listBullets.add(new Bullet(-10, 0, 180));
 
-		Boss.listBullets.add(new Bullet(20, 20, 45));
+		this.listBullets.add(new Bullet(10, 10, 45));
 
-		Boss.listBullets.add(new Bullet(-20, 20, 135));
+		this.listBullets.add(new Bullet(-10, 10, 135));
 
-		Boss.listBullets.add(new Bullet(20, -20, -45));
+		this.listBullets.add(new Bullet(10, -10, -45));
 
-		Boss.listBullets.add(new Bullet(-20, -20, -135));
+		this.listBullets.add(new Bullet(-10, -10, -135));
 	}
 
 	@Override
 	public void update() {
 
-		// set directions facing player
-		this.facingPlayer();
-
-		this.updateBullet();
-
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
+
+		timer += Gdx.graphics.getDeltaTime();
+
+		this.body.setAwake(true);
+
+		// set directions facing player
+		this.facingPlayer();
 
 		// update health bar position
 		this.healthBar.setPosition(this.x - 42, this.y + 30);
 		this.healthLevel.setPosition(this.x - 42, this.y + 30);
 
-		if ((this.animationHandler.getAction().equals("hit") || this.animationHandler.getAction().equals("castbullet"))
+		if ((this.animationHandler.getAction().equals("castbullet") || this.animationHandler.getAction().equals("hit"))
 				&& this.animationHandler.isAnimationFinished()) {
 			this.animationHandler.setAction("idle", true);
 		}
 
-//		if (Boss.trapButton && this.animationHandler.getAction().equals("casttrap")
-//				&& this.animationHandler.isAnimationFinished()) {
-//			Trap.enableTrap();
-//			Boss.trapButton = false;
-//			return;
-//		}
-
-		if (this.detected && this.timer > 8f) {
-			this.attack();
-			this.timer = 0f;
-		}
-
-	}
-
-	private void updateBullet() {
-		ArrayList<Bullet> temp = new ArrayList<>();
-		for (Bullet i : Boss.listBullets) {
-			if (!i.canRemove) {
-				temp.add(i);
-			} else {
-				GameScreen.INSTANCE.addToRemove(i);
+		if (this.detected) {
+			if(!this.isLasering && !this.isTrapping && this.timer > 8f) { 
+				this.attack();
+			}
+			
+			else if(this.timer > 10f) {
+				this.attack();
 			}
 		}
-		Boss.listBullets = temp;
+
+		if (this.isTrapping && this.animationHandler.getAction().equals("casttrap")) {
+			if (this.animationHandler.isAnimationFinished())
+				Trap.enableTrap();
+			return;
+		}
+
+		if (this.isLasering) {
+			this.animationHandler.setAction("castlaser", false);
+			return;
+		}
+
 	}
 
 	private void drawBoss(SpriteBatch batch) {
@@ -127,40 +129,30 @@ public class Boss extends Enemy implements Dropable {
 		}
 	}
 
-	private void drawBullet(SpriteBatch batch) {
-		for (Bullet i : Boss.listBullets) {
-			i.render(batch);
-		}
-	}
-
-	private void drawLaser(SpriteBatch batch) {
-		if (Boss.lasering) {
-			Boss.LASER.render(batch);
-		}
-	}
-
 	@Override
 	public void render(SpriteBatch batch) {
 
-		timer += Gdx.graphics.getDeltaTime();
-
 		update();
+
+		this.drawBullet(batch);
 
 		this.drawBoss(batch);
 
 		this.showHealth(batch, 80, 6);
-
-		this.drawBullet(batch);
 
 		this.drawLaser(batch);
 	}
 
 	@Override
 	public void isHit(Player player) {
+
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
 
 		this.health -= player.getDamage();
+
+		if (this.isLasering || this.isTrapping)
+			return;
 
 		if (this.health > 0) {
 			if (this.animationHandler.getAction().equals("idle"))
@@ -182,27 +174,6 @@ public class Boss extends Enemy implements Dropable {
 		}
 	}
 
-	// BULLET
-	public void bulletActive() {
-		this.animationHandler.setAction("castbullet", false);
-		this.reloadBullets();
-	}
-
-	// TRAP
-	public void trapActive() {
-		Boss.trapButton = true;
-		this.animationHandler.setAction("casttrap", false);
-	}
-
-	// LASER
-	public void laserActive() {
-		if (!Boss.lasering) {
-			Boss.LASER = new Laser(0, 70, -90);
-			this.animationHandler.setAction("castlaser", false);
-			Boss.lasering = true;
-		}
-	}
-
 	@Override
 	public void dropItem() {
 
@@ -212,28 +183,64 @@ public class Boss extends Enemy implements Dropable {
 		if (!this.animationHandler.getAction().equals("idle"))
 			return;
 
+		this.timer = 0f;
 //		this.laserActive();
-		if (Boss.listBullets.isEmpty())
-			this.bulletActive();
+//		this.bulletActive();
+//		this.trapActive();
 
-//		Random rnd = new Random();
-//
-//		int nextAction = rnd.nextInt(3);
-//		switch (nextAction) {
-//		case 0:
-//			this.laserActive();
-//			this.timer = 0f;
-//			break;
-//		case 1:
-//			this.trapActive();
-//			this.timer = 0f;
-//			break;
-//		case 2:
-//			this.timer = 0f;
-//			this.bulletActive();
-//			break;
-//		}
+		Random rnd = new Random();
+
+		int nextAction = rnd.nextInt(3);
+		switch (nextAction) {
+		case 0:
+			this.laserActive();
+			break;
+		case 1:
+			this.trapActive();
+			break;
+		case 2:
+			this.bulletActive();
+			break;
+		}
 
 	}
 
+	// TRAP
+	public void trapActive() {
+		this.isTrapping = true;
+		this.animationHandler.setAction("casttrap", false);
+	}
+
+	// LASER
+	public void laserActive() {
+		if (!this.isLasering) {
+			this.laser = new Laser(0, 70, 90);
+//			this.animationHandler.setAction("castlaser", false);
+			this.isLasering = true;
+		}
+	}
+
+	private void drawLaser(SpriteBatch batch) {
+		if (this.isLasering) {
+			this.laser.render(batch);
+		}
+	}
+
+	// BULLET
+	public void bulletActive() {
+		this.animationHandler.setAction("castbullet", false);
+		this.restoreBullets();
+	}
+
+	private void restoreBullets() {
+		for (Bullet i : this.listBullets) {
+			i.reset(0);
+		}
+	}
+
+	private void drawBullet(SpriteBatch batch) {
+		for (Bullet i : this.listBullets) {
+			i.render(batch);
+		}
+	}
 }
