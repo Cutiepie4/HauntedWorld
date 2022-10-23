@@ -27,6 +27,7 @@ import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
 
+	public static boolean isPause = false;
 	public static GameScreen INSTANCE;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -93,7 +94,6 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	public void update() {
-
 		world.step(1 / 60f, 6, 2);
 
 		this.objectUpdate();
@@ -113,7 +113,9 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
+//			Player.INSTANCE.revive();
 			Gdx.app.postRunnable(() -> {
+				Player.INSTANCE.revive();
 				Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 			});
 		}
@@ -144,6 +146,8 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectsRender() {
+		if (GameScreen.isPause)
+			return;
 		for (Entity i : listObjects) {
 			if (i != null) {
 				i.render(batch);

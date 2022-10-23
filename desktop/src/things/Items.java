@@ -12,7 +12,7 @@ import helper.Constants;
 import screen.GameScreen;
 
 public class Items extends Entity {
-	
+
 	protected boolean isLooted;
 	protected Image icon;
 
@@ -67,7 +67,6 @@ public class Items extends Entity {
 
 	@Override
 	public void update() {
-
 		if (this.isLooted) {
 			if (!isDisposed()) {
 				GameScreen.INSTANCE.addToRemove(this);
@@ -75,7 +74,7 @@ public class Items extends Entity {
 			}
 			return;
 		}
-		
+
 		super.update();
 	}
 

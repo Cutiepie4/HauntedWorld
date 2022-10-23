@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 
 import helper.Dropable;
 import main.Boot;
+import screen.GameScreen;
 
 public class Boss extends Enemy implements Dropable {
 
@@ -69,7 +70,6 @@ public class Boss extends Enemy implements Dropable {
 
 	@Override
 	public void update() {
-
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
@@ -90,11 +90,11 @@ public class Boss extends Enemy implements Dropable {
 		}
 
 		if (this.detected) {
-			if(!this.isLasering && !this.isTrapping && this.timer > 8f) { 
+			if (!this.isLasering && !this.isTrapping && this.timer > 8f) {
 				this.attack();
 			}
-			
-			else if(this.timer > 10f) {
+
+			else if (this.timer > 10f) {
 				this.attack();
 			}
 		}

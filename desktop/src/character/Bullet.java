@@ -76,7 +76,6 @@ public class Bullet extends Entity {
 
 	@Override
 	public void update() {
-
 		this.timer += Gdx.graphics.getDeltaTime();
 
 		super.update();

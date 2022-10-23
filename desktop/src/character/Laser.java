@@ -89,9 +89,6 @@ public class Laser extends Entity {
 	}
 
 	public void update() {
-		if (this.isDisposed())
-			return;
-
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 

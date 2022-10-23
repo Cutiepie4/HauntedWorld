@@ -60,6 +60,8 @@ public class TileMapHelper {
 						Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 								rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
 								rectangle.getHeight(), true, gc.getWorld());
+						
+						body.getFixtureList().first().setSensor(true);
 
 						Decor decor = new Decor(rectangle.getWidth(), rectangle.getHeight(), body, rectangleName);
 						gc.addObjects(decor);

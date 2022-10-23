@@ -30,7 +30,7 @@ public class BodyHelperService {
 		fixtureDef.density = 1000;
 		fixtureDef.isSensor = false;
 
-		body.getFixtureList().add(body.createFixture(fixtureDef));
+		body.createFixture(fixtureDef);
 		body.getFixtureList().first().setUserData("no name");
 		shape.dispose();
 		return body;
@@ -42,9 +42,6 @@ public class BodyHelperService {
 
 		body.getFixtureList().first().setUserData("playerbody");
 		
-		body.getFixtureList().first().getFilterData().categoryBits = 0x0001;
-		body.getFixtureList().first().getFilterData().maskBits = -1;
-
 		PolygonShape boxPoly = new PolygonShape();
 
 		// LEFT

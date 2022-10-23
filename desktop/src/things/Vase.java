@@ -14,7 +14,7 @@ public class Vase extends Items implements Dropable {
 		super(width, height, body, "Vase");
 
 	}
-	
+
 	@Override
 	public void update() {
 		if (this.isLooted) {

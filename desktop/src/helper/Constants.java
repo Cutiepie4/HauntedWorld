@@ -48,6 +48,7 @@ public class Constants {
 		OFFSET.put("shortstonepillar", new Float[] { 0f, 10f });
 		OFFSET.put("bonfire", new Float[] { 0f, 2f });
 		OFFSET.put("torch", new Float[] { 0f, 2f });
+		OFFSET.put("door", new Float[] { 18f, 0f });
 	}
 
 	public static float getFRAME_TIME(String key) {

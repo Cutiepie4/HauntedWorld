@@ -15,7 +15,7 @@ public class Chest extends Items implements Dropable {
 		super(width, height, body, "Chest");
 
 	}
-	
+
 	@Override
 	public void update() {
 		if (this.isLooted) {

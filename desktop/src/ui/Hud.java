@@ -41,19 +41,17 @@ public class Hud {
 		stageUI.addActor(new Table());
 		stageUI.addActor(new Table());
 		stageUI.addActor(new Table());
+		stageUI.addActor(new Table());
 
 		this.addMessage("Welcome to the World of Haunt.");
+		this.addMessage("You must survive and find the way to escape here.");
 
 		this.createHudHealthBar();
-
 	}
 
 	private void updateMessage(float delta) {
-
-		
 		Table tblMessage = (Table) stageUI.getActors().get(2);
-		
-		tblMessage.clear();;
+		tblMessage.clear();
 
 		tblMessage.bottom();
 		tblMessage.right();

@@ -34,7 +34,6 @@ public class ReloadScreen extends ScreenAdapter {
 	private AssetManager assetManager;
 
 	public ReloadScreen(OrthographicCamera camera) {
-
 		this.batch = new SpriteBatch();
 		this.camera = camera;
 		this.assetManager = Boot.INSTANCE.getAssets().getAssetManager();
@@ -57,6 +56,7 @@ public class ReloadScreen extends ScreenAdapter {
 			public void clicked(InputEvent event, float x, float y) {
 				Gdx.app.postRunnable(() -> {
 					Boot.INSTANCE.setScreen(new GameScreen(camera));
+//					Boot.INSTANCE.setScreen(GameScreen.INSTANCE);
 				});
 			}
 		});

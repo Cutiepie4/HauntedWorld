@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
+import screen.GameScreen;
 import things.Entity;
 import things.Items;
 import things.Vase;
@@ -57,6 +58,8 @@ public class Player extends Entity {
 
 	@Override
 	public void update() {
+		if (GameScreen.isPause)
+			return;
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
 
@@ -221,6 +224,11 @@ public class Player extends Entity {
 
 		this.inventory.put("Silver Key", this.inventory.get("Silver Key") - 1);
 		return true;
+	}
+
+	public void revive() {
+		this.health = Player.MAX_HEALTH;
+		this.animationHandler.setAction("idle", true);
 	}
 
 }
