@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import character.Boss;
 import character.Player;
 import character.Spider;
+import character.Spike;
 import character.Spinner;
 import character.Trap;
 import main.Boot;
@@ -60,7 +61,7 @@ public class TileMapHelper {
 						Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
 								rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
 								rectangle.getHeight(), true, gc.getWorld());
-						
+
 						body.getFixtureList().first().setSensor(true);
 
 						Decor decor = new Decor(rectangle.getWidth(), rectangle.getHeight(), body, rectangleName);
@@ -95,7 +96,7 @@ public class TileMapHelper {
 
 					spinner.getBody().getFixtureList().first().setUserData(spinner);
 					spinner.getBody().getFixtureList().peek().setUserData(spinner);
-					
+
 					gc.addObjects(spinner);
 				}
 
@@ -150,6 +151,19 @@ public class TileMapHelper {
 					trap.getBody().getFixtureList().first().setUserData(trap);
 					trap.getBody().getFixtureList().first().setSensor(true);
 					gc.addObjects(trap);
+				}
+
+				else if (rectangleName.equals("spike")) {
+
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					Spike spike = new Spike(rectangle.getWidth(), rectangle.getHeight(), body);
+
+					spike.getBody().getFixtureList().first().setUserData(spike);
+					spike.getBody().getFixtureList().first().setSensor(true);
+					gc.addObjects(spike);
 				}
 
 				else if (rectangleName.equals("chest")) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="182">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="186">
  <tileset firstgid="1" source="Overworld_Tileset.tsx"/>
  <tileset firstgid="235" source="Dungeon_Tileset.tsx"/>
  <layer id="1" name="Ground" width="64" height="64">
@@ -154,7 +154,7 @@
   <object id="10" x="511.062" y="300.069">
    <polygon points="0,0 -13.0743,8.04571 1.00571,12.0686 12.0686,4.02286"/>
   </object>
-  <object id="12" name="player" x="570.769" y="617.95" width="16.0914" height="16.0914"/>
+  <object id="12" name="player" x="570.769" y="617.95" width="16" height="16"/>
   <object id="18" x="271.367" y="320.183">
    <polygon points="0,0 -1.34095,157.562 14.7505,157.562 15.4209,-2.68191"/>
   </object>
@@ -270,5 +270,9 @@
   <object id="181" x="467.75" y="640.25">
    <polygon points="0,0 0,-31.75 11,-32 12.25,-0.25"/>
   </object>
+  <object id="182" name="spike" x="607.875" y="659.875" width="12" height="12"/>
+  <object id="183" name="spike" x="595.875" y="672" width="12" height="12"/>
+  <object id="184" name="spike" x="595.75" y="659.75" width="12" height="12"/>
+  <object id="185" name="spike" x="608" y="672" width="12" height="12"/>
  </objectgroup>
 </map>

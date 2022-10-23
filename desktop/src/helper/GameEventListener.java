@@ -12,12 +12,10 @@ import character.Bullet;
 import character.Enemy;
 import character.Laser;
 import character.Player;
-import character.Spider;
-import character.Spinner;
+import character.Spike;
 import character.Trap;
-import screen.GameScreen;
-import things.Items;
 import things.Entity;
+import things.Items;
 import things.Vase;
 import ui.Hud;
 
@@ -101,11 +99,18 @@ public class GameEventListener implements ContactListener {
 				}
 
 				else if (fb.getUserData() instanceof Enemy) {
-					if (fb.isSensor()) {
+					if (fb.isSensor() && fb.getUserData() instanceof Enemy) {
 						Enemy enemy = (Enemy) fb.getUserData();
 						enemy.detectPlayer();
 					}
 				}
+
+//				else if (fb.isSensor() && fb.getUserData() instanceof Spike) {
+//					Spike spike = (Spike) fb.getUserData();
+//					if (spike.getAnimationHandler().getAction().equals("show")) {
+//						Player.INSTANCE.isHit(spike);
+//					}
+//				}
 
 				else if (fb.isSensor() && (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet)) {
 					Player.INSTANCE.isHit((Entity) fb.getUserData());
@@ -177,7 +182,15 @@ public class GameEventListener implements ContactListener {
 				}
 			}
 
-			else if (fb.getUserData() instanceof Trap) {
+			else if (fb.getUserData() instanceof Spike) {
+				Spike spike = (Spike) fb.getUserData();
+				if (spike.getAnimationHandler().getAction().equals("show")
+						&& spike.getAnimationHandler().isAnimationFinished()) {
+					Player.INSTANCE.isHit((Enemy) fb.getUserData());
+				}
+			}
+
+			else if (fb.getUserData() instanceof Trap || fb.getUserData() instanceof Spike) {
 				timer += Gdx.graphics.getDeltaTime();
 				if (timer > 0.5f) {
 					Player.INSTANCE.isHit((Entity) fb.getUserData());
