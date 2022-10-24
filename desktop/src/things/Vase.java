@@ -4,15 +4,19 @@ import java.util.Random;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.AudioManager;
 import helper.Constants;
 import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
 
 public class Vase extends Items implements Dropable {
+
 	public Vase(float width, float height, Body body) {
 		super(width, height, body, "Vase");
 
+		this.audio.addSound("audio/sound/vase/break.mp3");
+		this.audio.load();
 	}
 
 	@Override
@@ -28,6 +32,13 @@ public class Vase extends Items implements Dropable {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
+	}
+
+	@Override
+	public void loot() {
+		this.animationHandler.setAction("loot", false);
+		this.isLooted = true;
+		this.audio.playSound("break");
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import helper.AudioManager;
 import helper.Constants;
 import main.Boot;
 import ui.Assets;
@@ -30,7 +31,7 @@ public class MainMenuScreen extends ScreenAdapter {
 	private Table table;
 	private Viewport viewport;
 	private AssetManager assetManager;
-	private Music music;
+	private AudioManager audio;
 
 	public MainMenuScreen(OrthographicCamera camera) {
 		Constants.init();
@@ -40,9 +41,10 @@ public class MainMenuScreen extends ScreenAdapter {
 		backGround.setSize(900, 600);
 		skin = assetManager.get(Assets.SKIN);
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/MainScreenMusic.ogg"));
-		music.setLooping(true);
-		music.setVolume(0.6f);
+		audio = new AudioManager();
+		audio.addMusic("audio/music/MainScreenMusic.ogg");
+		audio.load();
+		audio.playMusic("MainScreenMusic", true);
 
 		viewport = new ExtendViewport(900, 600);
 		stage = new Stage(viewport);
@@ -55,7 +57,6 @@ public class MainMenuScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
-		music.play();
 
 		table = new Table();
 		table.setFillParent(true);
@@ -65,10 +66,10 @@ public class MainMenuScreen extends ScreenAdapter {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
-
+					
 					@Override
 					public void run() {
-						music.dispose();
+						audio.stopAllSongs();
 						Gdx.app.postRunnable(() -> {
 							Boot.INSTANCE.setScreen(new GameScreen(camera));
 						});
@@ -112,11 +113,9 @@ public class MainMenuScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		super.dispose();
-		
+
 		this.assetManager.dispose();
-		this.music.dispose();
 		this.stage.dispose();
 	}
-	
-	
+
 }

@@ -78,6 +78,7 @@ public class GameScreen extends ScreenAdapter {
 		if (position.x < startX) {
 			position.x = startX;
 		}
+		
 		if (position.y < startY) {
 			position.y = startY;
 		}
@@ -85,6 +86,7 @@ public class GameScreen extends ScreenAdapter {
 		if (position.x > endX) {
 			position.x = endX;
 		}
+		
 		if (position.y > endY) {
 			position.y = endY;
 		}
@@ -113,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
-//			Player.INSTANCE.revive();
+			
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 		}
 
@@ -183,14 +185,4 @@ public class GameScreen extends ScreenAdapter {
 	public void addObjects(Entity object) {
 		this.toAdd.add(object);
 	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		this.world.dispose();
-		this.batch.dispose();
-		this.orthogonalTiledMapRenderer.dispose();
-		this.box2dDebugRenderer.dispose();
-	}
-
 }

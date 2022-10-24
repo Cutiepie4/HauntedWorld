@@ -39,7 +39,8 @@ public abstract class Enemy extends Entity implements Dropable {
 	public void isHit(Player player) {
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
-
+		
+		Player.INSTANCE.getAudio().playSound("slash");
 		this.health -= player.getDamage();
 
 		if (this.health > 0) {

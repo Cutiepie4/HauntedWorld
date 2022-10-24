@@ -6,11 +6,12 @@ import java.util.LinkedHashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Array;
 
+import helper.AudioManager;
 import screen.GameScreen;
 import things.Entity;
 import things.Items;
@@ -25,6 +26,7 @@ public class Player extends Entity {
 	private LinkedHashMap<String, HashSet<Vase>> listInteractiveObjects;
 	private LinkedHashMap<String, Integer> inventory;
 	private float health;
+	private AudioManager audio = new AudioManager();
 
 	public Player(float width, float height, Body body) {
 		super(width, height, body);
@@ -37,6 +39,11 @@ public class Player extends Entity {
 		this.health = 19;
 		this.FRAME_TIME = 1 / 8f;
 		this.damage = 1f;
+
+		this.audio.addSound("audio/sound/player/footstep.ogg");
+		this.audio.addSound("audio/sound/player/slash.wav");
+		this.audio.addSound("audio/sound/player/whoosh.wav");
+		this.audio.load();
 
 		String[] directions = { "up", "down", "left", "right" };
 		for (String i : directions) {
@@ -97,6 +104,7 @@ public class Player extends Entity {
 		velY = 0;
 
 		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			this.audio.playSound("footstep", true);
 			check = false;
 			velX = 1;
 			this.animationHandler.setDirection("right");
@@ -104,6 +112,7 @@ public class Player extends Entity {
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			this.audio.playSound("footstep", true);
 			check = false;
 			velX = -1;
 			this.animationHandler.setDirection("left");
@@ -111,6 +120,7 @@ public class Player extends Entity {
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			this.audio.playSound("footstep", true);
 			check = false;
 			velY = 1;
 			this.animationHandler.setDirection("up");
@@ -119,6 +129,7 @@ public class Player extends Entity {
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+			this.audio.playSound("footstep", true);
 			check = false;
 			velY = -1;
 			this.animationHandler.setDirection("down");
@@ -132,30 +143,37 @@ public class Player extends Entity {
 			this.attack();
 		}
 
-		if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-			Boss.INSTANCE.attack();
-		}
-
 		this.body.setLinearVelocity(velX * speed, velY * speed);
 
 		if (check) {
+			this.audio.stopSound("footstep");
 			this.animationHandler.setAction("idle", true);
 		}
+
 	}
 
 	private void attack() {
+		boolean woosh = true;
+		
 		HashSet<Vase> temp = new HashSet<>();
 		for (Vase i : listInteractiveObjects.get(this.animationHandler.getDirection())) {
-			if (!i.getAnimationHandler().getAction().equals("loot"))
+			if (!i.getAnimationHandler().getAction().equals("loot")) {
 				i.loot();
+				woosh = false;
+			}
+				
 			else
 				temp.add(i);
 		}
+		
 		listInteractiveObjects.put(this.animationHandler.getDirection(), temp);
 
 		for (Enemy i : listEnemies.get(this.animationHandler.getDirection())) {
 			i.isHit(this);
+			woosh = false;
 		}
+		
+		if(woosh) this.audio.playSound("whoosh");
 	}
 
 	public void isHit(Entity entity) {
@@ -229,6 +247,10 @@ public class Player extends Entity {
 	public void revive() {
 		this.health = Player.MAX_HEALTH;
 		this.animationHandler.setAction("idle", true);
+	}
+	
+	public AudioManager getAudio() {
+		return this.audio;
 	}
 
 }

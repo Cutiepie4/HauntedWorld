@@ -7,12 +7,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import helper.AudioManager;
 import helper.BodyHelperService;
 import helper.Constants;
 import screen.GameScreen;
 
 public class Items extends Entity {
 
+	protected AudioManager audio = new AudioManager();
 	protected boolean isLooted;
 	protected Image icon;
 
@@ -31,6 +33,9 @@ public class Items extends Entity {
 
 		}
 
+		this.audio.addSound("audio/sound/items/loot.wav");
+		this.audio.load();
+
 		this.isLooted = false;
 
 		this.animationHandler.setActionDirection("idle", "", true);
@@ -41,6 +46,9 @@ public class Items extends Entity {
 	public Items(float x, float y, float width, float height, String name) {
 		super(width, height, BodyHelperService.createBody(x, y, width, height, true, GameScreen.INSTANCE.getWorld()),
 				name);
+		
+		this.audio.addSound("audio/sound/items/loot.wav");
+		this.audio.load();
 
 		this.body.getFixtureList().first().setSensor(true);
 
@@ -90,6 +98,7 @@ public class Items extends Entity {
 	}
 
 	public void loot() {
+		this.audio.playSound("loot");
 		this.animationHandler.setAction("loot", false);
 		this.isLooted = true;
 	}
