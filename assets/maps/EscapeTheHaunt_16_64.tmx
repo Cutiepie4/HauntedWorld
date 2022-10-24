@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="186">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="192">
  <tileset firstgid="1" source="Overworld_Tileset.tsx"/>
  <tileset firstgid="235" source="Dungeon_Tileset.tsx"/>
  <layer id="1" name="Ground" width="64" height="64">
@@ -263,8 +263,8 @@
   <object id="173" name="vase" x="437.5" y="118.5" width="12" height="12"/>
   <object id="175" name="spider" x="494.966" y="158.966" width="12.0686" height="12.0686"/>
   <object id="176" name="spider" x="462.466" y="190.966" width="12.0686" height="12.0686"/>
-  <object id="179" name="door" x="432" y="608" width="12" height="32"/>
-  <object id="180" x="443.5" y="639.75">
+  <object id="179" name="door" x="432" y="608" width="48" height="32"/>
+  <object id="180" x="443.25" y="640">
    <polygon points="0,0 0,-31.25 -11,-31.5 -11,-0.25"/>
   </object>
   <object id="181" x="467.75" y="640.25">
@@ -274,5 +274,10 @@
   <object id="183" name="spike" x="595.875" y="672" width="12" height="12"/>
   <object id="184" name="spike" x="595.75" y="659.75" width="12" height="12"/>
   <object id="185" name="spike" x="608" y="672" width="12" height="12"/>
+  <object id="186" name="gate" x="480" y="672" width="16" height="8"/>
+  <object id="188" name="gate" x="496" y="672" width="16" height="8"/>
+  <object id="189" name="gate" x="512" y="672" width="16" height="8"/>
+  <object id="190" name="gate" x="528" y="672" width="16" height="8"/>
+  <object id="191" name="gate" x="544" y="672" width="16" height="8"/>
  </objectgroup>
 </map>

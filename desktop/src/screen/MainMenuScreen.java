@@ -3,6 +3,7 @@ package screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,6 +30,7 @@ public class MainMenuScreen extends ScreenAdapter {
 	private Table table;
 	private Viewport viewport;
 	private AssetManager assetManager;
+	private Music music;
 
 	public MainMenuScreen(OrthographicCamera camera) {
 		Constants.init();
@@ -37,6 +39,10 @@ public class MainMenuScreen extends ScreenAdapter {
 		backGround = new Image(new Texture("background/background.png"));
 		backGround.setSize(900, 600);
 		skin = assetManager.get(Assets.SKIN);
+
+		music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/MainScreenMusic.ogg"));
+		music.setLooping(true);
+		music.setVolume(0.6f);
 
 		viewport = new ExtendViewport(900, 600);
 		stage = new Stage(viewport);
@@ -49,6 +55,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
+		music.play();
 
 		table = new Table();
 		table.setFillParent(true);
@@ -61,10 +68,10 @@ public class MainMenuScreen extends ScreenAdapter {
 
 					@Override
 					public void run() {
+						music.dispose();
 						Gdx.app.postRunnable(() -> {
 							Boot.INSTANCE.setScreen(new GameScreen(camera));
-					    });
-						
+						});
 					}
 
 				})));
@@ -101,4 +108,15 @@ public class MainMenuScreen extends ScreenAdapter {
 		stage.act();
 		stage.draw();
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		
+		this.assetManager.dispose();
+		this.music.dispose();
+		this.stage.dispose();
+	}
+	
+	
 }

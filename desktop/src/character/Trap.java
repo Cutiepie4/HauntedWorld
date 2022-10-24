@@ -30,6 +30,8 @@ public class Trap extends Entity {
 		INSTANCE.add(this);
 
 		this.damage = 3;
+		
+		this.y += 12f;
 	}
 
 	public static void enableTrap() {
@@ -69,7 +71,7 @@ public class Trap extends Entity {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-		batch.draw(currentFrame, this.x - this.width, this.y - this.height / 2, currentFrame.getRegionWidth() * 0.75f,
+		batch.draw(currentFrame, this.x - this.width, this.y - 12f - this.height / 2, currentFrame.getRegionWidth() * 0.75f,
 				currentFrame.getRegionHeight() * 0.75f);
 
 	}

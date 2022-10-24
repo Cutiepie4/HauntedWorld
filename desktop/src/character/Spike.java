@@ -22,6 +22,8 @@ public class Spike extends Entity {
 		this.animationHandler.setActionDirection("hide", "", false);
 
 		this.damage = 3;
+		
+		this.y += 12;
 	}
 
 	@Override
@@ -31,13 +33,13 @@ public class Spike extends Entity {
 
 		if (this.timer > 4f) {
 			this.animationHandler.setAction("show", false);
-//			this.body.getFixtureList().first().setSensor(false);
+			this.body.getFixtureList().first().setSensor(false);
 			this.timer = 0f;
 		}
 
 		if (this.animationHandler.getAction().equals("show") && this.animationHandler.isAnimationFinished()) {
 			this.animationHandler.setAction("hide", false);
-//			this.body.getFixtureList().first().setSensor(true);
+			this.body.getFixtureList().first().setSensor(true);
 		}
 
 	}
@@ -49,7 +51,7 @@ public class Spike extends Entity {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,
+		batch.draw(currentFrame, this.x - this.width / 2, this.y - 12f - this.height / 2,
 				currentFrame.getRegionWidth() * 0.75f, currentFrame.getRegionHeight() * 0.75f);
 
 	}

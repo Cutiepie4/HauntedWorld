@@ -16,7 +16,7 @@ public class Constants {
 
 	public static String[] DECOR = { "water", "bonfire", "torch", "regia", "edge", "waterplant", "greentree",
 			"orangetree", "bluehouse", "orangehouse", "doublestonepillar", "leftwoodpillar", "rightwoodpillar",
-			"shortstonepillar", "highstonepillar", "door" };
+			"shortstonepillar", "highstonepillar" };
 
 	public static String[] ITEMS_DROP = { "Crystal", "Health Potion" };
 

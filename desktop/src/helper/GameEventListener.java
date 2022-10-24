@@ -9,7 +9,9 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import character.Boss;
 import character.Bullet;
+import character.Door;
 import character.Enemy;
+import character.Gate;
 import character.Laser;
 import character.Player;
 import character.Spike;
@@ -105,12 +107,12 @@ public class GameEventListener implements ContactListener {
 					}
 				}
 
-//				else if (fb.isSensor() && fb.getUserData() instanceof Spike) {
-//					Spike spike = (Spike) fb.getUserData();
-//					if (spike.getAnimationHandler().getAction().equals("show")) {
-//						Player.INSTANCE.isHit(spike);
-//					}
-//				}
+				else if (fb.isSensor() && fb.getUserData() instanceof Spike) {
+					Spike spike = (Spike) fb.getUserData();
+					if (spike.getAnimationHandler().getAction().equals("show")) {
+						Player.INSTANCE.isHit(spike);
+					}
+				}
 
 				else if (fb.isSensor() && (fb.getUserData() instanceof Laser || fb.getUserData() instanceof Bullet)) {
 					Player.INSTANCE.isHit((Entity) fb.getUserData());
@@ -118,6 +120,15 @@ public class GameEventListener implements ContactListener {
 
 				else if (fb.getUserData().equals("bossvision")) {
 					Boss.INSTANCE.detectPlayer();
+				}
+
+				// Interact
+				else if (fb.getUserData() instanceof Gate) {
+					Gate.button = true;
+				}
+
+				else if (fb.getUserData() instanceof Door) {
+					Door.button = true;
 				}
 			}
 		}
@@ -173,7 +184,7 @@ public class GameEventListener implements ContactListener {
 		if (fa == null || fb == null || fa.getUserData() == null || fb.getUserData() == null)
 			return;
 
-		if (fa.getUserData().equals("playerbody")) {
+		if (fa.getUserData().equals("playerbody") || fb.getUserData().equals("playerbody")) {
 			if (fb.getUserData() instanceof Enemy) {
 				timer += Gdx.graphics.getDeltaTime();
 				if (timer > 0.5f) {
@@ -182,13 +193,14 @@ public class GameEventListener implements ContactListener {
 				}
 			}
 
-			else if (fb.getUserData() instanceof Spike) {
-				Spike spike = (Spike) fb.getUserData();
-				if (spike.getAnimationHandler().getAction().equals("show")
-						&& spike.getAnimationHandler().isAnimationFinished()) {
-					Player.INSTANCE.isHit((Enemy) fb.getUserData());
-				}
-			}
+//			else if (fb.getUserData() instanceof Spike) {
+//				System.out.println("spike");
+//				Spike spike = (Spike) fb.getUserData();
+//				if (spike.getAnimationHandler().getAction().equals("show")
+//						&& spike.getAnimationHandler().isAnimationFinished()) {
+//					Player.INSTANCE.isHit((Enemy) fb.getUserData());
+//				}
+//			}
 
 			else if (fb.getUserData() instanceof Trap || fb.getUserData() instanceof Spike) {
 				timer += Gdx.graphics.getDeltaTime();
@@ -211,6 +223,6 @@ public class GameEventListener implements ContactListener {
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
+
 	}
 };

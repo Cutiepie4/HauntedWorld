@@ -114,10 +114,7 @@ public class GameScreen extends ScreenAdapter {
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 //			Player.INSTANCE.revive();
-			Gdx.app.postRunnable(() -> {
-				Player.INSTANCE.revive();
-				Boot.INSTANCE.setScreen(new ReloadScreen(camera));
-			});
+			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 		}
 
 	}
@@ -146,8 +143,6 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectsRender() {
-		if (GameScreen.isPause)
-			return;
 		for (Entity i : listObjects) {
 			if (i != null) {
 				i.render(batch);
@@ -187,6 +182,15 @@ public class GameScreen extends ScreenAdapter {
 
 	public void addObjects(Entity object) {
 		this.toAdd.add(object);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		this.world.dispose();
+		this.batch.dispose();
+		this.orthogonalTiledMapRenderer.dispose();
+		this.box2dDebugRenderer.dispose();
 	}
 
 }

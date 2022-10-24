@@ -17,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import character.Boss;
+import character.Door;
+import character.Gate;
 import character.Player;
 import character.Spider;
 import character.Spike;
@@ -164,6 +166,32 @@ public class TileMapHelper {
 					spike.getBody().getFixtureList().first().setUserData(spike);
 					spike.getBody().getFixtureList().first().setSensor(true);
 					gc.addObjects(spike);
+				}
+
+				else if (rectangleName.equals("door")) {
+
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					Door door = new Door(rectangle.getWidth(), rectangle.getHeight(), body);
+
+					door.getBody().getFixtureList().first().setUserData(door);
+					door.getBody().getFixtureList().first().setSensor(false);
+					gc.addObjects(door);
+				}
+
+				else if (rectangleName.equals("gate")) {
+
+					Body body = BodyHelperService.createBody(rectangle.getX() + (float) rectangle.getWidth() / 2,
+							rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
+							rectangle.getHeight(), true, gc.getWorld());
+
+					Gate gate = new Gate(rectangle.getWidth(), rectangle.getHeight(), body);
+
+					gate.getBody().getFixtureList().first().setUserData(gate);
+					gate.getBody().getFixtureList().first().setSensor(false);
+					gc.addObjects(gate);
 				}
 
 				else if (rectangleName.equals("chest")) {
