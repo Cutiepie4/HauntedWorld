@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.Array;
 
 import character.Bullet;
 import character.Player;
+import helper.AudioManager;
 import helper.GameEventListener;
 import helper.TileMapHelper;
 import main.Boot;
@@ -58,6 +60,8 @@ public class GameScreen extends ScreenAdapter {
 		this.tileMapHelper = new TileMapHelper(this);
 
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+
+		AudioManager.INSTANCE.playMusic("overworld", true);
 	}
 
 	private void cameraUpdate() {
@@ -78,7 +82,7 @@ public class GameScreen extends ScreenAdapter {
 		if (position.x < startX) {
 			position.x = startX;
 		}
-		
+
 		if (position.y < startY) {
 			position.y = startY;
 		}
@@ -86,7 +90,7 @@ public class GameScreen extends ScreenAdapter {
 		if (position.x > endX) {
 			position.x = endX;
 		}
-		
+
 		if (position.y > endY) {
 			position.y = endY;
 		}
@@ -115,10 +119,11 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
-			
+
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 		}
 
+		this.checkInput();
 	}
 
 	@Override
@@ -184,5 +189,42 @@ public class GameScreen extends ScreenAdapter {
 
 	public void addObjects(Entity object) {
 		this.toAdd.add(object);
+	}
+
+	private void checkInput() {
+		int musicVolume = AudioManager.INSTANCE.getMusicVolume();
+		int soundVolume = AudioManager.INSTANCE.getSoundVolume();
+
+		if (Gdx.input.isKeyJustPressed(Keys.F1)) {
+			musicVolume -= 10;
+		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.F2)) {
+			musicVolume += 10;
+		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.F3)) {
+			soundVolume -= 10;
+		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.F4)) {
+			soundVolume += 10;
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.F5)) {
+			AudioManager.INSTANCE.mute();
+		}
+
+		if (musicVolume < 0)
+			musicVolume = 0;
+		if (musicVolume > 100)
+			musicVolume = 100;
+		if (soundVolume < 0)
+			soundVolume = 0;
+		if (soundVolume > 100)
+			soundVolume = 100;
+
+		AudioManager.INSTANCE.setSfxVolume(soundVolume);
+		AudioManager.INSTANCE.setMusicVolume(musicVolume);
 	}
 }

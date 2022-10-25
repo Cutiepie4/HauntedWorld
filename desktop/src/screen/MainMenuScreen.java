@@ -42,8 +42,6 @@ public class MainMenuScreen extends ScreenAdapter {
 		skin = assetManager.get(Assets.SKIN);
 
 		audio = new AudioManager();
-		audio.addMusic("audio/music/MainScreenMusic.ogg");
-		audio.load();
 		audio.playMusic("MainScreenMusic", true);
 
 		viewport = new ExtendViewport(900, 600);
@@ -65,14 +63,19 @@ public class MainMenuScreen extends ScreenAdapter {
 		addButton("PLAY").addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				audio.playSound("click");
 				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
-					
+
 					@Override
 					public void run() {
-						audio.stopAllSongs();
+						audio.stopMusic();
+
 						Gdx.app.postRunnable(() -> {
+							stage.dispose();
 							Boot.INSTANCE.setScreen(new GameScreen(camera));
 						});
+						
+						
 					}
 
 				})));
@@ -82,6 +85,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		addButton("EXIT").addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				audio.playSound("click");
 				Gdx.app.exit();
 			}
 		});

@@ -10,7 +10,6 @@ import things.Entity;
 public class Door extends Entity {
 
 	public static boolean button = false;
-	private AudioManager audio = new AudioManager();
 
 	public Door(float width, float height, Body body) {
 
@@ -22,9 +21,6 @@ public class Door extends Entity {
 
 		this.animationHandler.setActionDirection("close", "", false);
 		
-		this.audio.addSound("audio/sound/door/open.ogg");
-		
-		this.audio.load();
 	}
 
 	@Override
@@ -33,7 +29,7 @@ public class Door extends Entity {
 		if (Door.button) {
 			if (this.animationHandler.getAction().equals("close")) {
 				this.animationHandler.setAction("open", false);
-				this.audio.playSound("open");
+				AudioManager.INSTANCE.playSound("open");
 			}
 				
 			if (this.animationHandler.isAnimationFinished())

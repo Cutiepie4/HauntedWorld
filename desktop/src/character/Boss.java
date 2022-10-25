@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
+import helper.AudioManager;
 import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
@@ -38,7 +39,7 @@ public class Boss extends Enemy implements Dropable {
 			this.animationHandler.add(FRAME_TIME, "boss", state[i], "");
 		}
 
-		this.health = 85;
+		this.health = 10;
 
 		this.MAX_HEALTH = 100;
 
@@ -138,7 +139,8 @@ public class Boss extends Enemy implements Dropable {
 
 		this.drawBoss(batch);
 
-		this.showHealth(batch, 80, 6);
+		if (!this.animationHandler.getAction().equals("dead"))
+			this.showHealth(batch, 80, 6);
 
 		this.drawLaser(batch);
 	}
@@ -149,6 +151,7 @@ public class Boss extends Enemy implements Dropable {
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
 
+		AudioManager.INSTANCE.playSound("slashboss");
 		this.health -= player.getDamage();
 
 		if (this.isLasering || this.isTrapping)
@@ -162,6 +165,7 @@ public class Boss extends Enemy implements Dropable {
 
 		else if (!this.animationHandler.getAction().equals("dead")) {
 			this.animationHandler.setAction("dead", false);
+			AudioManager.INSTANCE.playSound("deadboss");
 		}
 	}
 
@@ -209,6 +213,7 @@ public class Boss extends Enemy implements Dropable {
 	public void trapActive() {
 		this.isTrapping = true;
 		this.animationHandler.setAction("casttrap", false);
+		AudioManager.INSTANCE.playSound("trap");
 	}
 
 	// LASER
@@ -217,6 +222,7 @@ public class Boss extends Enemy implements Dropable {
 			this.laser = new Laser(0, 70, 90);
 //			this.animationHandler.setAction("castlaser", false);
 			this.isLasering = true;
+			AudioManager.INSTANCE.playSound("laser");
 		}
 	}
 
@@ -230,6 +236,7 @@ public class Boss extends Enemy implements Dropable {
 	public void bulletActive() {
 		this.animationHandler.setAction("castbullet", false);
 		this.restoreBullets();
+		AudioManager.INSTANCE.playSound("missle");
 	}
 
 	private void restoreBullets() {

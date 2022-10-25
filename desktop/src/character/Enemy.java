@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.AnimationHandler;
+import helper.AudioManager;
 import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
@@ -40,7 +41,7 @@ public abstract class Enemy extends Entity implements Dropable {
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
 		
-		Player.INSTANCE.getAudio().playSound("slash");
+		AudioManager.INSTANCE.playSound("slash");
 		this.health -= player.getDamage();
 
 		if (this.health > 0) {

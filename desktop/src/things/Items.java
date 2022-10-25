@@ -14,7 +14,6 @@ import screen.GameScreen;
 
 public class Items extends Entity {
 
-	protected AudioManager audio = new AudioManager();
 	protected boolean isLooted;
 	protected Image icon;
 
@@ -33,9 +32,6 @@ public class Items extends Entity {
 
 		}
 
-		this.audio.addSound("audio/sound/items/loot.wav");
-		this.audio.load();
-
 		this.isLooted = false;
 
 		this.animationHandler.setActionDirection("idle", "", true);
@@ -47,9 +43,6 @@ public class Items extends Entity {
 		super(width, height, BodyHelperService.createBody(x, y, width, height, true, GameScreen.INSTANCE.getWorld()),
 				name);
 		
-		this.audio.addSound("audio/sound/items/loot.wav");
-		this.audio.load();
-
 		this.body.getFixtureList().first().setSensor(true);
 
 		this.body.getFixtureList().first().setUserData(this);
@@ -98,7 +91,7 @@ public class Items extends Entity {
 	}
 
 	public void loot() {
-		this.audio.playSound("loot");
+		AudioManager.INSTANCE.playSound("loot");
 		this.animationHandler.setAction("loot", false);
 		this.isLooted = true;
 	}

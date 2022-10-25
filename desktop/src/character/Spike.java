@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.AudioManager;
 import things.Entity;
 
 public class Spike extends Entity {
@@ -22,7 +23,7 @@ public class Spike extends Entity {
 		this.animationHandler.setActionDirection("hide", "", false);
 
 		this.damage = 3;
-		
+
 		this.y += 12;
 	}
 

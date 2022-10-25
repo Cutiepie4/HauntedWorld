@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 
 public class AudioManager {
 
+	public static AudioManager INSTANCE;
 	protected HashMap<String, Sound> sound;
 	protected HashMap<String, Music> music;
 	protected float soundVolume;
@@ -16,30 +17,75 @@ public class AudioManager {
 	protected boolean muted;
 	public boolean isSoundLooping = false;
 	protected long currentID;
+	protected String currentSong;
 
 	private ArrayList<String> listMusic, listSound;
 
 	public AudioManager() {
+		INSTANCE = this;
 		sound = new HashMap<String, Sound>();
 		music = new HashMap<String, Music>();
 		listSound = new ArrayList<String>();
 		listMusic = new ArrayList<String>();
-		soundVolume = 1f;
+		soundVolume = 0.5f;
 		musicVolume = 1f;
 		muted = false;
 		currentID = -1;
+		init();
+	}
+
+	private void init() {
+		// MUSIC
+		this.addMusic("audio/music/MainScreenMusic.ogg");
+		this.addMusic("audio/music/overworld.mp3");
+		this.addMusic("audio/music/dungeon.mp3");
+
+		// SOUND
+		this.addSound("audio/sound/player/footstep.ogg");
+		this.addSound("audio/sound/player/slash.wav");
+		this.addSound("audio/sound/player/whoosh.wav");
+		this.addSound("audio/sound/player/slashboss.wav");
+		this.addSound("audio/sound/player/ishit.mp3");
+
+		this.addSound("audio/sound/boss/missle.wav");
+		this.addSound("audio/sound/boss/deadboss.mp3");
+		this.addSound("audio/sound/boss/laser.mp3");
+		this.addSound("audio/sound/boss/spiketrap.ogg");
+		this.addSound("audio/sound/boss/trap.wav");
+		this.addSound("audio/sound/items/click.wav");
+		this.addSound("audio/sound/items/chestopen.wav");
+
+		this.addSound("audio/sound/items/loot.wav");
+
+		this.addSound("audio/sound/items/break.mp3");
+
+		this.addSound("audio/sound/door/open.ogg");
+
+		this.load();
 	}
 
 	public void mute() {
-		muted = true;
+		muted = !muted;
+		if (muted) {
+			this.pauseMusic(currentSong);
+		} else {
+			this.resumeMusic(currentSong);
+		}
+
 	}
 
-	public void setSfxVolume(float soundVolume) {
-		this.soundVolume = soundVolume;
+	public void setSfxVolume(int soundVolume) {
+		this.soundVolume = soundVolume / 100f;
 	}
 
-	public void setMusicVolume(float musicVolume) {
-		this.musicVolume = musicVolume;
+	public void setMusicVolume(int musicVolume) {
+		this.musicVolume = musicVolume / 100f;
+		for (Music i : music.values()) {
+			if (i.isPlaying()) {
+				i.setVolume(this.musicVolume);
+				break;
+			}
+		}
 	}
 
 	public void addSound(String name) {
@@ -65,7 +111,6 @@ public class AudioManager {
 		}
 	}
 
-	
 	// SOUND
 	public void playSound(String name) {
 		if (!muted) {
@@ -85,7 +130,7 @@ public class AudioManager {
 		if (!muted && !isSoundLooping) {
 			Sound s = sound.get(name);
 			isSoundLooping = true;
-			currentID = s.loop();
+			currentID = s.loop(soundVolume);
 		}
 	}
 
@@ -95,16 +140,10 @@ public class AudioManager {
 		}
 	}
 
-	/**
-	 * Plays a song and stops any other currently playing, if this is the current
-	 * song playing it will just continue
-	 * 
-	 * @param name
-	 * @param loop
-	 */
 	public void playMusic(String name, boolean loop) {
 		if (!muted) {
-			stopAllSongs();
+			this.currentSong = name;
+			this.stopMusic();
 			music.get(name).setVolume(musicVolume);
 			music.get(name).setLooping(loop);
 			music.get(name).play();
@@ -119,7 +158,7 @@ public class AudioManager {
 		music.get(name).stop();
 	}
 
-	public void stopAllSongs() {
+	public void stopMusic() {
 		for (Music song : music.values()) {
 			if (song.isPlaying()) {
 				song.stop();
@@ -127,7 +166,15 @@ public class AudioManager {
 		}
 	}
 
-	public void dispose() {
+	public void resumeMusic(String name) {
+		music.get("overworld").play();
+	}
 
+	public int getMusicVolume() {
+		return (int) (musicVolume * 100);
+	}
+
+	public int getSoundVolume() {
+		return (int) (soundVolume * 100);
 	}
 }

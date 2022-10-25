@@ -15,8 +15,6 @@ public class Vase extends Items implements Dropable {
 	public Vase(float width, float height, Body body) {
 		super(width, height, body, "Vase");
 
-		this.audio.addSound("audio/sound/vase/break.mp3");
-		this.audio.load();
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class Vase extends Items implements Dropable {
 	public void loot() {
 		this.animationHandler.setAction("loot", false);
 		this.isLooted = true;
-		this.audio.playSound("break");
+		AudioManager.INSTANCE.playSound("break");
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
+import helper.AudioManager;
 import helper.Constants;
 import helper.Dropable;
 import main.Boot;
@@ -29,6 +30,13 @@ public class Chest extends Items implements Dropable {
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
+	}
+	
+	@Override
+	public void loot() {
+		this.isLooted = true;
+		AudioManager.INSTANCE.playSound("chestopen");
+		this.animationHandler.setAction("loot", false);
 	}
 
 	@Override
