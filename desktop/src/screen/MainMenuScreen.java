@@ -31,7 +31,6 @@ public class MainMenuScreen extends ScreenAdapter {
 	private Table table;
 	private Viewport viewport;
 	private AssetManager assetManager;
-	private AudioManager audio;
 
 	public MainMenuScreen(OrthographicCamera camera) {
 		Constants.init();
@@ -40,9 +39,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		backGround = new Image(new Texture("background/background.png"));
 		backGround.setSize(900, 600);
 		skin = assetManager.get(Assets.SKIN);
-
-		audio = new AudioManager();
-		audio.playMusic("MainScreenMusic", true);
+		AudioManager.INSTANCE.playMusic("MainScreenMusic", true);
 
 		viewport = new ExtendViewport(900, 600);
 		stage = new Stage(viewport);
@@ -63,12 +60,12 @@ public class MainMenuScreen extends ScreenAdapter {
 		addButton("PLAY").addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				audio.playSound("click");
+				AudioManager.INSTANCE.playSound("click");
 				stage.addAction(Actions.sequence(Actions.fadeOut(0.5f), Actions.run(new Runnable() {
 
 					@Override
 					public void run() {
-						audio.stopMusic();
+						AudioManager.INSTANCE.stopMusic();
 
 						Gdx.app.postRunnable(() -> {
 							stage.dispose();
@@ -85,7 +82,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		addButton("EXIT").addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				audio.playSound("click");
+				AudioManager.INSTANCE.playSound("click");
 				Gdx.app.exit();
 			}
 		});

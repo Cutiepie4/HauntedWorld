@@ -29,7 +29,7 @@ import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
 
-	public static boolean isPause = false;
+	public static int WORLD_WIDTH = 16 * 96, WORLD_HEIGHT = 16 * 96;
 	public static GameScreen INSTANCE;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -70,8 +70,8 @@ public class GameScreen extends ScreenAdapter {
 		position.y = Math.round(Player.INSTANCE.getBody().getPosition().y * Boot.PPM * 10) / 10f;
 		float startX = camera.viewportWidth / 2;
 		float startY = camera.viewportHeight / 2;
-		float width = 1024f - startX;
-		float height = 1024f - startY;
+		float width = GameScreen.WORLD_WIDTH - startX;
+		float height = GameScreen.WORLD_HEIGHT - startY;
 		boundCamera(camera, startX, startY, width, height);
 		// camera.position.set(position);
 		camera.update();
@@ -146,7 +146,7 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.draw(batch);
 
-		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	private void objectsRender() {
@@ -210,8 +210,8 @@ public class GameScreen extends ScreenAdapter {
 		if (Gdx.input.isKeyJustPressed(Keys.F4)) {
 			soundVolume += 10;
 		}
-		
-		if(Gdx.input.isKeyJustPressed(Keys.F5)) {
+
+		if (Gdx.input.isKeyJustPressed(Keys.F5)) {
 			AudioManager.INSTANCE.mute();
 		}
 

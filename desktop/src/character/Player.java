@@ -31,7 +31,7 @@ public class Player extends Entity {
 		super(width, height, body);
 
 		INSTANCE = this;
-		this.speed = 4f;
+		this.speed = 8f;
 		this.listEnemies = new LinkedHashMap<>();
 		this.listInteractiveObjects = new LinkedHashMap<>();
 		this.inventory = new LinkedHashMap<>();
@@ -59,8 +59,6 @@ public class Player extends Entity {
 
 	@Override
 	public void update() {
-		if (GameScreen.isPause)
-			return;
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
 
