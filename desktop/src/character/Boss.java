@@ -9,9 +9,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
 import helper.AudioManager;
+import helper.Constants;
 import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
+import things.Items;
 
 public class Boss extends Enemy implements Dropable {
 
@@ -111,6 +113,11 @@ public class Boss extends Enemy implements Dropable {
 			return;
 		}
 
+		if (this.animationHandler.getAction().equals("dead") && this.animationHandler.isAnimationFinished()
+				&& !this.isDropped) {
+			this.dropItem();
+			this.isDropped = true;
+		}
 	}
 
 	private void drawBoss(SpriteBatch batch) {
@@ -180,7 +187,8 @@ public class Boss extends Enemy implements Dropable {
 
 	@Override
 	public void dropItem() {
-
+		new Items(this.x - 10, this.y + 30, 10, 10, "Gold Key");
+		new Items(this.x + 10, this.y + 30, 10, 10, "Gold Key");
 	}
 
 	public void attack() {

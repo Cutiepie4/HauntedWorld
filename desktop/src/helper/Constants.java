@@ -39,6 +39,8 @@ public class Constants {
 	}
 
 	private static void initOffSet() {
+		OFFSET.put("orangehouse", new Float[] { 0f, 16f });
+		OFFSET.put("bluehouse", new Float[] { 0f, 16f });
 		OFFSET.put("greentree", new Float[] { 0f, 12f });
 		OFFSET.put("orangetree", new Float[] { 0f, 12f });
 		OFFSET.put("highstonepillar", new Float[] { 0f, 10f });

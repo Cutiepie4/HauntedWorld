@@ -29,6 +29,7 @@ import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
 
+	public static boolean isWin = false;
 	public static int WORLD_WIDTH = 16 * 96, WORLD_HEIGHT = 16 * 96;
 	public static GameScreen INSTANCE;
 	private OrthographicCamera camera;
@@ -119,8 +120,12 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
-
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
+		}
+
+		if (GameScreen.isWin) {
+			AudioManager.INSTANCE.stopSound("footstep");
+			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
 		}
 
 		this.checkInput();

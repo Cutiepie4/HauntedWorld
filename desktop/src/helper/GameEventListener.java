@@ -124,11 +124,21 @@ public class GameEventListener implements ContactListener {
 
 				// Interact
 				else if (fb.getUserData() instanceof Gate) {
-					Gate.button = true;
+					if (!Player.INSTANCE.checkGate()) {
+						Hud.INSTANCE.addMessage("Required 2 Silver Keys.");
+					} else {
+						Hud.INSTANCE.addMessage("The Gate is opened.");
+						Gate.button = true;
+					}
 				}
 
 				else if (fb.getUserData() instanceof Door) {
-					((Door) fb.getUserData()).button = true;
+					if (!Player.INSTANCE.checkDoor()) {
+						Hud.INSTANCE.addMessage("Required 2 Gold Keys.");
+					} else {
+						Hud.INSTANCE.addMessage("The Door is opened.");
+						((Door) fb.getUserData()).button = true;
+					}
 				}
 			}
 		}

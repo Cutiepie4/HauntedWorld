@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import helper.AudioManager;
+import screen.GameScreen;
 import things.Entity;
 
 public class Door extends Entity {
@@ -20,7 +21,7 @@ public class Door extends Entity {
 		this.animationHandler.add(1 / 6f, "door", "open", "");
 
 		this.animationHandler.setActionDirection("close", "", false);
-		
+
 	}
 
 	@Override
@@ -31,9 +32,14 @@ public class Door extends Entity {
 				this.animationHandler.setAction("open", false);
 				AudioManager.INSTANCE.playSound("open");
 			}
-				
-			if (this.animationHandler.isAnimationFinished())
+
+			if (this.animationHandler.isAnimationFinished()) {
 				this.body.getFixtureList().first().setSensor(true);
+				if (Boss.INSTANCE.getAnimationHandler().getAction().equals("dead")) {
+					GameScreen.isWin = true;
+				}
+			}
+
 		}
 
 	}

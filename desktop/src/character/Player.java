@@ -240,6 +240,24 @@ public class Player extends Entity {
 		this.inventory.put("Silver Key", this.inventory.get("Silver Key") - 1);
 		return true;
 	}
+	
+	public boolean checkDoor() {
+		if (!this.inventory.containsKey("Gold Key") || this.inventory.get("Gold Key") < 2) {
+			return false;
+		}
+
+		this.inventory.put("Gold Key", this.inventory.get("Gold Key") - 2);
+		return true;
+	}
+	
+	public boolean checkGate() {
+		if (!this.inventory.containsKey("Silver Key") || this.inventory.get("Silver Key") < 2) {
+			return false;
+		}
+
+		this.inventory.put("Silver Key", this.inventory.get("Silver Key") - 2);
+		return true;
+	}
 
 	public void revive() {
 		this.health = Player.MAX_HEALTH;

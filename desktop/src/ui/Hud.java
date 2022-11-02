@@ -47,6 +47,26 @@ public class Hud {
 		this.addMessage("You must survive and find the way to escape here.");
 
 		this.createHudHealthBar();
+		this.volumeMessage();
+	}
+
+	private void volumeMessage() {
+		Table tbl = (Table) stageUI.getActors().get(3);
+		tbl.right();
+		tbl.top();
+		tbl.setFillParent(true);
+		tbl.padRight(50);
+		tbl.padTop(30);
+
+		tbl.add(new Label("F1, F2: change Music Volume.", new Label.LabelStyle(new BitmapFont(), Color.WHITE)));
+		tbl.row();
+		tbl.add(new Label("F3, F4: change SFX Volume.", new Label.LabelStyle(new BitmapFont(), Color.WHITE)));
+		tbl.row();
+		tbl.add(new Label("F5: Mute.", new Label.LabelStyle(new BitmapFont(), Color.WHITE)));
+		tbl.row();
+		tbl.add(new Label("SPACE: Attack.", new Label.LabelStyle(new BitmapFont(), Color.WHITE)));
+		tbl.row();
+		tbl.add(new Label("W, A, S, D: Move.", new Label.LabelStyle(new BitmapFont(), Color.WHITE)));
 	}
 
 	private void updateMessage(float delta) {
@@ -79,9 +99,9 @@ public class Hud {
 		healthBackground.scaleBy(1.32f);
 
 		Table table = (Table) stageUI.getActors().get(0);
-		
+
 		table.clear();
-		
+
 		table.top();
 		table.left();
 		table.setFillParent(true);

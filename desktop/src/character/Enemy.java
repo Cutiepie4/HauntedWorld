@@ -125,7 +125,7 @@ public abstract class Enemy extends Entity implements Dropable {
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
 		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,
-				currentFrame.getRegionWidth() * 0.75f, currentFrame.getRegionHeight() * 0.75f);
+				currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
 	}
 
 	@Override
