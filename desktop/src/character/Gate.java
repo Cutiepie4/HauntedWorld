@@ -13,7 +13,7 @@ public class Gate extends Entity {
 	public Gate(float width, float height, Body body) {
 
 		super(width, height, body);
-		
+
 		this.y += 8f;
 
 		this.animationHandler.add(1 / 6f, "gate", "close", "");
@@ -30,6 +30,13 @@ public class Gate extends Entity {
 				this.animationHandler.setAction("open", false);
 			if (this.animationHandler.isAnimationFinished())
 				this.body.getFixtureList().first().setSensor(true);
+		}
+
+		else {
+			if (this.animationHandler.getAction().equals("open") && this.animationHandler.isAnimationFinished()) {
+				this.body.getFixtureList().first().setSensor(false);
+				this.animationHandler.setAction("close", false);
+			}
 		}
 
 	}

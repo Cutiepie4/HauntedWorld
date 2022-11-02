@@ -128,7 +128,7 @@ public class GameEventListener implements ContactListener {
 				}
 
 				else if (fb.getUserData() instanceof Door) {
-					Door.button = true;
+					((Door) fb.getUserData()).button = true;
 				}
 			}
 		}

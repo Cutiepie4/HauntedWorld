@@ -66,7 +66,4 @@ public class Constants {
 		return new Float[] { 0f, 0f };
 	}
 
-	public static int xxx() {
-		return Constants.OFFSET.size();
-	}
 }

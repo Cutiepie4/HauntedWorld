@@ -9,7 +9,7 @@ import things.Entity;
 
 public class Door extends Entity {
 
-	public static boolean button = false;
+	public boolean button = false;
 
 	public Door(float width, float height, Body body) {
 
@@ -26,7 +26,7 @@ public class Door extends Entity {
 	@Override
 	public void update() {
 
-		if (Door.button) {
+		if (this.button) {
 			if (this.animationHandler.getAction().equals("close")) {
 				this.animationHandler.setAction("open", false);
 				AudioManager.INSTANCE.playSound("open");

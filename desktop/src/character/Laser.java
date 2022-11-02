@@ -116,7 +116,7 @@ public class Laser extends Entity {
 
 		currentFrame.setRegionWidth(200);
 
-		batch.draw(currentFrame, Boss.INSTANCE.getY() - 22, Boss.INSTANCE.getY() - 8, 22, 22,
+		batch.draw(currentFrame, Boss.INSTANCE.getX() - 22, Boss.INSTANCE.getY() - 8, 22, 22,
 				currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), 0.75f, 0.75f,
 				(float) Math.toDegrees(this.body.getAngle()));
 

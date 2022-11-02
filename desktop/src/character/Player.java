@@ -59,8 +59,10 @@ public class Player extends Entity {
 
 	@Override
 	public void update() {
-		if (this.animationHandler.getAction().equals("dead"))
+		if (this.animationHandler.getAction().equals("dead")) {
+			AudioManager.INSTANCE.stopSound("footstep");
 			return;
+		}
 
 		super.update();
 
