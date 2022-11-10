@@ -2,15 +2,19 @@ package character;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import helper.AnimationHandler;
 import helper.AudioManager;
+import helper.BodyHelperService;
 import helper.Dropable;
 import main.Boot;
 import screen.GameScreen;
@@ -24,6 +28,7 @@ public abstract class Enemy extends Entity implements Dropable {
 	protected float speed;
 	protected String name;
 	protected Sprite healthLevel, healthBar;
+	protected float timer = 0f;
 
 	public Enemy(float width, float height, Body body) {
 		super(width, height, body);
@@ -40,7 +45,7 @@ public abstract class Enemy extends Entity implements Dropable {
 	public void isHit(Player player) {
 		if (this.animationHandler.getAction().equals("dead"))
 			return;
-		
+
 		AudioManager.INSTANCE.playSound("slash");
 		this.health -= player.getDamage();
 
@@ -82,17 +87,20 @@ public abstract class Enemy extends Entity implements Dropable {
 			this.animationHandler.setAction("attack", true);
 		}
 	}
-	
+
 	@Override
 	public void update() {
 
+		this.timer += Gdx.graphics.getDeltaTime();
+		this.x = this.body.getPosition().x * Boot.PPM;
+		this.y = this.body.getPosition().y * Boot.PPM;
 		this.healthBar.setPosition(this.x - 10f, this.y + this.height);
 		this.healthLevel.setPosition(this.x - 10f, this.y + this.height);
 
 		if (this.animationHandler.getAction().equals("dead")) {
-			this.body.getFixtureList().first().setSensor(true);
-			if (this.animationHandler.isAnimationFinished()) {
-				this.dropItem();
+			if (!this.isDisposed) {
+				this.isDisposed = true;
+				this.body.getFixtureList().first().setSensor(true);
 				GameScreen.INSTANCE.addToRemove(this);
 			}
 			return;
@@ -100,10 +108,14 @@ public abstract class Enemy extends Entity implements Dropable {
 
 		if (!this.detected) {
 			if (this.animationHandler.isAnimationFinished()) {
-				Random random = new Random();
-				this.body.setLinearVelocity(random.nextInt(-1, 2) * speed, random.nextInt(-1, 2) * speed);
 				this.animationHandler.setAction("idle", true);
 				this.animationHandler.setStateTime(0f);
+
+				if (this.timer > 1f) {
+					Random random = new Random();
+					this.body.setLinearVelocity(random.nextInt(-1, 2) * speed, random.nextInt(-1, 2) * speed);
+					this.timer = 0f;
+				}
 			}
 		}
 
@@ -111,10 +123,8 @@ public abstract class Enemy extends Entity implements Dropable {
 			this.follow(Player.INSTANCE);
 		}
 
-		this.x = this.body.getPosition().x * Boot.PPM;
-		this.y = this.body.getPosition().y * Boot.PPM;
 	}
-	
+
 	@Override
 	public void render(SpriteBatch batch) {
 		update();
@@ -124,8 +134,8 @@ public abstract class Enemy extends Entity implements Dropable {
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();
 
-		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2,
-				currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+		batch.draw(currentFrame, this.x - this.width / 2, this.y - this.height / 2, currentFrame.getRegionWidth(),
+				currentFrame.getRegionHeight());
 	}
 
 	@Override

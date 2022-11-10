@@ -19,26 +19,26 @@ import things.Entity;
 public class Laser extends Entity {
 
 	private float angle;
-	
+
 	public Laser(float x_offset, float y_offset, float angle) {
 		super();
-		
+
 		this.x = Boss.INSTANCE.getX() + x_offset;
-		
+
 		this.y = Boss.INSTANCE.getY() + y_offset;
-		
+
 		this.damage = 5f;
-		
+
 		this.angle = angle;
-		
+
 		this.speed = (float) (Math.PI / 2f);
-		
+
 		this.animationHandler.add(1 / 10f, "laser", "shoot", "");
-		
+
 		this.animationHandler.setAction("shoot", false);
-		
+
 		this.createLaserHitBox();
-		
+
 		this.createJoint();
 	}
 
@@ -48,7 +48,7 @@ public class Laser extends Entity {
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		bodyDef.bullet = true;
 		bodyDef.position.set(this.x, this.y);
-		
+
 		this.body = GameScreen.INSTANCE.getWorld().createBody(bodyDef);
 		this.body.setBullet(true);
 		PolygonShape shape = new PolygonShape();
@@ -89,6 +89,9 @@ public class Laser extends Entity {
 	}
 
 	public void update() {
+		if (this.isDisposed)
+			return;
+
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
@@ -96,9 +99,9 @@ public class Laser extends Entity {
 			this.rotate();
 		}
 
-		if (this.animationHandler.getStateTime() >= 5.4f && !this.isDisposed()) {
+		if (this.animationHandler.getStateTime() >= 5.4f && !this.isDisposed) {
 			GameScreen.INSTANCE.addToRemove(this);
-			this.setDisposed(true);
+			this.isDisposed = true;
 			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);
 			Boss.INSTANCE.isLasering = false;
 		}
@@ -109,7 +112,7 @@ public class Laser extends Entity {
 
 		update();
 
-		if (this.isDisposed())
+		if (this.isDisposed)
 			return;
 
 		TextureRegion currentFrame = this.animationHandler.getFrame();

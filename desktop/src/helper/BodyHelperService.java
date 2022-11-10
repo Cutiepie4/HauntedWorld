@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import main.Boot;
-import things.Entity;
 
 public class BodyHelperService {
 
@@ -41,7 +40,7 @@ public class BodyHelperService {
 		Body body = createBody(x, y, width, height, isStatic, world);
 
 		body.getFixtureList().first().setUserData("playerbody");
-		
+
 		PolygonShape boxPoly = new PolygonShape();
 
 		// LEFT
@@ -75,6 +74,5 @@ public class BodyHelperService {
 		boxPoly.dispose();
 		return body;
 	}
-	
-	
+
 }

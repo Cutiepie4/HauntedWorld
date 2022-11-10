@@ -19,10 +19,10 @@ public class Entity {
 	protected Body body;
 	protected AnimationHandler animationHandler;
 	protected float FRAME_TIME;
-	private boolean isDisposed = false;
+	public boolean isDisposed = false;
 	protected float damage;
 	protected String name;
-	protected boolean isDropped = false;
+	public boolean isDropped = false;
 
 	public Entity(float x, float y, float width, float height, Body body) {
 		this.body = body;
@@ -35,7 +35,6 @@ public class Entity {
 		this.speed = 0;
 		this.animationHandler = new AnimationHandler();
 		this.FRAME_TIME = 0f;
-		this.setDisposed(false);
 		this.damage = 0f;
 		this.name = "null";
 	}
@@ -51,7 +50,6 @@ public class Entity {
 		this.speed = 0;
 		this.animationHandler = new AnimationHandler();
 		this.FRAME_TIME = 0f;
-		this.setDisposed(false);
 		this.damage = 0f;
 		this.name = "null";
 	}
@@ -67,7 +65,6 @@ public class Entity {
 		this.speed = 0;
 		this.animationHandler = new AnimationHandler();
 		this.FRAME_TIME = Constants.getFRAME_TIME(name);
-		this.setDisposed(false);
 		this.damage = 0f;
 		this.name = name;
 	}
@@ -83,7 +80,6 @@ public class Entity {
 		this.speed = 0;
 		this.animationHandler = new AnimationHandler();
 		this.FRAME_TIME = 0f;
-		this.setDisposed(false);
 		this.name = "null";
 	}
 
@@ -126,14 +122,6 @@ public class Entity {
 
 	public float getDamage() {
 		return damage;
-	}
-
-	public boolean isDisposed() {
-		return isDisposed;
-	}
-
-	public void setDisposed(boolean isDisposed) {
-		this.isDisposed = isDisposed;
 	}
 
 	public AnimationHandler getAnimationHandler() {

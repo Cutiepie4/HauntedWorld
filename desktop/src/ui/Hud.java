@@ -43,7 +43,7 @@ public class Hud {
 		stageUI.addActor(new Table());
 		stageUI.addActor(new Table());
 
-		this.addMessage("Welcome to the World of Haunt.");
+		this.addMessage("Welcome to the Haunted World.");
 		this.addMessage("You must survive and find the way to escape here.");
 
 		this.createHudHealthBar();

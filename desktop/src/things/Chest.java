@@ -15,21 +15,6 @@ public class Chest extends Items implements Dropable {
 	}
 
 	@Override
-	public void update() {
-		if (this.isLooted) {
-			if (this.animationHandler.isAnimationFinished()) {
-				GameScreen.INSTANCE.addToRemove(this);
-				this.setDisposed(true);
-				this.dropItem();
-			}
-			return;
-		}
-
-		this.x = this.body.getPosition().x * Boot.PPM;
-		this.y = this.body.getPosition().y * Boot.PPM;
-	}
-
-	@Override
 	public void loot() {
 		this.isLooted = true;
 		AudioManager.INSTANCE.playSound("chestopen");

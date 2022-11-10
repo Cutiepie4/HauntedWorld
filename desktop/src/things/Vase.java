@@ -18,21 +18,6 @@ public class Vase extends Items implements Dropable {
 	}
 
 	@Override
-	public void update() {
-		if (this.isLooted) {
-			if (this.animationHandler.isAnimationFinished()) {
-				GameScreen.INSTANCE.addToRemove(this);
-				this.setDisposed(true);
-				this.dropItem();
-			}
-			return;
-		}
-
-		this.x = this.body.getPosition().x * Boot.PPM;
-		this.y = this.body.getPosition().y * Boot.PPM;
-	}
-
-	@Override
 	public void loot() {
 		this.animationHandler.setAction("loot", false);
 		this.isLooted = true;
@@ -41,13 +26,10 @@ public class Vase extends Items implements Dropable {
 
 	@Override
 	public void dropItem() {
-		if (this.isDropped)
-			return;
 		Random rnd = new Random();
 		if (rnd.nextInt(100) < 100) { // rate drop items
 			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
 			new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]);
 		}
-		this.isDropped = true;
 	}
 }

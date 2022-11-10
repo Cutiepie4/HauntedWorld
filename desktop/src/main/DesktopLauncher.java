@@ -16,7 +16,7 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setWindowIcon("icon.jpg");
 		config.setForegroundFPS(60);
-		config.setTitle("Escape The Haunt");
+		config.setTitle("Haunted World");
 		config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
 		new Lwjgl3Application(new Boot(), config);
 	}

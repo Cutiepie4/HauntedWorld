@@ -1,7 +1,6 @@
 package screen;
 
 import java.util.Comparator;
-import java.util.HashSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,12 +14,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import character.Bullet;
 import character.Player;
 import helper.AudioManager;
+import helper.Dropable;
 import helper.GameEventListener;
 import helper.TileMapHelper;
 import main.Boot;
@@ -121,11 +121,13 @@ public class GameScreen extends ScreenAdapter {
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
+			return;
 		}
 
 		if (GameScreen.isWin) {
 			AudioManager.INSTANCE.stopSound("footstep");
 			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
+			return;
 		}
 
 		this.checkInput();
@@ -151,7 +153,7 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.draw(batch);
 
-		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	private void objectsRender() {
@@ -163,13 +165,16 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void objectUpdate() {
-		for (Entity i : toRemove) {
-			if (i != null && i.getBody() != null && i.getAnimationHandler().isAnimationFinished()) {
+		final Array<Entity> temp = new Array<>(toRemove);
+		for (Entity i : temp) {
+			if (i.getAnimationHandler().isAnimationFinished() && !this.world.isLocked()) {
 				this.listObjects.removeValue(i, true);
-//				i.getBody().setActive(false);
-				this.world.destroyBody(i.getBody());
-				i.setBody(null);
-				i = null;
+				toRemove.removeValue(i, true);
+				this.removeBody(i.getBody());
+				if (i instanceof Dropable && !i.isDropped) {
+					((Dropable) i).dropItem();
+					i.isDropped = true;
+				}
 			}
 		}
 
@@ -178,6 +183,14 @@ public class GameScreen extends ScreenAdapter {
 				this.listObjects.add(i);
 		}
 		toAdd.clear();
+	}
+
+	private void removeBody(Body body) {
+		Array<Fixture> fixtures = body.getFixtureList();
+		for (Fixture fixture : fixtures) {
+			body.destroyFixture(fixture);
+		}
+		this.world.destroyBody(body);
 	}
 
 	public void addToRemove(Entity object) {

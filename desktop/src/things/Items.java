@@ -42,7 +42,7 @@ public class Items extends Entity {
 	public Items(float x, float y, float width, float height, String name) {
 		super(width, height, BodyHelperService.createBody(x, y, width, height, true, GameScreen.INSTANCE.getWorld()),
 				name);
-		
+
 		this.body.getFixtureList().first().setSensor(true);
 
 		this.body.getFixtureList().first().setUserData(this);
@@ -69,9 +69,9 @@ public class Items extends Entity {
 	@Override
 	public void update() {
 		if (this.isLooted) {
-			if (!isDisposed()) {
+			if (!this.isDisposed) {
 				GameScreen.INSTANCE.addToRemove(this);
-				this.setDisposed(true);
+				this.isDisposed = true;
 			}
 			return;
 		}

@@ -24,7 +24,8 @@ public class Boss extends Enemy implements Dropable {
 	public boolean isTrapping = false;
 	public boolean isFiring = false;
 	private boolean flip = false; // true is left, false is right
-	private float timer = 0f;
+	private float cooldownAttack = 0f;
+//	private float cooldownSpawn = 0f;
 
 	public Boss(float width, float height, Body body) {
 		super(width, height, body);
@@ -35,11 +36,13 @@ public class Boss extends Enemy implements Dropable {
 
 		this.name = "Boss";
 
-		String[] state = { "idle", "dead", "castlaser", "casttrap", "castbullet", "hit" };
+		String[] state = { "idle", "castlaser", "casttrap", "castbullet", "hit" };
 
 		for (int i = 0; i < state.length; i++) {
 			this.animationHandler.add(FRAME_TIME, "boss", state[i], "");
 		}
+
+		this.animationHandler.add(1 / 3f, "boss", "dead", "");
 
 		this.health = 10;
 
@@ -76,7 +79,8 @@ public class Boss extends Enemy implements Dropable {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
-		timer += Gdx.graphics.getDeltaTime();
+		cooldownAttack += Gdx.graphics.getDeltaTime();
+//		cooldownSpawn += Gdx.graphics.getDeltaTime();
 
 		this.body.setAwake(true);
 
@@ -93,11 +97,11 @@ public class Boss extends Enemy implements Dropable {
 		}
 
 		if (this.detected) {
-			if (!this.isLasering && !this.isTrapping && this.timer > 8f) {
+			if (!this.isLasering && !this.isTrapping && this.cooldownAttack > 8f) {
 				this.attack();
 			}
 
-			else if (this.timer > 10f) {
+			else if (this.cooldownAttack > 10f) {
 				this.attack();
 			}
 		}
@@ -191,14 +195,11 @@ public class Boss extends Enemy implements Dropable {
 		new Items(this.x + 10, this.y + 30, 10, 10, "Gold Key");
 	}
 
-	public void attack() {
+	private void attack() {
 		if (!this.animationHandler.getAction().equals("idle"))
 			return;
 
-		this.timer = 0f;
-//		this.laserActive();
-//		this.bulletActive();
-//		this.trapActive();
+		this.cooldownAttack = 0f;
 
 		Random rnd = new Random();
 
@@ -214,21 +215,19 @@ public class Boss extends Enemy implements Dropable {
 			this.bulletActive();
 			break;
 		}
-
 	}
 
 	// TRAP
-	public void trapActive() {
+	private void trapActive() {
 		this.isTrapping = true;
 		this.animationHandler.setAction("casttrap", false);
 		AudioManager.INSTANCE.playSound("trap");
 	}
 
 	// LASER
-	public void laserActive() {
+	private void laserActive() {
 		if (!this.isLasering) {
 			this.laser = new Laser(0, 70, 90);
-//			this.animationHandler.setAction("castlaser", false);
 			this.isLasering = true;
 			AudioManager.INSTANCE.playSound("laser");
 		}
@@ -241,7 +240,7 @@ public class Boss extends Enemy implements Dropable {
 	}
 
 	// BULLET
-	public void bulletActive() {
+	private void bulletActive() {
 		this.animationHandler.setAction("castbullet", false);
 		this.restoreBullets();
 		AudioManager.INSTANCE.playSound("missle");
@@ -258,4 +257,5 @@ public class Boss extends Enemy implements Dropable {
 			i.render(batch);
 		}
 	}
+
 }
