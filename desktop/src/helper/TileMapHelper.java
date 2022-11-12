@@ -64,10 +64,8 @@ public class TileMapHelper {
 								rectangle.getY() + (float) rectangle.getHeight() / 2, rectangle.getWidth(),
 								rectangle.getHeight(), true, gc.getWorld());
 
-						body.getFixtureList().first().setSensor(true);
-
 						Decor decor = new Decor(rectangle.getWidth(), rectangle.getHeight(), body, rectangleName);
-						gc.addObjects(decor);
+						gc.addObject(decor);
 						break;
 					}
 				}
@@ -78,7 +76,7 @@ public class TileMapHelper {
 							(float) rectangle.getHeight() / 2.5f, false, gc.getWorld(), rectangle);
 
 					Player player = new Player(rectangle.getWidth(), rectangle.getHeight(), body);
-					gc.addObjects(player);
+					gc.addObject(player);
 				}
 
 				else if (rectangleName.equals("spinner")) {
@@ -99,7 +97,7 @@ public class TileMapHelper {
 					spinner.getBody().getFixtureList().first().setUserData(spinner);
 					spinner.getBody().getFixtureList().peek().setUserData(spinner);
 
-					gc.addObjects(spinner);
+					gc.addObject(spinner);
 				}
 
 				else if (rectangleName.equals("spider")) {
@@ -119,7 +117,7 @@ public class TileMapHelper {
 
 					spinner.getBody().getFixtureList().first().setUserData(spinner);
 					spinner.getBody().getFixtureList().peek().setUserData(spinner);
-					gc.addObjects(spinner);
+					gc.addObject(spinner);
 				}
 
 				else if (rectangleName.equals("boss")) {
@@ -139,7 +137,7 @@ public class TileMapHelper {
 
 					boss.getBody().getFixtureList().first().setUserData("bossbody");
 					boss.getBody().getFixtureList().peek().setUserData("bossvision");
-					gc.addObjects(boss);
+					gc.addObject(boss);
 				}
 
 				else if (rectangleName.equals("trap")) {
@@ -152,7 +150,7 @@ public class TileMapHelper {
 
 					trap.getBody().getFixtureList().first().setUserData(trap);
 					trap.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(trap);
+					gc.addObject(trap);
 				}
 
 				else if (rectangleName.equals("spike")) {
@@ -165,7 +163,7 @@ public class TileMapHelper {
 
 					spike.getBody().getFixtureList().first().setUserData(spike);
 					spike.getBody().getFixtureList().first().setSensor(true);
-					gc.addObjects(spike);
+					gc.addObject(spike);
 				}
 
 				else if (rectangleName.equals("door")) {
@@ -178,7 +176,7 @@ public class TileMapHelper {
 
 					door.getBody().getFixtureList().first().setUserData(door);
 					door.getBody().getFixtureList().first().setSensor(false);
-					gc.addObjects(door);
+					gc.addObject(door);
 				}
 
 				else if (rectangleName.equals("gate")) {
@@ -191,7 +189,7 @@ public class TileMapHelper {
 
 					gate.getBody().getFixtureList().first().setUserData(gate);
 					gate.getBody().getFixtureList().first().setSensor(false);
-					gc.addObjects(gate);
+					gc.addObject(gate);
 				}
 
 				else if (rectangleName.equals("chest")) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
+import character.Player;
 import helper.AnimationHandler;
 import helper.Constants;
 import main.Boot;
@@ -134,5 +135,12 @@ public class Entity {
 
 	public void setBody(Body body) {
 		this.body = body;
+	}
+
+	public boolean shouldDraw() {
+		if (Math.abs(this.x - Player.INSTANCE.getX()) >= 200 || Math.abs(this.y - Player.INSTANCE.getY()) >= 200) {
+			return false;
+		}
+		return true;
 	}
 }

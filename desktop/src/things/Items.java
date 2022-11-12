@@ -36,7 +36,7 @@ public class Items extends Entity {
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
-		GameScreen.INSTANCE.addObjects(this);
+		GameScreen.INSTANCE.addObject(this);
 	}
 
 	public Items(float x, float y, float width, float height, String name) {
@@ -63,7 +63,7 @@ public class Items extends Entity {
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
-		GameScreen.INSTANCE.addObjects(this);
+		GameScreen.INSTANCE.addObject(this);
 	}
 
 	@Override

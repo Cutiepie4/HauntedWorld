@@ -16,8 +16,6 @@ public class Decor extends Entity {
 		this.animationHandler.add(FRAME_TIME, name, "idle", "");
 
 		this.animationHandler.setActionDirection("idle", "", true);
-
-		this.body.getFixtureList().first().setSensor(true);
 	}
 
 	@Override

@@ -138,7 +138,7 @@ public class Player extends Entity {
 		}
 
 		this.body.setLinearVelocity(velX * speed, velY * speed);
-
+		
 		if (check) {
 			AudioManager.INSTANCE.stopSound("footstep");
 			this.animationHandler.setAction("idle", true);

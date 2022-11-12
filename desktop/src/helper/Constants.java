@@ -16,7 +16,7 @@ public class Constants {
 
 	public static String[] DECOR = { "water", "bonfire", "torch", "regia", "edge", "waterplant", "greentree",
 			"orangetree", "bluehouse", "orangehouse", "doublestonepillar", "leftwoodpillar", "rightwoodpillar",
-			"shortstonepillar", "highstonepillar" };
+			"shortstonepillar", "highstonepillar", "bluehouse" };
 
 	public static String[] ITEMS_DROP = { "Crystal", "Health Potion" };
 
@@ -24,7 +24,7 @@ public class Constants {
 
 	public static void init() {
 		initOffSet();
-		FRAME_TIME.put("Chest", 1 / 6f);
+		FRAME_TIME.put("Chest", 1 / 4f);
 		FRAME_TIME.put("Vase", 1 / 6f);
 		FRAME_TIME.put("Silver Key", 1 / 8f);
 		FRAME_TIME.put("Gold Key", 1 / 8f);
@@ -59,7 +59,7 @@ public class Constants {
 		if (FRAME_TIME.containsKey(key)) {
 			return FRAME_TIME.get(key);
 		}
-		return 1 / 4f;
+		return 1f;
 	}
 
 	public static Float[] getOFFSET(String name) {

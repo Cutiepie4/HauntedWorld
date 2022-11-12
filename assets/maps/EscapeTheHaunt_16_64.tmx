@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="2742">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="2757">
  <tileset firstgid="1" source="Overworld_Tileset.tsx"/>
  <tileset firstgid="235" source="Dungeon_Tileset.tsx"/>
  <tileset firstgid="391" source="test.tsx"/>
@@ -312,7 +312,7 @@
   <object id="24" name="goldkey" x="410.936" y="870.269" width="12.0686" height="12.0686"/>
   <object id="25" name="silverkey" x="576" y="242.333" width="16" height="12"/>
   <object id="28" name="spinner" x="153.953" y="774.723" width="12.0686" height="12.0686"/>
-  <object id="30" name="healthpotion" x="466.497" y="902.139" width="10" height="10"/>
+  <object id="30" name="healthpotion" x="492.997" y="876.639" width="10" height="10"/>
   <object id="38" name="crystal" x="288" y="1136" width="12" height="12" rotation="0.711766"/>
   <object id="41" name="bonfire" x="1328.33" y="1236.67" width="14" height="10"/>
   <object id="42" name="spinner" x="163.966" y="671.466" width="12.0686" height="12.0686"/>
@@ -1129,5 +1129,20 @@
   <object id="2741" x="496" y="1008">
    <polygon points="0,0 0,32 32,32 32,0"/>
   </object>
+  <object id="2742" name="goldkey" x="431.466" y="872.466" width="12.0686" height="12.0686"/>
+  <object id="2743" name="goldkey" x="442.466" y="870.466" width="12.0686" height="12.0686"/>
+  <object id="2744" name="goldkey" x="448.966" y="869.966" width="12.0686" height="12.0686"/>
+  <object id="2745" name="goldkey" x="457.466" y="872.466" width="12.0686" height="12.0686"/>
+  <object id="2746" name="goldkey" x="466.466" y="870.966" width="12.0686" height="12.0686"/>
+  <object id="2747" name="goldkey" x="481.966" y="872.466" width="12.0686" height="12.0686"/>
+  <object id="2748" name="goldkey" x="389.466" y="870.466" width="12.0686" height="12.0686"/>
+  <object id="2749" name="goldkey" x="372.466" y="868.966" width="12.0686" height="12.0686"/>
+  <object id="2750" name="goldkey" x="352.466" y="867.466" width="12.0686" height="12.0686"/>
+  <object id="2751" name="goldkey" x="328.966" y="867.966" width="12.0686" height="12.0686"/>
+  <object id="2752" name="goldkey" x="340.966" y="867.966" width="12.0686" height="12.0686"/>
+  <object id="2753" name="goldkey" x="361.966" y="868.966" width="12.0686" height="12.0686"/>
+  <object id="2754" name="goldkey" x="380.466" y="870.966" width="12.0686" height="12.0686"/>
+  <object id="2755" name="goldkey" x="399.466" y="870.466" width="12.0686" height="12.0686"/>
+  <object id="2756" name="goldkey" x="423.966" y="870.966" width="12.0686" height="12.0686"/>
  </objectgroup>
 </map>

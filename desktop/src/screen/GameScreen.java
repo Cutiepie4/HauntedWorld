@@ -74,7 +74,6 @@ public class GameScreen extends ScreenAdapter {
 		float width = GameScreen.WORLD_WIDTH - startX;
 		float height = GameScreen.WORLD_HEIGHT - startY;
 		boundCamera(camera, startX, startY, width, height);
-		// camera.position.set(position);
 		camera.update();
 	}
 
@@ -103,7 +102,7 @@ public class GameScreen extends ScreenAdapter {
 	public void update() {
 		world.step(1 / 60f, 6, 2);
 
-		this.objectUpdate();
+		this.listObjectUpdate();
 
 		cameraUpdate();
 
@@ -120,17 +119,19 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
+			this.dispose();
 			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 			return;
 		}
 
 		if (GameScreen.isWin) {
 			AudioManager.INSTANCE.stopSound("footstep");
+			this.dispose();
 			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
 			return;
 		}
 
-		this.checkInput();
+		this.adjustVolume();
 	}
 
 	@Override
@@ -141,7 +142,7 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		listObjects.sort(Comparator.comparing(Entity::getY).reversed());
+		listObjects.sort(Comparator.comparing(Entity::getY));
 
 		orthogonalTiledMapRenderer.render();
 
@@ -153,36 +154,40 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.draw(batch);
 
-//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	private void objectsRender() {
-		for (Entity i : listObjects) {
-			if (i != null) {
-				i.render(batch);
+		for (int i = this.listObjects.size - 1; i >= 0; i--) {
+			if (this.listObjects.get(i).shouldDraw()) {
+				this.listObjects.get(i).render(batch);
 			}
 		}
 	}
 
-	private void objectUpdate() {
+	private void listObjectUpdate() {
 		final Array<Entity> temp = new Array<>(toRemove);
 		for (Entity i : temp) {
 			if (i.getAnimationHandler().isAnimationFinished() && !this.world.isLocked()) {
-				this.listObjects.removeValue(i, true);
-				toRemove.removeValue(i, true);
-				this.removeBody(i.getBody());
-				if (i instanceof Dropable && !i.isDropped) {
-					((Dropable) i).dropItem();
-					i.isDropped = true;
-				}
+				this.removeObject(i);
 			}
 		}
 
 		for (Entity i : toAdd) {
-			if (i != null && !this.listObjects.contains(i, true))
+			if (!this.listObjects.contains(i, true))
 				this.listObjects.add(i);
 		}
 		toAdd.clear();
+	}
+
+	private void removeObject(Entity i) {
+		this.listObjects.removeValue(i, true);
+		toRemove.removeValue(i, true);
+		this.removeBody(i.getBody());
+		if (i instanceof Dropable && !i.isDropped) {
+			((Dropable) i).dropItem();
+			i.isDropped = true;
+		}
 	}
 
 	private void removeBody(Body body) {
@@ -205,11 +210,11 @@ public class GameScreen extends ScreenAdapter {
 		return batch;
 	}
 
-	public void addObjects(Entity object) {
+	public void addObject(Entity object) {
 		this.toAdd.add(object);
 	}
 
-	private void checkInput() {
+	private void adjustVolume() {
 		int musicVolume = AudioManager.INSTANCE.getMusicVolume();
 		int soundVolume = AudioManager.INSTANCE.getSoundVolume();
 
