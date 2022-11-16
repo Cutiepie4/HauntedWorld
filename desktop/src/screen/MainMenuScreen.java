@@ -18,10 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import helper.AudioManager;
-import helper.Constants;
+import controller.Assets;
+import controller.AudioManager;
+import controller.Constants;
 import main.Boot;
-import ui.Assets;
 
 public class MainMenuScreen extends ScreenAdapter {
 	private OrthographicCamera camera;

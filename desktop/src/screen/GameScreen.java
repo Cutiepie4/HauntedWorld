@@ -19,12 +19,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import character.Player;
-import helper.AudioManager;
-import helper.Dropable;
-import helper.GameEventListener;
-import helper.TileMapHelper;
+import controller.AudioManager;
+import controller.GameEventListener;
+import controller.TileMapHelper;
 import main.Boot;
-import things.Entity;
+import model.Dropable;
+import model.Entity;
 import ui.Hud;
 
 public class GameScreen extends ScreenAdapter {
@@ -112,6 +112,12 @@ public class GameScreen extends ScreenAdapter {
 
 		orthogonalTiledMapRenderer.setView(camera);
 
+		this.switchScreen();
+
+		this.adjustVolume();
+	}
+
+	private void switchScreen() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			this.dispose();
 			Gdx.app.exit();
@@ -130,8 +136,6 @@ public class GameScreen extends ScreenAdapter {
 			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
 			return;
 		}
-
-		this.adjustVolume();
 	}
 
 	@Override

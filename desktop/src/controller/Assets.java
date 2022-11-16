@@ -1,12 +1,10 @@
-package ui;
+package controller;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
-import helper.AudioManager;
 
 public class Assets {
 	public static Assets INSTANCE;

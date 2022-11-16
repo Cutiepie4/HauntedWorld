@@ -1,4 +1,4 @@
-package things;
+package model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,9 +7,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import helper.AudioManager;
-import helper.BodyHelperService;
-import helper.Constants;
+import controller.AudioManager;
+import controller.BodyHelperService;
+import controller.Constants;
 import screen.GameScreen;
 
 public class Items extends Entity {

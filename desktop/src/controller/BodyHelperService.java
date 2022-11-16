@@ -1,4 +1,4 @@
-package helper;
+package controller;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;

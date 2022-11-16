@@ -9,8 +9,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import main.Boot;
+import model.Entity;
 import screen.GameScreen;
-import things.Entity;
 
 public class Bullet extends Entity {
 
@@ -76,18 +76,18 @@ public class Bullet extends Entity {
 
 	@Override
 	public void update() {
-		this.timer += Gdx.graphics.getDeltaTime();
-
-		super.update();
-
+		
 		if (this.timer > 3f) {
 			this.body.setAwake(false);
 			this.body.setLinearVelocity(new Vector2(0, 0));
 			return;
 		}
+		
+		this.timer += Gdx.graphics.getDeltaTime();
 
-		this.body.setLinearVelocity(
-				new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
+		super.update();
+
+		this.body.setLinearVelocity(new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
 	}
 
 	@Override
@@ -139,7 +139,6 @@ public class Bullet extends Entity {
 
 		batch.draw(currentFrame, posX, posY, 9f, 9f, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),
 				0.8f, 0.8f, angle);
-
 	}
 
 }

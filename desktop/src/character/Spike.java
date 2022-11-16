@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
-import helper.AudioManager;
-import things.Entity;
+import model.Entity;
 
 public class Spike extends Entity {
 
-	private float timer = 0f;
+	private float timer;
+	public static boolean isActive = false;
 
 	public Spike(float width, float height, Body body) {
 
@@ -20,11 +21,16 @@ public class Spike extends Entity {
 
 		this.animationHandler.add(1, "spike", "hide", "");
 
-		this.animationHandler.setActionDirection("hide", "", false);
+		this.hide();
 
 		this.damage = 3;
 
 		this.y += 12;
+	}
+
+	private void hide() {
+		this.animationHandler.setActionDirection("hide", "", false);
+		this.timer = 0f;
 	}
 
 	@Override
@@ -39,10 +45,9 @@ public class Spike extends Entity {
 		}
 
 		if (this.animationHandler.getAction().equals("show") && this.animationHandler.isAnimationFinished()) {
-			this.animationHandler.setAction("hide", false);
 			this.body.getFixtureList().first().setSensor(true);
+			this.hide();
 		}
-
 	}
 
 	@Override
@@ -50,10 +55,16 @@ public class Spike extends Entity {
 
 		update();
 
-		TextureRegion currentFrame = this.animationHandler.getFrame();
-
-		batch.draw(currentFrame, this.x - this.width / 2, this.y - 12f - this.height / 2,
-				currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+//		TextureRegion currentFrame = this.animationHandler.getFrame();
+//
+//		batch.draw(currentFrame, this.x - this.width / 2, this.y - 12f - this.height / 2, currentFrame.getRegionWidth(),
+//				currentFrame.getRegionHeight());
 
 	}
+
+	@Override
+	public boolean shouldDraw() {
+		return true;
+	}
+
 }

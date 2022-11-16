@@ -1,13 +1,14 @@
-package things;
+package character;
 
 import java.util.Random;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
-import helper.AudioManager;
-import helper.Constants;
-import helper.Dropable;
+import controller.AudioManager;
+import controller.Constants;
 import main.Boot;
+import model.Dropable;
+import model.Items;
 import screen.GameScreen;
 
 public class Vase extends Items implements Dropable {

@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import helper.Constants;
+import controller.Constants;
 import main.Boot;
+import model.Enemy;
+import model.Items;
 import screen.GameScreen;
-import things.Items;
 
 public class Spinner extends Enemy {
 

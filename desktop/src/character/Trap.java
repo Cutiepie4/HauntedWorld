@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import model.Entity;
 import screen.GameScreen;
-import things.Entity;
 
 public class Trap extends Entity {
 

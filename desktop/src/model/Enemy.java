@@ -1,4 +1,4 @@
-package character;
+package model;
 
 import java.util.Random;
 
@@ -12,13 +12,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-import helper.AnimationHandler;
-import helper.AudioManager;
-import helper.BodyHelperService;
-import helper.Dropable;
+import character.Player;
+import controller.AnimationHandler;
+import controller.AudioManager;
+import controller.BodyHelperService;
 import main.Boot;
 import screen.GameScreen;
-import things.Entity;
 
 public abstract class Enemy extends Entity implements Dropable {
 

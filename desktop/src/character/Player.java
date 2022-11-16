@@ -11,11 +11,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import helper.AudioManager;
+import controller.AudioManager;
+import model.Enemy;
+import model.Entity;
+import model.Items;
 import screen.GameScreen;
-import things.Entity;
-import things.Items;
-import things.Vase;
 import ui.Hud;
 
 public class Player extends Entity {

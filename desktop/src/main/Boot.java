@@ -3,8 +3,8 @@ package main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import controller.Assets;
 import screen.MainMenuScreen;
-import ui.Assets;
 
 public class Boot extends Game {
 

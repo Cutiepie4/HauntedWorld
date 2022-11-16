@@ -1,4 +1,4 @@
-package helper;
+package controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -10,15 +10,15 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import character.Boss;
 import character.Bullet;
 import character.Door;
-import character.Enemy;
 import character.Gate;
 import character.Laser;
 import character.Player;
 import character.Spike;
 import character.Trap;
-import things.Entity;
-import things.Items;
-import things.Vase;
+import character.Vase;
+import model.Enemy;
+import model.Entity;
+import model.Items;
 import ui.Hud;
 
 public class GameEventListener implements ContactListener {
@@ -133,6 +133,8 @@ public class GameEventListener implements ContactListener {
 				}
 
 				else if (fb.getUserData() instanceof Door) {
+					if (((Door) fb.getUserData()).button)
+						return;
 					if (!Player.INSTANCE.checkDoor()) {
 						Hud.INSTANCE.addMessage("Required 2 Gold Keys.");
 					} else {

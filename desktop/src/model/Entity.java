@@ -1,4 +1,4 @@
-package things;
+package model;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 import character.Player;
-import helper.AnimationHandler;
-import helper.Constants;
+import controller.AnimationHandler;
+import controller.Constants;
 import main.Boot;
 import screen.GameScreen;
 
@@ -138,7 +138,7 @@ public class Entity {
 	}
 
 	public boolean shouldDraw() {
-		if (Math.abs(this.x - Player.INSTANCE.getX()) >= 200 || Math.abs(this.y - Player.INSTANCE.getY()) >= 200) {
+		if (Math.abs(this.x - Player.INSTANCE.getX()) >= 250 || Math.abs(this.y - Player.INSTANCE.getY()) >= 250) {
 			return false;
 		}
 		return true;

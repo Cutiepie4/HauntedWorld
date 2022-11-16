@@ -11,10 +11,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
-import helper.BodyHelperService;
+import controller.BodyHelperService;
 import main.Boot;
+import model.Entity;
 import screen.GameScreen;
-import things.Entity;
 
 public class Laser extends Entity {
 

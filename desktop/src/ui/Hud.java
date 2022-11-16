@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import character.Player;
-import helper.HudActorItems;
+import controller.HudActor;
 import main.DesktopLauncher;
 
 public class Hud {
@@ -127,7 +127,7 @@ public class Hud {
 			for (String i : Player.INSTANCE.getInventory().keySet()) {
 				int count = Player.INSTANCE.getInventory().get(i);
 				if (count > 0) {
-					HudActorItems actor = new HudActorItems(i, Player.INSTANCE.getInventory().get(i));
+					HudActor actor = new HudActor(i, Player.INSTANCE.getInventory().get(i));
 					table.add(actor.getImage()).padBottom(35).padLeft(50);
 					table.add(actor.getLabel()).padBottom(50).padLeft(25);
 					table.row();

@@ -1,10 +1,11 @@
-package things;
+package character;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
-import helper.AudioManager;
-import helper.Dropable;
+import controller.AudioManager;
 import main.Boot;
+import model.Dropable;
+import model.Items;
 import screen.GameScreen;
 
 public class Chest extends Items implements Dropable {

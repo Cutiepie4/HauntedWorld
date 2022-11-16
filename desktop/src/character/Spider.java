@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-import helper.BodyHelperService;
-import helper.Constants;
+import controller.BodyHelperService;
+import controller.Constants;
 import main.Boot;
+import model.Enemy;
+import model.Items;
 import screen.GameScreen;
-import things.Items;
 
 public class Spider extends Enemy {
 	public Spider(float width, float height, Body body) {

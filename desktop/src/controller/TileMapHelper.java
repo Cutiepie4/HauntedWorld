@@ -1,4 +1,4 @@
-package helper;
+package controller;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import character.Boss;
+import character.Chest;
 import character.Door;
 import character.Gate;
 import character.Player;
@@ -24,12 +25,11 @@ import character.Spider;
 import character.Spike;
 import character.Spinner;
 import character.Trap;
+import character.Vase;
 import main.Boot;
+import model.Decor;
+import model.Items;
 import screen.GameScreen;
-import things.Chest;
-import things.Decor;
-import things.Items;
-import things.Vase;
 
 public class TileMapHelper {
 

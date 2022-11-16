@@ -8,12 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
-import helper.AudioManager;
-import helper.Constants;
-import helper.Dropable;
+import controller.AudioManager;
+import controller.Constants;
 import main.Boot;
+import model.Dropable;
+import model.Enemy;
+import model.Items;
 import screen.GameScreen;
-import things.Items;
 
 public class Boss extends Enemy implements Dropable {
 
