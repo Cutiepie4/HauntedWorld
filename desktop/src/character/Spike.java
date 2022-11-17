@@ -16,6 +16,8 @@ public class Spike extends Entity {
 	public Spike(float width, float height, Body body) {
 
 		super(width, height, body);
+		
+		this.name = "Spike";
 
 		this.animationHandler.add(1 / 8f, "spike", "show", "");
 
@@ -54,11 +56,15 @@ public class Spike extends Entity {
 	public void render(SpriteBatch batch) {
 
 		update();
+		
+		TextureRegion currentFrame = this.animationHandler.getFrame();
+		
+		if(!super.shouldDraw()) {
+			return;
+		}
 
-//		TextureRegion currentFrame = this.animationHandler.getFrame();
-//
-//		batch.draw(currentFrame, this.x - this.width / 2, this.y - 12f - this.height / 2, currentFrame.getRegionWidth(),
-//				currentFrame.getRegionHeight());
+		batch.draw(currentFrame, this.x - this.width / 2, this.y - 12f - this.height / 2, currentFrame.getRegionWidth(),
+				currentFrame.getRegionHeight());
 
 	}
 

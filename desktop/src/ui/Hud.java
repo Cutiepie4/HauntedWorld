@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -19,7 +20,7 @@ import character.Player;
 import controller.HudActor;
 import main.DesktopLauncher;
 
-public class Hud {
+public class Hud implements Disposable {
 
 	public static Hud INSTANCE;
 	private Stage stageUI;
@@ -171,4 +172,8 @@ public class Hud {
 		this.stageUI.draw();
 	}
 
+	@Override
+	public void dispose() {
+		this.stageUI.dispose();
+	}
 }

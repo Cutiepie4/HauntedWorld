@@ -58,6 +58,7 @@ public class AudioManager {
 		this.addSound("audio/sound/items/loot.wav");
 
 		this.addSound("audio/sound/items/break.mp3");
+		this.addSound("audio/sound/items/cancel.mp3");
 
 		this.addSound("audio/sound/door/open.ogg");
 

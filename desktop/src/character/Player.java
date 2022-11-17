@@ -105,7 +105,7 @@ public class Player extends Entity {
 			animationHandler.setActionDirection("run", "right", true);
 		}
 
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+		else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			AudioManager.INSTANCE.playSound("footstep", true);
 			check = false;
 			velX = -1;
@@ -113,16 +113,15 @@ public class Player extends Entity {
 			animationHandler.setActionDirection("run", "left", true);
 		}
 
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+		else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			AudioManager.INSTANCE.playSound("footstep", true);
 			check = false;
 			velY = 1;
 			this.animationHandler.setDirection("up");
 			animationHandler.setActionDirection("run", "up", true);
-
 		}
 
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+		else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
 			AudioManager.INSTANCE.playSound("footstep", true);
 			check = false;
 			velY = -1;
@@ -234,6 +233,7 @@ public class Player extends Entity {
 
 	public boolean checkChest() {
 		if (!this.inventory.containsKey("Silver Key") || this.inventory.get("Silver Key") < 1) {
+			AudioManager.INSTANCE.playSound("cancel");
 			return false;
 		}
 
@@ -243,6 +243,7 @@ public class Player extends Entity {
 	
 	public boolean checkDoor() {
 		if (!this.inventory.containsKey("Gold Key") || this.inventory.get("Gold Key") < 2) {
+			AudioManager.INSTANCE.playSound("cancel");
 			return false;
 		}
 
@@ -252,6 +253,7 @@ public class Player extends Entity {
 	
 	public boolean checkGate() {
 		if (!this.inventory.containsKey("Silver Key") || this.inventory.get("Silver Key") < 2) {
+			AudioManager.INSTANCE.playSound("cancel");
 			return false;
 		}
 

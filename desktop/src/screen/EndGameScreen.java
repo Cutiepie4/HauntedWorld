@@ -20,10 +20,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import controller.Assets;
+import controller.AudioManager;
 import main.Boot;
 
 public class EndGameScreen extends ScreenAdapter {
-	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	Texture background;
 	Label label;
@@ -35,9 +35,8 @@ public class EndGameScreen extends ScreenAdapter {
 
 	public EndGameScreen(OrthographicCamera camera) {
 		this.batch = new SpriteBatch();
-		this.camera = camera;
 		this.assetManager = Boot.INSTANCE.getAssets().getAssetManager();
-		background = new Texture("background/youaredead.png");
+		background = new Texture("background/endgamebackground.jpg");
 		skin = assetManager.get(Assets.SKIN);
 	}
 
@@ -75,7 +74,7 @@ public class EndGameScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(.1f, .2f, .15f, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		this.update(delta);

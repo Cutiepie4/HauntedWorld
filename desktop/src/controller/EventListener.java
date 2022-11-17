@@ -21,7 +21,7 @@ import model.Entity;
 import model.Items;
 import ui.Hud;
 
-public class GameEventListener implements ContactListener {
+public class EventListener implements ContactListener {
 
 	private float timer = 10f;
 

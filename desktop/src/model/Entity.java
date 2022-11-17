@@ -138,7 +138,8 @@ public class Entity {
 	}
 
 	public boolean shouldDraw() {
-		if (Math.abs(this.x - Player.INSTANCE.getX()) >= 250 || Math.abs(this.y - Player.INSTANCE.getY()) >= 250) {
+		if (Math.sqrt((this.x - Player.INSTANCE.getX()) * (this.x - Player.INSTANCE.getX())
+				+ (this.y - Player.INSTANCE.getY()) * (this.y - Player.INSTANCE.getY())) >= 250f) {
 			return false;
 		}
 		return true;

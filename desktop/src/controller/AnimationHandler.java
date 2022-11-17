@@ -26,7 +26,6 @@ public class AnimationHandler {
 
 		TextureAtlas textureAtlas = new TextureAtlas(
 				Gdx.files.internal(object + "/" + action + "/" + action + direction + ".atlas"));
-
 		animations.put(action + direction, new Animation<TextureRegion>(FRAME_TIME, textureAtlas.findRegions("tile")));
 	}
 
@@ -77,5 +76,4 @@ public class AnimationHandler {
 	public float getStateTime() {
 		return this.stateTime;
 	}
-
 }

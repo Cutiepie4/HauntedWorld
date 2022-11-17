@@ -25,7 +25,7 @@ import main.Boot;
 
 public class MainMenuScreen extends ScreenAdapter {
 	private OrthographicCamera camera;
-	private Image backGround;
+	private Image background;
 	private Stage stage;
 	private Skin skin;
 	private Table table;
@@ -36,8 +36,8 @@ public class MainMenuScreen extends ScreenAdapter {
 		Constants.init();
 		this.camera = camera;
 		this.assetManager = Boot.INSTANCE.getAssets().getAssetManager();
-		backGround = new Image(new Texture("background/background.png"));
-		backGround.setSize(900, 600);
+		background = new Image(new Texture("background/background.png"));
+		background.setSize(900, 600);
 		skin = assetManager.get(Assets.SKIN);
 		AudioManager.INSTANCE.playMusic("MainScreenMusic", true);
 
@@ -45,7 +45,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		stage = new Stage(viewport);
 
 		table = new Table();
-		table.add(backGround).top().left();
+		table.add(background).top().left();
 		table.setFillParent(true);
 		stage.addActor(table);
 	}
@@ -68,11 +68,10 @@ public class MainMenuScreen extends ScreenAdapter {
 						AudioManager.INSTANCE.stopMusic();
 
 						Gdx.app.postRunnable(() -> {
-							stage.dispose();
+							dispose();
 							Boot.INSTANCE.setScreen(new GameScreen(camera));
 						});
-						
-						
+
 					}
 
 				})));
@@ -82,7 +81,6 @@ public class MainMenuScreen extends ScreenAdapter {
 		addButton("EXIT").addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				AudioManager.INSTANCE.playSound("click");
 				Gdx.app.exit();
 			}
 		});
@@ -114,8 +112,7 @@ public class MainMenuScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		super.dispose();
-
-		this.assetManager.dispose();
+//		this.assetManager.dispose();
 		this.stage.dispose();
 	}
 

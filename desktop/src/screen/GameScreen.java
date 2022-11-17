@@ -19,8 +19,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import character.Player;
+import character.Spike;
 import controller.AudioManager;
-import controller.GameEventListener;
+import controller.EventListener;
 import controller.TileMapHelper;
 import main.Boot;
 import model.Dropable;
@@ -56,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
 		this.box2dDebugRenderer = new Box2DDebugRenderer();
 		this.hud = new Hud(batch);
 
-		world.setContactListener(new GameEventListener()); // contact Collision
+		world.setContactListener(new EventListener()); // contact Collision
 
 		this.tileMapHelper = new TileMapHelper(this);
 
@@ -100,6 +101,10 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	public void update() {
+		if (GameScreen.isWin) {
+			return;
+		}
+
 		world.step(1 / 60f, 6, 2);
 
 		this.listObjectUpdate();
@@ -126,7 +131,7 @@ public class GameScreen extends ScreenAdapter {
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 			this.dispose();
-			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
+			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
 			return;
 		}
 
@@ -146,8 +151,6 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		listObjects.sort(Comparator.comparing(Entity::getY));
-
 		orthogonalTiledMapRenderer.render();
 
 		batch.begin();
@@ -158,14 +161,26 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.draw(batch);
 
-		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	private void objectsRender() {
+
+		Array<Entity> temp = new Array<Entity>();
+
 		for (int i = this.listObjects.size - 1; i >= 0; i--) {
 			if (this.listObjects.get(i).shouldDraw()) {
-				this.listObjects.get(i).render(batch);
+				if (this.listObjects.get(i) instanceof Spike) {
+					this.listObjects.get(i).render(batch);
+				} else
+					temp.add(this.listObjects.get(i));
 			}
+		}
+
+		temp.sort(Comparator.comparing(Entity::getY));
+
+		for (int i = temp.size - 1; i >= 0; i--) {
+			temp.get(i).render(batch);
 		}
 	}
 
@@ -182,6 +197,7 @@ public class GameScreen extends ScreenAdapter {
 				this.listObjects.add(i);
 		}
 		toAdd.clear();
+
 	}
 
 	private void removeObject(Entity i) {
@@ -254,4 +270,20 @@ public class GameScreen extends ScreenAdapter {
 		AudioManager.INSTANCE.setSfxVolume(soundVolume);
 		AudioManager.INSTANCE.setMusicVolume(musicVolume);
 	}
+
+	@Override
+	public void dispose() {
+		this.batch.dispose();
+		this.listObjects.clear();
+		this.box2dDebugRenderer.dispose();
+		Array<Body> temp = new Array<>();
+		this.world.getBodies(temp);
+		for (Body i : temp) {
+			this.world.destroyBody(i);
+		}
+		temp.clear();
+		this.hud.dispose();
+		GameScreen.INSTANCE = null;
+	}
+
 }
