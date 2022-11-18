@@ -36,7 +36,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		Constants.init();
 		this.camera = camera;
 		this.assetManager = Boot.INSTANCE.getAssets().getAssetManager();
-		background = new Image(new Texture("background/background.png"));
+		background = new Image(new Texture("background/background.jpg"));
 		background.setSize(900, 600);
 		skin = assetManager.get(Assets.SKIN);
 		AudioManager.INSTANCE.playMusic("MainScreenMusic", true);

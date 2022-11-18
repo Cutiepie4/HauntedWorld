@@ -33,7 +33,7 @@ public class Door extends Entity {
 				AudioManager.INSTANCE.playSound("open");
 			}
 
-			if (this.animationHandler.isAnimationFinished()) {
+			if (this.animationHandler.getAction().equals("open") && this.animationHandler.isAnimationFinished()) {
 				this.body.getFixtureList().first().setSensor(true);
 				if (Boss.INSTANCE.getAnimationHandler().getAction().equals("dead")) {
 					GameScreen.isWin = true;

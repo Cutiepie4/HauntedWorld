@@ -31,7 +31,7 @@ public class Laser extends Entity {
 
 		this.angle = angle;
 
-		this.speed = (float) (Math.PI / 2f);
+		this.speed = (float) (Math.PI / 1.5f);
 
 		this.animationHandler.add(1 / 10f, "laser", "shoot", "");
 
@@ -99,7 +99,7 @@ public class Laser extends Entity {
 			this.rotate();
 		}
 
-		if (this.animationHandler.getStateTime() >= 5.4f && !this.isDisposed) {
+		if (this.animationHandler.getStateTime() >= 4.5f && !this.isDisposed) {
 			GameScreen.INSTANCE.addToRemove(this);
 			this.isDisposed = true;
 			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);

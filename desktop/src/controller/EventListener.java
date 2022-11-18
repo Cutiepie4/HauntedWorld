@@ -19,6 +19,7 @@ import character.Vase;
 import model.Enemy;
 import model.Entity;
 import model.Items;
+import screen.GameScreen;
 import ui.Hud;
 
 public class EventListener implements ContactListener {
@@ -70,7 +71,7 @@ public class EventListener implements ContactListener {
 							break;
 
 						case "Health Potion":
-							Player.INSTANCE.heal(3);
+							Player.INSTANCE.heal(4);
 							Hud.INSTANCE.addMessage("Your healed 3 HP.");
 							break;
 
@@ -124,7 +125,7 @@ public class EventListener implements ContactListener {
 
 				// Interact
 				else if (fb.getUserData() instanceof Gate) {
-					if (!Player.INSTANCE.checkGate()) {
+					if (!Player.INSTANCE.checkGate() && !Gate.button) {
 						Hud.INSTANCE.addMessage("Required 2 Silver Keys.");
 					} else {
 						Hud.INSTANCE.addMessage("The Gate is opened.");
@@ -200,6 +201,7 @@ public class EventListener implements ContactListener {
 			if (fb.getUserData() instanceof Enemy) {
 				timer += Gdx.graphics.getDeltaTime();
 				if (timer > 0.5f) {
+					System.out.println(1);
 					Player.INSTANCE.isHit((Enemy) fb.getUserData());
 					timer = 0f;
 				}

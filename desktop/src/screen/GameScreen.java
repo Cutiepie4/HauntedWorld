@@ -101,9 +101,6 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	public void update() {
-		if (GameScreen.isWin) {
-			return;
-		}
 
 		world.step(1 / 60f, 6, 2);
 
@@ -161,7 +158,7 @@ public class GameScreen extends ScreenAdapter {
 
 		hud.draw(batch);
 
-		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
+//		box2dDebugRenderer.render(world, camera.combined.scl(Boot.PPM)); // debug hit box of object
 	}
 
 	private void objectsRender() {

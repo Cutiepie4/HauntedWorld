@@ -35,9 +35,6 @@ public abstract class Enemy extends Entity implements Dropable {
 
 		this.name = "enemy";
 		this.detected = false;
-		this.health = 0;
-		this.damage = 0f;
-		this.speed = 0;
 		this.healthLevel = new Sprite(new Texture("hud/health_level_enemy.png"));
 		this.healthBar = new Sprite(new Texture("hud/health_bar_enemy.png"));
 	}

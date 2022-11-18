@@ -28,7 +28,7 @@ public class Vase extends Items implements Dropable {
 	@Override
 	public void dropItem() {
 		Random rnd = new Random();
-		if (rnd.nextInt(100) < 100) { // rate drop items
+		if (rnd.nextInt(100) < 40) { // rate drop items
 			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
 			new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]);
 		}

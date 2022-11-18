@@ -27,24 +27,24 @@ public class Spider extends Enemy {
 			this.animationHandler.add(FRAME_TIME, "spider", i, "");
 		}
 
-		this.health = 3;
+		this.health = 10;
 
-		this.MAX_HEALTH = 8;
+		this.MAX_HEALTH = 10;
 
-		this.damage = 3;
+		this.damage = 4;
 
 		this.body.setLinearDamping(8f);
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
-		this.speed = 3f;
+		this.speed = 5f;
 
 	}
 
 	@Override
 	public void dropItem() {
 		Random rnd = new Random();
-		if (rnd.nextInt(100) < 40) { // rate drop items
+		if (rnd.nextInt(100) < 25) { // rate drop items
 			int idx = rnd.nextInt(Constants.ITEMS_DROP.length);
 			new Items(this.x, this.y, 10, 10, Constants.ITEMS_DROP[idx]);
 		}

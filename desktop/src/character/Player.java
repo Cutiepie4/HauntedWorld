@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import controller.AudioManager;
@@ -31,13 +32,13 @@ public class Player extends Entity {
 		super(width, height, body);
 
 		INSTANCE = this;
-		this.speed = 8f;
+		this.speed = 5f;
 		this.listEnemies = new LinkedHashMap<>();
 		this.listInteractiveObjects = new LinkedHashMap<>();
 		this.inventory = new LinkedHashMap<>();
-		this.health = 19;
+		this.health = 20;
 		this.FRAME_TIME = 1 / 8f;
-		this.damage = 1f;
+		this.damage = 2f;
 
 		String[] directions = { "up", "down", "left", "right" };
 		for (String i : directions) {
@@ -261,8 +262,8 @@ public class Player extends Entity {
 		return true;
 	}
 
-	public void revive() {
-		this.health = Player.MAX_HEALTH;
-		this.animationHandler.setAction("idle", true);
-	}
+//	public void revive() {
+//		this.health = Player.MAX_HEALTH;
+//		this.animationHandler.setAction("idle", true);
+//	}
 }

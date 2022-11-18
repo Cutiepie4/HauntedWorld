@@ -5,16 +5,15 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
 import controller.AudioManager;
-import controller.Constants;
 import main.Boot;
 import model.Dropable;
 import model.Enemy;
 import model.Items;
-import screen.GameScreen;
 
 public class Boss extends Enemy implements Dropable {
 
@@ -45,11 +44,11 @@ public class Boss extends Enemy implements Dropable {
 
 		this.animationHandler.add(1 / 3f, "boss", "dead", "");
 
-		this.health = 10;
+		this.health = 100;
 
 		this.MAX_HEALTH = 100;
 
-		this.damage = 5f;
+		this.damage = 3f;
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
@@ -77,6 +76,7 @@ public class Boss extends Enemy implements Dropable {
 
 	@Override
 	public void update() {
+
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
@@ -98,11 +98,11 @@ public class Boss extends Enemy implements Dropable {
 		}
 
 		if (this.detected) {
-			if (!this.isLasering && !this.isTrapping && this.cooldownAttack > 8f) {
+			if (!this.isLasering && !this.isTrapping && this.cooldownAttack > 6f) {
 				this.attack();
 			}
 
-			else if (this.cooldownAttack > 10f) {
+			else if (this.cooldownAttack > 7f) {
 				this.attack();
 			}
 		}
@@ -151,7 +151,7 @@ public class Boss extends Enemy implements Dropable {
 
 		this.drawBoss(batch);
 
-		if (!this.animationHandler.getAction().equals("dead"))
+		if (!this.animationHandler.getAction().equals("dead") && this.health > 0)
 			this.showHealth(batch, 80, 6);
 
 		this.drawLaser(batch);
@@ -166,13 +166,16 @@ public class Boss extends Enemy implements Dropable {
 		AudioManager.INSTANCE.playSound("slashboss");
 		this.health -= player.getDamage();
 
+		if (this.health < 0) {
+			this.health = 0;
+		}
+
 		if (this.isLasering || this.isTrapping)
 			return;
 
 		if (this.health > 0) {
 			if (this.animationHandler.getAction().equals("idle"))
 				this.animationHandler.setAction("hit", false);
-
 		}
 
 		else if (!this.animationHandler.getAction().equals("dead")) {
@@ -200,20 +203,21 @@ public class Boss extends Enemy implements Dropable {
 		if (!this.animationHandler.getAction().equals("idle"))
 			return;
 
-		this.cooldownAttack = 0f;
-
 		Random rnd = new Random();
 
 		int nextAction = rnd.nextInt(3);
 		switch (nextAction) {
 		case 0:
 			this.laserActive();
+			this.cooldownAttack = 0f;
 			break;
 		case 1:
 			this.trapActive();
+			this.cooldownAttack = 0f;
 			break;
 		case 2:
 			this.bulletActive();
+			this.cooldownAttack = 2f;
 			break;
 		}
 	}
@@ -223,6 +227,13 @@ public class Boss extends Enemy implements Dropable {
 		this.isTrapping = true;
 		this.animationHandler.setAction("casttrap", false);
 		AudioManager.INSTANCE.playSound("trap");
+
+		Player.INSTANCE.getAnimationHandler().setAction("hit", false);
+		Player.INSTANCE.getBody()
+				.setLinearVelocity(new Vector2(
+						(Player.INSTANCE.getBody().getPosition().x - Boss.INSTANCE.getBody().getPosition().x),
+						(Player.INSTANCE.getBody().getPosition().y - Boss.INSTANCE.getBody().getPosition().y))
+						.clamp(30f, 32f));
 	}
 
 	// LASER
