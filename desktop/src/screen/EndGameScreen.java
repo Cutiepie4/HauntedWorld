@@ -49,14 +49,6 @@ public class EndGameScreen extends ScreenAdapter {
 		table.setFillParent(true);
 		stage.addActor(table);
 
-		addButton("EXIT").addListener(new ClickListener() {
-
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.exit();
-			}
-		});
-
 		Gdx.input.setInputProcessor(stage);
 	}
 

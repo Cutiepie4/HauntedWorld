@@ -128,7 +128,7 @@ public class GameScreen extends ScreenAdapter {
 		if (Player.INSTANCE.getAnimationHandler().getAction().equals("dead")
 				&& Player.INSTANCE.getAnimationHandler().isAnimationFinished()) {
 			this.dispose();
-			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
+			Boot.INSTANCE.setScreen(new ReloadScreen(camera));
 			return;
 		}
 
