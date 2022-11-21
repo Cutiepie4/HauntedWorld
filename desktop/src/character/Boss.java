@@ -83,6 +83,14 @@ public class Boss extends Enemy implements Dropable {
 		cooldownAttack += 1 / 60f;
 //		cooldownSpawn += Gdx.graphics.getDeltaTime();
 
+		if (this.health <= 0) {
+			if (!this.animationHandler.getAction().equals("dead")) {
+				this.animationHandler.setAction("dead", false);
+				AudioManager.INSTANCE.playSound("deadboss");
+			}
+			return;
+		}
+
 		this.body.setAwake(true);
 
 		// set directions facing player

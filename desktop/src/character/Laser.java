@@ -99,7 +99,8 @@ public class Laser extends Entity {
 			this.rotate();
 		}
 
-		if (this.animationHandler.getStateTime() >= 4.5f && !this.isDisposed) {
+		if ((this.animationHandler.getStateTime() >= 4.5f && !this.isDisposed)
+				|| (Boss.INSTANCE.getAnimationHandler().getAction().equals("dead"))) {
 			GameScreen.INSTANCE.addToRemove(this);
 			this.isDisposed = true;
 			Boss.INSTANCE.getAnimationHandler().setAction("idle", true);
