@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="3383">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="96" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="3457">
  <tileset firstgid="1" source="Overworld_Tileset.tsx"/>
  <tileset firstgid="235" source="Dungeon_Tileset.tsx"/>
  <tileset firstgid="391" source="test.tsx"/>
@@ -615,7 +615,6 @@
   <object id="2517" name="spike" x="1136" y="464" width="16" height="16"/>
   <object id="2518" name="spike" x="1136" y="480" width="16" height="16"/>
   <object id="2525" name="doublestonepillar" x="992" y="272" width="28" height="12"/>
-  <object id="2526" name="boot" x="650.833" y="1071.17" width="16" height="16"/>
   <object id="2528" name="silverkey" x="1216" y="528" width="16" height="16"/>
   <object id="2529" name="silverkey" x="1328" y="688" width="16" height="12"/>
   <object id="2536" name="vase" x="208" y="864" width="16" height="16"/>
@@ -1471,9 +1470,6 @@
   <object id="3170" x="1340.5" y="1391.33">
    <polygon points="0,0 0,33.3333 3.33333,33.3333 3.33333,0.666667"/>
   </object>
-  <object id="3171" x="1343.5" y="1391">
-   <polygon points="0,0 59.6667,0.333333 59.6667,4 0.333333,4.33333"/>
-  </object>
   <object id="3172" x="1403.17" y="1394.67">
    <polygon points="0,0 0.666667,-257.667 3.66667,-257.667 4,-0.666667"/>
   </object>
@@ -1675,9 +1671,6 @@
   <object id="3348" x="96" y="1424">
    <polygon points="0,0 0,-1296 -16,-1296 -16,0"/>
   </object>
-  <object id="3349" x="96" y="1424">
-   <polygon points="0,0 608,0 608,16 0,16"/>
-  </object>
   <object id="3350" x="704" y="1424">
    <polygon points="0,0 16,0 16,-16 0,-16"/>
   </object>
@@ -1686,9 +1679,6 @@
   </object>
   <object id="3353" x="1072" y="1392">
    <polygon points="0,0 0,48 -16,48 -16,0"/>
-  </object>
-  <object id="3354" x="1072" y="1424">
-   <polygon points="0,0 272,0 272,16 0,16"/>
   </object>
   <object id="3355" name="crystal" x="1280" y="704" width="16" height="16"/>
   <object id="3356" name="crystal" x="1312" y="704" width="16" height="16"/>
@@ -1727,5 +1717,64 @@
   <object id="3380" name="torch" x="1280" y="16" width="8" height="12"/>
   <object id="3381" name="torch" x="1024" y="16" width="8" height="12"/>
   <object id="3382" name="torch" x="960" y="16" width="8" height="12"/>
+  <object id="3383" name="edge" x="96" y="1424" width="16" height="16"/>
+  <object id="3384" name="edge" x="112" y="1424" width="16" height="16"/>
+  <object id="3385" name="edge" x="128" y="1424" width="16" height="16"/>
+  <object id="3386" name="edge" x="144" y="1424" width="16" height="16"/>
+  <object id="3387" name="edge" x="160" y="1424" width="16" height="16"/>
+  <object id="3388" name="edge" x="176" y="1424" width="16" height="16"/>
+  <object id="3389" name="edge" x="192" y="1424" width="16" height="16"/>
+  <object id="3390" name="edge" x="208" y="1424" width="16" height="16"/>
+  <object id="3391" name="edge" x="224" y="1424" width="16" height="16"/>
+  <object id="3392" name="edge" x="240" y="1424" width="16" height="16"/>
+  <object id="3393" name="edge" x="256" y="1424" width="16" height="16"/>
+  <object id="3394" name="edge" x="272" y="1424" width="16" height="16"/>
+  <object id="3395" name="edge" x="288" y="1424" width="16" height="16"/>
+  <object id="3396" name="edge" x="304" y="1424" width="16" height="16"/>
+  <object id="3397" name="edge" x="320" y="1424" width="16" height="16"/>
+  <object id="3398" name="edge" x="336" y="1424" width="16" height="16"/>
+  <object id="3399" name="edge" x="352" y="1424" width="16" height="16"/>
+  <object id="3400" name="edge" x="368" y="1424" width="16" height="16"/>
+  <object id="3401" name="edge" x="384" y="1424" width="16" height="16"/>
+  <object id="3402" name="edge" x="400" y="1424" width="16" height="16"/>
+  <object id="3403" name="edge" x="416" y="1424" width="16" height="16"/>
+  <object id="3404" name="edge" x="432" y="1424" width="16" height="16"/>
+  <object id="3405" name="edge" x="448" y="1424" width="16" height="16"/>
+  <object id="3406" name="edge" x="464" y="1424" width="16" height="16"/>
+  <object id="3407" name="edge" x="480" y="1424" width="16" height="16"/>
+  <object id="3408" name="edge" x="496" y="1424" width="16" height="16"/>
+  <object id="3409" name="edge" x="512" y="1424" width="16" height="16"/>
+  <object id="3410" name="edge" x="528" y="1424" width="16" height="16"/>
+  <object id="3411" name="edge" x="544" y="1424" width="16" height="16"/>
+  <object id="3412" name="edge" x="560" y="1424" width="16" height="16"/>
+  <object id="3413" name="edge" x="576" y="1424" width="16" height="16"/>
+  <object id="3414" name="edge" x="592" y="1424" width="16" height="16"/>
+  <object id="3415" name="edge" x="608" y="1424" width="16" height="16"/>
+  <object id="3416" name="edge" x="624" y="1424" width="16" height="16"/>
+  <object id="3417" name="edge" x="640" y="1424" width="16" height="16"/>
+  <object id="3418" name="edge" x="656" y="1424" width="16" height="16"/>
+  <object id="3419" name="edge" x="672" y="1424" width="16" height="16"/>
+  <object id="3420" name="edge" x="688" y="1424" width="16" height="16"/>
+  <object id="3430" name="edge" x="1072" y="1424" width="16" height="16"/>
+  <object id="3431" name="edge" x="1088" y="1424" width="16" height="16"/>
+  <object id="3432" name="edge" x="1104" y="1424" width="16" height="16"/>
+  <object id="3433" name="edge" x="1120" y="1424" width="16" height="16"/>
+  <object id="3434" name="edge" x="1136" y="1424" width="16" height="16"/>
+  <object id="3435" name="edge" x="1152" y="1424" width="16" height="16"/>
+  <object id="3436" name="edge" x="1168" y="1424" width="16" height="16"/>
+  <object id="3437" name="edge" x="1184" y="1424" width="16" height="16"/>
+  <object id="3438" name="edge" x="1200" y="1424" width="16" height="16"/>
+  <object id="3439" name="edge" x="1216" y="1424" width="16" height="16"/>
+  <object id="3440" name="edge" x="1232" y="1424" width="16" height="16"/>
+  <object id="3441" name="edge" x="1248" y="1424" width="16" height="16"/>
+  <object id="3442" name="edge" x="1264" y="1424" width="16" height="16"/>
+  <object id="3443" name="edge" x="1280" y="1424" width="16" height="16"/>
+  <object id="3444" name="edge" x="1296" y="1424" width="16" height="16"/>
+  <object id="3445" name="edge" x="1312" y="1424" width="16" height="16"/>
+  <object id="3446" name="edge" x="1328" y="1424" width="16" height="16"/>
+  <object id="3453" name="edge" x="1344" y="1392" width="16" height="16"/>
+  <object id="3454" name="edge" x="1360" y="1392" width="16" height="16"/>
+  <object id="3455" name="edge" x="1376" y="1392" width="16" height="16"/>
+  <object id="3456" name="edge" x="1392" y="1392" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -80,7 +80,7 @@ public class Boss extends Enemy implements Dropable {
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
-		cooldownAttack += Gdx.graphics.getDeltaTime();
+		cooldownAttack += 1 / 60f;
 //		cooldownSpawn += Gdx.graphics.getDeltaTime();
 
 		this.body.setAwake(true);

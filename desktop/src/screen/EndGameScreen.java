@@ -19,11 +19,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import character.Player;
 import controller.Assets;
 import controller.AudioManager;
 import main.Boot;
 
 public class EndGameScreen extends ScreenAdapter {
+
+	private static int score = 0;
 	private SpriteBatch batch;
 	Texture background;
 	Label label;
@@ -47,6 +50,16 @@ public class EndGameScreen extends ScreenAdapter {
 		stage = new Stage(viewport);
 		table = new Table();
 		table.setFillParent(true);
+
+		Label lbl = new Label("YOUR SCORE ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		lbl.setFontScale(1.5f);
+		table.add(lbl);
+		table.right().top();
+		table.padTop(30).padRight(40);
+		table.row();
+		lbl = new Label(String.valueOf(score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		lbl.setFontScale(2);
+		table.add(lbl);
 		stage.addActor(table);
 
 		Gdx.input.setInputProcessor(stage);
@@ -75,5 +88,9 @@ public class EndGameScreen extends ScreenAdapter {
 		batch.end();
 		stage.act();
 		stage.draw();
+	}
+
+	public static void setScore(int score) {
+		EndGameScreen.score = score;
 	}
 }

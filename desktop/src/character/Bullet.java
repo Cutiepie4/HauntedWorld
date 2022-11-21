@@ -76,18 +76,19 @@ public class Bullet extends Entity {
 
 	@Override
 	public void update() {
-		
+
 		if (this.timer > 3f) {
 			this.body.setAwake(false);
 			this.body.setLinearVelocity(new Vector2(0, 0));
 			return;
 		}
-		
-		this.timer += Gdx.graphics.getDeltaTime();
+
+		this.timer += 1 / 60f;
 
 		super.update();
 
-		this.body.setLinearVelocity(new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
+		this.body.setLinearVelocity(
+				new Vector2(this.x - Boss.INSTANCE.getX(), this.y - Boss.INSTANCE.getY()).scl(speed));
 	}
 
 	@Override

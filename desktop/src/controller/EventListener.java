@@ -199,9 +199,8 @@ public class EventListener implements ContactListener {
 
 		if (fa.getUserData().equals("playerbody") || fb.getUserData().equals("playerbody")) {
 			if (fb.getUserData() instanceof Enemy) {
-				timer += Gdx.graphics.getDeltaTime();
+				timer += 1 / 60f;
 				if (timer > 0.5f) {
-					System.out.println(1);
 					Player.INSTANCE.isHit((Enemy) fb.getUserData());
 					timer = 0f;
 				}

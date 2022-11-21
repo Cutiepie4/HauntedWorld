@@ -57,7 +57,7 @@ public class AnimationHandler {
 	}
 
 	public TextureRegion getFrame() {
-		stateTime += Gdx.graphics.getDeltaTime();
+		stateTime += 1 / 60f;
 		return animations.get(this.getActionDirection()).getKeyFrame(stateTime, loop);
 	}
 

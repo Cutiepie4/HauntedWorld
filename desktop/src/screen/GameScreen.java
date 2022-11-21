@@ -133,6 +133,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		if (GameScreen.isWin) {
+			EndGameScreen.setScore(Player.INSTANCE.getInventory().get("Crystal"));
 			AudioManager.INSTANCE.stopSound("footstep");
 			this.dispose();
 			Boot.INSTANCE.setScreen(new EndGameScreen(camera));
