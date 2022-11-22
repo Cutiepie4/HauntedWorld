@@ -48,7 +48,7 @@ public class Boss extends Enemy implements Dropable {
 
 		this.MAX_HEALTH = 100;
 
-		this.damage = 3f;
+		this.damage = 4f;
 
 		this.animationHandler.setActionDirection("idle", "", true);
 
@@ -76,20 +76,24 @@ public class Boss extends Enemy implements Dropable {
 
 	@Override
 	public void update() {
+		
+		if (this.health <= 0) {
+			if (!this.animationHandler.getAction().equals("dead")) {
+				this.animationHandler.setAction("dead", false);
+				AudioManager.INSTANCE.playSound("deadboss");
+			}
+			else if(!this.isDropped && this.animationHandler.isAnimationFinished()) {
+				this.dropItem();
+				this.isDropped = true;
+			}
+			return;
+		}
 
 		this.x = this.body.getPosition().x * Boot.PPM;
 		this.y = this.body.getPosition().y * Boot.PPM;
 
 		cooldownAttack += 1 / 60f;
 //		cooldownSpawn += Gdx.graphics.getDeltaTime();
-
-		if (this.health <= 0) {
-			if (!this.animationHandler.getAction().equals("dead")) {
-				this.animationHandler.setAction("dead", false);
-				AudioManager.INSTANCE.playSound("deadboss");
-			}
-			return;
-		}
 
 		this.body.setAwake(true);
 
@@ -124,12 +128,6 @@ public class Boss extends Enemy implements Dropable {
 		if (this.isLasering) {
 			this.animationHandler.setAction("castlaser", false);
 			return;
-		}
-
-		if (this.animationHandler.getAction().equals("dead") && this.animationHandler.isAnimationFinished()
-				&& !this.isDropped) {
-			this.dropItem();
-			this.isDropped = true;
 		}
 	}
 
@@ -236,7 +234,7 @@ public class Boss extends Enemy implements Dropable {
 		this.animationHandler.setAction("casttrap", false);
 		AudioManager.INSTANCE.playSound("trap");
 
-		Player.INSTANCE.getAnimationHandler().setAction("hit", false);
+		Player.INSTANCE.isHit(this.listBullets.first());
 		Player.INSTANCE.getBody()
 				.setLinearVelocity(new Vector2(
 						(Player.INSTANCE.getBody().getPosition().x - Boss.INSTANCE.getBody().getPosition().x),
