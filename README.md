@@ -6,3 +6,4 @@
 - Tiled for Drawing Map Game
 - GDX Texture Packer for Creating Animations
 - Piskel for Editing Sprite
+- Eclipse IDE
